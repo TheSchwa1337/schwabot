@@ -1,0 +1,21 @@
+# Lotus mesh to Omni shell mapping matrix
+# Each row is a Lotus node, each column is an Omni shell ring
+# 1 = active link, 0 = no link
+# Example: 16 nodes, 5 rings
+mapping_matrix:
+  - [1, 0, 0, 0, 0]
+  - [1, 1, 0, 0, 0]
+  - [0, 1, 0, 0, 0]
+  - [0, 1, 1, 0, 0]
+  - [0, 0, 1, 0, 0]
+  - [0, 0, 1, 1, 0]
+  - [0, 0, 0, 1, 0]
+  - [0, 0, 0, 1, 1]
+  - [0, 0, 0, 0, 1]
+  - [1, 0, 0, 0, 1]
+  - [1, 1, 0, 0, 1]
+  - [0, 1, 1, 0, 1]
+  - [0, 0, 1, 1, 1]
+  - [0, 0, 0, 1, 1]
+  - [1, 0, 0, 1, 1]
+  - [1, 1, 0, 1, 1] 
