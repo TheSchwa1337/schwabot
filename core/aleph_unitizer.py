@@ -12,6 +12,9 @@ import time
 from datetime import datetime
 import json
 from pathlib import Path
+from .scalar_laws import ScalarLaws
+from .drem_controller import DremController
+from .drem_router import DremRouter
 
 @dataclass
 class UnitizerState:
@@ -36,7 +39,8 @@ class AlephUnitizer:
         cache_size: int = 1000,
         max_depth: int = 2,
         min_price_change: float = 0.001,
-        parallel_processing: bool = True
+        parallel_processing: bool = True,
+        drem_memory_log_path: Optional[Union[str, Path]] = None
     ):
         """
         Initialize AlephUnitizer with configuration parameters.
@@ -46,6 +50,7 @@ class AlephUnitizer:
             max_depth: Maximum depth of recursive hash tree
             min_price_change: Minimum price change to trigger full tree generation
             parallel_processing: Whether to use parallel processing for hash generation
+            drem_memory_log_path: Path to DREM memory log file
         """
         self.cache = {}
         self.cache_size = cache_size
@@ -68,6 +73,13 @@ class AlephUnitizer:
         
         # Initialize thread pool for parallel processing
         self.thread_pool = ThreadPoolExecutor(max_workers=4) if parallel_processing else None
+        
+        # Initialize scalar laws for chunk optimization
+        self.scalar_laws = ScalarLaws()
+        
+        # Initialize DREM components
+        self.drem_controller = DremController(drem_memory_log_path)
+        self.drem_router = DremRouter(self.drem_controller, self.scalar_laws)
         
     def __del__(self):
         """Cleanup thread pool on deletion"""
@@ -207,7 +219,9 @@ class AlephUnitizer:
     def unitize_price(
         self,
         price: float,
-        timestamp: Optional[float] = None
+        timestamp: Optional[float] = None,
+        profit_likelihood: Optional[float] = None,
+        memkey_confidence: Optional[float] = None
     ) -> Dict:
         """
         Generate unitizer tree for price data.
@@ -215,6 +229,8 @@ class AlephUnitizer:
         Args:
             price: Current price
             timestamp: Current timestamp (defaults to current time)
+            profit_likelihood: Probability of profitable trade
+            memkey_confidence: Confidence score from memory key system
             
         Returns:
             Dict: Unitizer tree with metadata
@@ -235,13 +251,27 @@ class AlephUnitizer:
         root_hash = self.generate_root_hash(price, timestamp)
         root_bytes = bytes.fromhex(root_hash)
         
-        # Determine if full tree generation is needed
-        if not self._should_generate_full_tree(price):
-            # Use simplified tree for small price changes
-            tree_depth = 1
+        # Calculate entropy score for chunk size optimization
+        entropy_score = self._calculate_entropy_score({"root_hash": root_hash})
+        
+        # Use DREM router to determine optimal chunk size
+        if profit_likelihood is not None and memkey_confidence is not None:
+            chunks, corridor_id = self.drem_router.route_execution(
+                hash_pattern=root_hash,
+                entropy=entropy_score,
+                profit_likelihood=profit_likelihood,
+                memkey_confidence=memkey_confidence,
+                current_time=datetime.now()
+            )
+            tree_depth = int(np.log2(chunks[0])) - 7  # Convert chunk size to depth
         else:
-            tree_depth = self.max_depth
-            
+            # Fallback to original logic
+            if not self._should_generate_full_tree(price):
+                tree_depth = 1
+            else:
+                tree_depth = self.max_depth
+            corridor_id = None
+        
         # Generate hash tree
         tree = {
             b: self._generate_hash_branch(b, 0, tree_depth)
@@ -259,7 +289,8 @@ class AlephUnitizer:
             "entropy_score": entropy_score,
             "pattern_vector": pattern_vector,
             "generation_time": time.time() - start_time,
-            "tree_depth": tree_depth
+            "tree_depth": tree_depth,
+            "corridor_id": corridor_id
         }
         
         # Update state
@@ -329,4 +360,38 @@ class AlephUnitizer:
         with open(path, 'r') as f:
             state_dict = json.load(f)
             
-        self.state = UnitizerState(**state_dict) 
+        self.state = UnitizerState(**state_dict)
+        
+    def get_chunk_metrics(self) -> Dict:
+        """
+        Get metrics about chunk usage.
+        
+        Returns:
+            Dict: Chunk usage metrics
+        """
+        return self.scalar_laws.get_chunk_metrics()
+        
+    def get_drem_metrics(self) -> Dict:
+        """
+        Get metrics about DREM routing.
+        
+        Returns:
+            Dict: DREM routing metrics
+        """
+        return self.drem_router.get_execution_metrics()
+        
+    def update_corridor_performance(
+        self,
+        corridor_id: str,
+        profit: float,
+        success: bool
+    ):
+        """
+        Update corridor performance after execution.
+        
+        Args:
+            corridor_id: Corridor identifier
+            profit: Actual profit achieved
+            success: Whether execution was successful
+        """
+        self.drem_router.update_corridor_performance(corridor_id, profit, success) 
