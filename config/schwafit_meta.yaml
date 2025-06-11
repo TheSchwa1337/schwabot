@@ -1,0 +1,31 @@
+# Schwafit Meta Configuration
+# Oracle-aware scoring weights and parameters
+
+weights:
+  # Traditional scoring components
+  mse: 0.25  # Mean squared error weight
+  drift_delta: 0.2  # Drift change weight
+  entropy_gradient: 0.15  # Entropy gradient weight
+  
+  # Oracle-derived components
+  oracle_coherence: 0.2  # Strategy coherence weight
+  topological_flux: 0.2  # Topological feature weight
+
+# Oracle integration parameters
+oracle:
+  min_coherence: 0.6  # Minimum coherence threshold
+  max_topology_dim: 2  # Maximum topology dimension to consider
+  update_frequency: 1  # Oracle update frequency in ticks
+
+# Plugin system configuration
+plugins:
+  enabled: true
+  max_plugins: 10
+  timeout_ms: 1000  # Maximum execution time per plugin
+
+# Fingerprinting configuration
+fingerprint:
+  enabled: true
+  min_profit_delta: 0.01  # Minimum profit delta to record
+  max_entries: 1000  # Maximum number of entries to store
+  storage_path: "data/fingerprints"  # Where to store fingerprint data 

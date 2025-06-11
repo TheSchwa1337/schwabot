@@ -1,0 +1,16 @@
+manifold:
+  dim: 8
+  metric: fisher
+  epsilon: 1e-6
+
+topology:
+  max_dim: 1
+  filtration_steps: 100
+  threshold: 0.15
+
+quantum:
+  num_strategies: 4
+  coherence_threshold: 0.85
+
+encryption:
+  key_size: 2048 

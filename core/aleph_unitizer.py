@@ -5,7 +5,7 @@ Implements optimized hash tree generation and memory management for Schwabot
 
 import hashlib
 import numpy as np
-from typing import Dict, List, Tuple, Optional, Union
+from typing import Dict, List, Tuple, Optional, Union, Any
 from dataclasses import dataclass
 from concurrent.futures import ThreadPoolExecutor
 import time
@@ -40,7 +40,8 @@ class AlephUnitizer:
         max_depth: int = 2,
         min_price_change: float = 0.001,
         parallel_processing: bool = True,
-        drem_memory_log_path: Optional[Union[str, Path]] = None
+        drem_memory_log_path: Optional[Union[str, Path]] = None,
+        fractal_core: Optional[Any] = None  # Add fractal core reference
     ):
         """
         Initialize AlephUnitizer with configuration parameters.
@@ -51,12 +52,14 @@ class AlephUnitizer:
             min_price_change: Minimum price change to trigger full tree generation
             parallel_processing: Whether to use parallel processing for hash generation
             drem_memory_log_path: Path to DREM memory log file
+            fractal_core: Reference to fractal core system
         """
         self.cache = {}
         self.cache_size = cache_size
         self.max_depth = max_depth
         self.min_price_change = min_price_change
         self.parallel_processing = parallel_processing
+        self.fractal_core = fractal_core
         
         self.last_price = None
         self.last_hash_tree = None
@@ -394,4 +397,77 @@ class AlephUnitizer:
             profit: Actual profit achieved
             success: Whether execution was successful
         """
-        self.drem_router.update_corridor_performance(corridor_id, profit, success) 
+        self.drem_router.update_corridor_performance(corridor_id, profit, success)
+
+    def integrate_with_fractal(self, price: float, timestamp: float) -> Dict:
+        """
+        Integrate unitizer state with fractal core system.
+        
+        Args:
+            price: Current price
+            timestamp: Current timestamp
+            
+        Returns:
+            Dict containing integrated state information
+        """
+        if not self.fractal_core:
+            return {}
+            
+        # Generate fractal vector
+        fractal_vector = self.fractal_core.generate_fractal_vector(timestamp)
+        
+        # Calculate fractal entropy
+        fractal_entropy = self.fractal_core.compute_entropy(fractal_vector)
+        
+        # Get fractal coherence
+        fractal_coherence = self.fractal_core.compute_coherence(
+            self.fractal_core.get_recent_states(3)
+        )
+        
+        # Update unitizer state with fractal information
+        self.state.entropy_score = (self.state.entropy_score + fractal_entropy) / 2
+        self.state.pattern_vector = [
+            int(x * 255) for x in fractal_vector[:8]  # Convert to byte range
+        ]
+        
+        return {
+            "fractal_entropy": fractal_entropy,
+            "fractal_coherence": fractal_coherence,
+            "fractal_vector": fractal_vector,
+            "integrated_entropy": self.state.entropy_score,
+            "pattern_vector": self.state.pattern_vector
+        }
+
+    def check_ferrous_alignment(self, price: float, timestamp: float) -> Dict:
+        """
+        Check alignment with ferrous management system.
+        
+        Args:
+            price: Current price
+            timestamp: Current timestamp
+            
+        Returns:
+            Dict containing alignment metrics
+        """
+        if not self.fractal_core:
+            return {}
+            
+        # Get fractal state
+        fractal_state = self.fractal_core.get_recent_states(1)[0]
+        
+        # Calculate ferrous alignment score
+        alignment_score = np.mean([
+            abs(fractal_state.phase - self.state.entropy_score),
+            abs(fractal_state.entropy - self.state.entropy_score),
+            abs(fractal_state.recursive_depth - self.state.tree_depth)
+        ])
+        
+        # Check for ferrous wheel alignment
+        wheel_aligned = alignment_score < 0.1
+        
+        return {
+            "alignment_score": alignment_score,
+            "wheel_aligned": wheel_aligned,
+            "fractal_depth": fractal_state.recursive_depth,
+            "unitizer_depth": self.state.tree_depth
+        } 
