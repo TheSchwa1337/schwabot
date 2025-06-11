@@ -1,208 +1,138 @@
 """
-Line Render Engine for Schwabot v0.3
-Processes each tick into a matrix-viewable row with safety checks
+Line Render Engine
+
+Handles the rendering and processing of matrix paths for visualization.
+Provides functionality for calculating scores and processing ticks.
 """
 
 import numpy as np
+from typing import List, Dict, Optional, Tuple
 from dataclasses import dataclass
-from typing import Dict, List, Tuple, Optional
-from datetime import datetime
-import json
-from core.config import load_yaml_config, ConfigError
-from pathlib import Path
-import psutil
-from hashlib import sha256
-import logging
-from concurrent.futures import ThreadPoolExecutor
-import threading
-
-# Constants
-COLLISION_THRESHOLDS = {
-    'safe': 120,
-    'warn': 180,
-    'fail': float('inf')
-}
-
-DRIFT_THRESHOLDS = {
-    'safe': 1.0,
-    'warn': 2.5,
-    'fail': float('inf')
-}
-
-TIMING_THRESHOLDS = {
-    'safe': 20,  # μs
-    'warn': 25,  # μs
-    'fail': float('inf')
-}
+from core.config import ConfigLoader, ConfigError
 
 @dataclass
 class LineState:
-    """State of a rendered line"""
-    timestamp: str
-    value: float
-    hash: str
-    collision_score: float
-    drift_score: float
-    timing_score: float
-    matrix_state: str
+    """Represents the state of a line in the render engine."""
+    path: List[Tuple[float, float]]
+    score: float
+    active: bool
+    last_update: float
 
 class LineRenderEngine:
-    """
-    Renders market data into matrix-compatible lines with safety checks.
-    """
+    """Engine for rendering and processing matrix paths."""
     
-    def __init__(self, log_path: str = "rendered_tick_memkey.log"):
-        """Initialize line render engine"""
-        self.log_path = Path(log_path)
-        self.line_history: List[LineState] = []
-        self.matrix_state = "hold"
-        self.load_matrix_paths()
+    def __init__(self, config_path: str = "config/line_render.yaml"):
+        """Initialize the line render engine.
         
-        # Initialize thread pool for parallel processing
-        self._executor = ThreadPoolExecutor(max_workers=4)
-        self._lock = threading.Lock()
-        
-        # Setup logging
-        logging.basicConfig(
-            level=logging.INFO,
-            format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
-        )
-        self.logger = logging.getLogger('LineRenderEngine')
-        
-        # Initialize memory monitoring
-        self._last_memory_check = datetime.now()
-        self._memory_check_interval = 60  # seconds
-    
-    def load_matrix_paths(self):
-        """Load matrix response paths from YAML"""
+        Args:
+            config_path: Path to the configuration file
+        """
+        self.config_loader = ConfigLoader()
         try:
-            self.matrix_paths = load_yaml_config('matrix_response_paths.yaml')
-        except ConfigError:
-            self.matrix_paths = {
-                "safe": "hold",
-                "warn": "delay_entry",
-                "fail": "matrix_realign",
-                "ZPE-risk": "cooldown_abort"
-            }
+            self.config = self.config_loader.load_yaml(config_path)
+        except ConfigError as e:
+            print(f"Warning: Failed to load config from {config_path}: {e}")
+            self.config = self.config_loader.load_yaml("config/defaults.yaml")
+        
+        self.threshold = self.config.get("threshold", 0.15)
+        self.max_path_length = self.config.get("max_path_length", 100)
+        self.active_lines: Dict[str, LineState] = {}
+        
+    def load_matrix_paths(self, paths: Dict[str, List[Tuple[float, float]]]) -> None:
+        """Load matrix paths into the render engine.
+        
+        Args:
+            paths: Dictionary mapping line IDs to their paths
+        """
+        for line_id, path in paths.items():
+            if len(path) > self.max_path_length:
+                print(f"Warning: Path for {line_id} exceeds max length, truncating")
+                path = path[-self.max_path_length:]
+            
+            self.active_lines[line_id] = LineState(
+                path=path,
+                score=0.0,
+                active=True,
+                last_update=0.0
+            )
     
-    def calculate_hash(self, timestamp: str, value: float) -> str:
-        """
-        Calculate SHA-256 hash
+    def calculate_score(self, line_id: str) -> float:
+        """Calculate the score for a given line.
         
         Args:
-            timestamp: ISO format timestamp
-            value: Tick value
+            line_id: ID of the line to calculate score for
             
         Returns:
-            SHA-256 hash as hex string
+            float: Calculated score
         """
-        input_str = f"{timestamp}{value}"
-        return sha256(input_str.encode()).hexdigest()
+        if line_id not in self.active_lines:
+            raise ValueError(f"Line {line_id} not found")
+            
+        line = self.active_lines[line_id]
+        if not line.active:
+            return 0.0
+            
+        # Calculate score based on path characteristics
+        path = np.array(line.path)
+        if len(path) < 2:
+            return 0.0
+            
+        # Calculate velocity and acceleration
+        velocities = np.diff(path, axis=0)
+        accelerations = np.diff(velocities, axis=0)
+        
+        # Score based on smoothness and consistency
+        velocity_magnitude = np.linalg.norm(velocities, axis=1)
+        acceleration_magnitude = np.linalg.norm(accelerations, axis=1)
+        
+        smoothness = 1.0 / (1.0 + np.mean(acceleration_magnitude))
+        consistency = 1.0 / (1.0 + np.std(velocity_magnitude))
+        
+        return smoothness * consistency
     
-    def calculate_collision_score(self, hash_value: str) -> float:
-        """
-        Calculate collision entropy score
+    def process_tick(self, tick_data: Dict) -> Dict[str, float]:
+        """Process a new tick of data.
         
         Args:
-            hash_value: SHA-256 hash as hex string
+            tick_data: Dictionary containing tick data
             
         Returns:
-            Collision entropy score
+            Dict[str, float]: Updated scores for each line
         """
-        # Implementation of calculate_collision_score method
-        pass
-
-    def calculate_drift_score(self, value: float) -> float:
-        """
-        Calculate drift score
+        scores = {}
+        for line_id, line in self.active_lines.items():
+            try:
+                if not line.active:
+                    continue
+                    
+                # Update line state based on tick data
+                if line_id in tick_data:
+                    line.last_update = tick_data[line_id].get("timestamp", 0.0)
+                    
+                # Calculate new score
+                score = self.calculate_score(line_id)
+                line.score = score
+                scores[line_id] = score
+                
+                # Check if line should be deactivated
+                if score < self.threshold:
+                    line.active = False
+                    print(f"Line {line_id} deactivated due to low score")
+                    
+            except Exception as e:
+                print(f"Error processing tick for line {line_id}: {e}")
+                continue
+                
+        return scores
+    
+    def get_active_lines(self) -> Dict[str, LineState]:
+        """Get all currently active lines.
         
-        Args:
-            value: Tick value
-            
         Returns:
-            Drift score
+            Dict[str, LineState]: Dictionary of active lines
         """
-        # Implementation of calculate_drift_score method
-        pass
-
-    def calculate_timing_score(self, timestamp: str) -> float:
-        """
-        Calculate timing score
-        
-        Args:
-            timestamp: ISO format timestamp
-            
-        Returns:
-            Timing score
-        """
-        # Implementation of calculate_timing_score method
-        pass
-
-    def update_matrix_state(self, collision_score: float, drift_score: float, timing_score: float) -> str:
-        """
-        Update matrix state based on scores
-        
-        Args:
-            collision_score: Collision entropy score
-            drift_score: Drift score
-            timing_score: Timing score
-            
-        Returns:
-            Updated matrix state
-        """
-        # Implementation of update_matrix_state method
-        pass
-
-    def process_tick(self, timestamp: str, value: float) -> str:
-        """
-        Process a tick and return the updated matrix state
-        
-        Args:
-            timestamp: ISO format timestamp
-            value: Tick value
-            
-        Returns:
-            Updated matrix state
-        """
-        # Implementation of process_tick method
-        pass
-
-    def render_tick(self, timestamp: str, value: float) -> str:
-        """
-        Render a tick and return the updated matrix state
-        
-        Args:
-            timestamp: ISO format timestamp
-            value: Tick value
-            
-        Returns:
-            Updated matrix state
-        """
-        # Implementation of render_tick method
-        pass
-
-    def log_tick(self, timestamp: str, value: float, matrix_state: str) -> None:
-        """
-        Log a tick to the history
-        
-        Args:
-            timestamp: ISO format timestamp
-            value: Tick value
-            matrix_state: Updated matrix state
-        """
-        # Implementation of log_tick method
-        pass
-
-    def monitor_memory(self) -> None:
-        """
-        Monitor system memory usage
-        """
-        # Implementation of monitor_memory method
-        pass
-
-    def run(self) -> None:
-        """
-        Run the line render engine
-        """
-        # Implementation of run method
-        pass 
+        return {k: v for k, v in self.active_lines.items() if v.active}
+    
+    def reset(self) -> None:
+        """Reset the render engine state."""
+        self.active_lines.clear() 
