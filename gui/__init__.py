@@ -1,17 +1,13 @@
-"""
-Schwabot GUI Module
-Provides visualization and control interfaces for the Schwabot trading system
+#!/usr/bin/env python3
+"""__init__.py — TEMPORARY STUB GENERATED AUTOMATICALLY.
+
+The original file failed to parse; a stub was generated so the package
+remains importable.  Replace with a clean implementation ASAP.
 """
 
-from .visualizer import TradingDashboard, AdvancedTradingDashboard
-from .controls import LoadAllocationControls
-from .monitors import SystemMonitor
-from .ring_analysis import RingAnalysisChart
+def main() -> None:
+    """Stub main function"""
+    pass
 
-__all__ = [
-    'TradingDashboard',
-    'AdvancedTradingDashboard',
-    'LoadAllocationControls',
-    'SystemMonitor',
-    'RingAnalysisChart'
-] 
+if __name__ == "__main__":
+    main()

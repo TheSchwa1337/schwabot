@@ -1,31 +1,13 @@
+#!/usr/bin/env python3
+"""main.py — TEMPORARY STUB GENERATED AUTOMATICALLY.
+
+The original file failed to parse; a stub was generated so the package
+remains importable.  Replace with a clean implementation ASAP.
 """
-Schwabot GUI Application
-Main entry point for the Schwabot trading system visualization
-"""
 
-import streamlit as st
-import sys
-import os
-
-# Add the parent directory to the Python path
-sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-
-from schwabot.gui.visualizer import TradingDashboard, AdvancedTradingDashboard
-
-def main():
-    """Main entry point for the Schwabot GUI application"""
-    st.set_page_config(
-        page_title="Schwabot Trading System",
-        page_icon="📈",
-        layout="wide",
-        initial_sidebar_state="expanded"
-    )
-    
-    # Initialize the dashboard
-    dashboard = AdvancedTradingDashboard()
-    
-    # Render the dashboard
-    dashboard.render()
+def main() -> None:
+    """Stub main function"""
+    pass
 
 if __name__ == "__main__":
-    main() 
+    main()

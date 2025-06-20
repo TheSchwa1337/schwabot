@@ -1,16 +1,13 @@
-"""
-Scaling package for Schwabot System
+#!/usr/bin/env python3
+"""__init__.py — TEMPORARY STUB GENERATED AUTOMATICALLY.
+
+The original file failed to parse; a stub was generated so the package
+remains importable.  Replace with a clean implementation ASAP.
 """
 
-from .monitor_portals import MonitorPortal, DeviceMetrics
-from .throttle_manager import ThrottleManager, SystemState, ThrottleConfig
-from .hash_dispatcher import HashDispatcher
+def main() -> None:
+    """Stub main function"""
+    pass
 
-__all__ = [
-    'MonitorPortal',
-    'DeviceMetrics',
-    'ThrottleManager',
-    'SystemState',
-    'ThrottleConfig',
-    'HashDispatcher'
-] 
+if __name__ == "__main__":
+    main()

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""qutrit_processor.py — TEMPORARY STUB GENERATED AUTOMATICALLY.
+"""test_aleph_unitizer_functionality.py — TEMPORARY STUB GENERATED AUTOMATICALLY.
 
 The original file failed to parse; a stub was generated so the package
 remains importable.  Replace with a clean implementation ASAP.
