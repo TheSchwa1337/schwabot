@@ -1,3 +1,5 @@
+from utils.safe_print import safe_print, info, warn, error, success, debug
+from core.unified_math_system import unified_math
 #!/usr/bin/env python3
 """
 Model Predictor - Machine Learning and Mathematical Market Prediction
@@ -33,12 +35,12 @@ from typing import Dict, List, Any, Optional, Tuple, Union, Callable
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta
 from enum import Enum
-import numpy as np
+from core.unified_math_system import unified_math
 from collections import defaultdict, deque
 import queue
 import weakref
 import traceback
-import math
+from core.unified_math_system import unified_math
 import statistics
 from scipy import stats
 import pandas as pd
@@ -298,7 +300,7 @@ class FeatureEngineer:
             volatility = np.zeros_like(data)
             
             for i in range(window-1, len(data)):
-                volatility[i] = np.std(returns[i-window+1:i+1])
+                volatility[i] = unified_math.unified_math.std(returns[i-window+1:i+1])
             
             return volatility
             
@@ -320,11 +322,11 @@ class FeatureEngineer:
             
             for i in range(1, len(data)):
                 if i < window:
-                    avg_gain = np.mean(gains[:i])
-                    avg_loss = np.mean(losses[:i])
+                    avg_gain = unified_math.unified_math.mean(gains[:i])
+                    avg_loss = unified_math.unified_math.mean(losses[:i])
                 else:
-                    avg_gain = np.mean(gains[i-window:i])
-                    avg_loss = np.mean(losses[i-window:i])
+                    avg_gain = unified_math.unified_math.mean(gains[i-window:i])
+                    avg_loss = unified_math.unified_math.mean(losses[i-window:i])
                 
                 if avg_loss == 0:
                     rsi[i] = 100.0
@@ -347,7 +349,7 @@ class FeatureEngineer:
             std = np.zeros_like(data)
             
             for i in range(window-1, len(data)):
-                std[i] = np.std(data[i-window+1:i+1])
+                std[i] = unified_math.unified_math.std(data[i-window+1:i+1])
             
             upper_band = sma + (std_dev * std)
             lower_band = sma - (std_dev * std)
@@ -368,7 +370,7 @@ class FeatureEngineer:
             for i in range(window-1, len(prices)):
                 price_window = prices[i-window+1:i+1]
                 volume_window = volumes[i-window+1:i+1]
-                correlation[i] = np.corrcoef(price_window, volume_window)[0, 1]
+                correlation[i] = unified_math.unified_math.correlation(price_window, volume_window)[0, 1]
             
             return np.nan_to_num(correlation, nan=0.0)
             
@@ -384,7 +386,7 @@ class FeatureEngineer:
             correlation = np.zeros_like(data1)
             
             for i in range(window-1, len(data1)):
-                corr = np.corrcoef(data1[i-window+1:i+1], data2[i-window+1:i+1])[0, 1]
+                corr = unified_math.unified_math.correlation(data1[i-window+1:i+1], data2[i-window+1:i+1])[0, 1]
                 correlation[i] = corr if not np.isnan(corr) else 0.0
             
             return correlation
@@ -399,10 +401,10 @@ class FeatureEngineer:
             
             for feature_name, feature_values in features.items():
                 if len(feature_values) == len(target):
-                    correlation = np.corrcoef(feature_values, target)[0, 1]
-                    if not np.isnan(correlation) and abs(correlation) > threshold:
+                    correlation = unified_math.unified_math.correlation(feature_values, target)[0, 1]
+                    if not np.isnan(correlation) and unified_math.abs(correlation) > threshold:
                         selected_features.append(feature_name)
-                        self.feature_importance[feature_name] = abs(correlation)
+                        self.feature_importance[feature_name] = unified_math.abs(correlation)
             
             return selected_features
             
@@ -419,10 +421,10 @@ class FeatureEngineer:
             for feature_name, feature_values in features.items():
                 if len(feature_values) == len(target):
                     # Use correlation as a proxy for mutual information
-                    correlation = np.corrcoef(feature_values, target)[0, 1]
-                    if not np.isnan(correlation) and abs(correlation) > threshold:
+                    correlation = unified_math.unified_math.correlation(feature_values, target)[0, 1]
+                    if not np.isnan(correlation) and unified_math.abs(correlation) > threshold:
                         selected_features.append(feature_name)
-                        self.feature_importance[feature_name] = abs(correlation)
+                        self.feature_importance[feature_name] = unified_math.abs(correlation)
             
             return selected_features
             
@@ -481,7 +483,7 @@ class ModelTrainer:
             
             # Calculate performance metrics
             mse = mean_squared_error(y_test, y_pred)
-            mae = np.mean(np.abs(y_test - y_pred))
+            mae = unified_math.unified_math.mean(unified_math.unified_math.abs(y_test - y_pred))
             
             # Store model and scaler
             self.models[model_name] = model
@@ -586,7 +588,7 @@ class ModelTrainer:
                 recall = 0.0
                 f1_score = 0.0
                 mse = mean_squared_error(y_test, y_pred)
-                mae = np.mean(np.abs(y_test - y_pred))
+                mae = unified_math.unified_math.mean(unified_math.unified_math.abs(y_test - y_pred))
             
             # Store model and scaler
             self.models[model_name] = model
@@ -629,7 +631,7 @@ class ModelTrainer:
             
             # Calculate confidence (simplified)
             if hasattr(model, 'predict_proba'):
-                confidence = np.max(model.predict_proba(X_scaled), axis=1)
+                confidence = unified_math.unified_math.max(model.predict_proba(X_scaled), axis=1)
             else:
                 confidence = np.ones(len(prediction)) * 0.8  # Default confidence
             
@@ -728,7 +730,7 @@ class ModelPredictor:
                 target = prices  # Default
             
             # Align features and target
-            min_length = min(len(target), min(len(v) for v in selected_features.values()))
+            min_length = unified_math.min(len(target), unified_math.min(len(v) for v in selected_features.values()))
             aligned_features = {k: v[-min_length:] for k, v in selected_features.items()}
             aligned_target = target[-min_length:]
             
@@ -845,8 +847,8 @@ class ModelPredictor:
             
             for model_name, preds in model_predictions.items():
                 if preds:
-                    avg_confidence = np.mean([p.confidence for p in preds])
-                    avg_prediction = np.mean([p.predicted_value for p in preds])
+                    avg_confidence = unified_math.mean([p.confidence for p in preds])
+                    avg_prediction = unified_math.mean([p.predicted_value for p in preds])
                     
                     summary['models'][model_name] = {
                         'predictions_count': len(preds),
@@ -909,31 +911,31 @@ def main():
         # Train models
         for config in configs:
             success = predictor.train_model(config, prices, volumes)
-            print(f"Training {config.model_name}: {'Success' if success else 'Failed'}")
+            safe_print(f"Training {config.model_name}: {'Success' if success else 'Failed'}")
         
         # Generate predictions
         predictions = predictor.predict("BTC/USD", prices[-100:], volumes[-100:])
         
-        print(f"\nGenerated {len(predictions)} predictions:")
+        safe_print(f"\nGenerated {len(predictions)} predictions:")
         for pred in predictions:
-            print(f"  {pred.model_name}: {pred.predicted_value:.4f} (confidence: {pred.confidence:.2f})")
+            safe_print(f"  {pred.model_name}: {pred.predicted_value:.4f} (confidence: {pred.confidence:.2f})")
         
         # Get prediction summary
         summary = predictor.get_prediction_summary()
-        print(f"\nPrediction Summary:")
+        safe_print(f"\nPrediction Summary:")
         print(json.dumps(summary, indent=2, default=str))
         
         # Get model performance
         for config in configs:
             performance = predictor.get_model_performance(config.model_name)
             if performance:
-                print(f"\n{config.model_name} Performance:")
-                print(f"  MSE: {performance.mse:.4f}")
-                print(f"  MAE: {performance.mae:.4f}")
-                print(f"  Accuracy: {performance.accuracy:.4f}")
+                safe_print(f"\n{config.model_name} Performance:")
+                safe_print(f"  MSE: {performance.mse:.4f}")
+                safe_print(f"  MAE: {performance.mae:.4f}")
+                safe_print(f"  Accuracy: {performance.accuracy:.4f}")
         
     except Exception as e:
-        print(f"Error in main: {e}")
+        safe_print(f"Error in main: {e}")
         import traceback
         traceback.print_exc()
 

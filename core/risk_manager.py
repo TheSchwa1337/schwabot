@@ -1,3 +1,5 @@
+from utils.safe_print import safe_print, info, warn, error, success, debug
+from core.unified_math_system import unified_math
 #!/usr/bin/env python3
 """
 Risk Manager - Comprehensive Risk Management Engine for Schwabot
@@ -12,7 +14,7 @@ This module implements advanced risk management for Schwabot, including:
 - Logging and audit trail
 """
 
-import numpy as np
+from core.unified_math_system import unified_math
 import logging
 from typing import Dict, Any, Optional, List, Tuple
 from dataclasses import dataclass, field
@@ -135,7 +137,7 @@ class RiskManager:
             return 0.0
         peak = np.maximum.accumulate(self.pnl_history)
         drawdowns = (peak - self.pnl_history) / peak
-        return float(np.max(drawdowns)) if len(drawdowns) > 0 else 0.0
+        return float(unified_math.unified_math.max(drawdowns)) if len(drawdowns) > 0 else 0.0
 
     def calculate_var(self) -> float:
         """Value at Risk (VaR) using historical simulation."""
@@ -151,14 +153,14 @@ class RiskManager:
             return 0.0
         var = self.calculate_var()
         losses = [p for p in self.pnl_history if p < -var]
-        cvar = -np.mean(losses) if losses else 0.0
+        cvar = -unified_math.unified_math.mean(losses) if losses else 0.0
         self.log_event("CVAR_CALCULATED", {"CVaR": cvar})
         return cvar
 
     def kelly_position_size(self, win_prob: float, win_loss_ratio: float) -> float:
         """Calculate position size using Kelly criterion."""
         kelly = (win_prob * (win_loss_ratio + 1) - 1) / win_loss_ratio
-        kelly_size = max(0.0, min(self.config.kelly_fraction * kelly, self.config.max_position_size))
+        kelly_size = unified_math.max(0.0, unified_math.min(self.config.kelly_fraction * kelly, self.config.max_position_size))
         self.log_event("KELLY_SIZE_CALCULATED", {"kelly_size": kelly_size})
         return kelly_size
 
@@ -195,8 +197,8 @@ if __name__ == "__main__":
         rm.update_pnl(pnl)
         close, reason = rm.check_risk("BTCUSD", price)
         if close:
-            print(f"Close position due to {reason} at price {price}")
+            safe_print(f"Close position due to {reason} at price {price}")
             rm.remove_position("BTCUSD")
             break
-    print("Current positions:", rm.get_positions())
-    print("Audit log entries:", len(rm.get_audit_log())) 
+    safe_print("Current positions:", rm.get_positions())
+    safe_print("Audit log entries:", len(rm.get_audit_log())) 

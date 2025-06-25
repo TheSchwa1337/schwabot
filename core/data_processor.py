@@ -1,3 +1,5 @@
+from utils.safe_print import safe_print, info, warn, error, success, debug
+from core.unified_math_system import unified_math
 #!/usr/bin/env python3
 """
 Data Processor - Mathematical Data Transformation and Real-time Analytics
@@ -10,7 +12,7 @@ analytics capabilities.
 Core Mathematical Functions:
 - Data Transformation: T(x) = Σ(wᵢ × fᵢ(x)) where wᵢ are transformation weights
 - Stream Processing: S(t) = ∫f(x)dx from t₀ to t
-- Feature Extraction: F(x) = argmax(correlation(x, target))
+- Feature Extraction: F(x) = argmax(unified_math.correlation(x, target))
 - Data Normalization: N(x) = (x - μ) / σ
 
 Core Functionality:
@@ -31,7 +33,7 @@ from typing import Dict, List, Any, Optional, Tuple, Union, Callable, Generator
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta
 from enum import Enum
-import numpy as np
+from core.unified_math_system import unified_math
 from collections import defaultdict, deque
 import os
 import queue
@@ -138,7 +140,7 @@ class DataValidator:
                         return False
                     
                     # Check for reasonable bounds (can be customized)
-                    if abs(value) > 1e12:
+                    if unified_math.abs(value) > 1e12:
                         return False
             
             return True
@@ -297,7 +299,7 @@ class DataTransformer:
                 if isinstance(value, (int, float)) and not np.isnan(value):
                     # Simple min-max normalization (can be enhanced)
                     if value != 0:
-                        record.data[key] = value / (1 + abs(value))
+                        record.data[key] = value / (1 + unified_math.abs(value))
             
             return record
             
@@ -397,7 +399,7 @@ class DataTransformer:
             stats = {
                 'total_records_transformed': total_transformations,
                 'transformation_distribution': dict(transformation_counts),
-                'avg_transformations_per_record': np.mean([len(entry['transformations_applied']) 
+                'avg_transformations_per_record': unified_math.mean([len(entry['transformations_applied']) 
                                                          for entry in self.transformation_history])
             }
             
@@ -543,7 +545,7 @@ class StreamProcessor:
                 'transformation_stats': self.transformer.get_transformation_statistics(),
                 'processing_metrics': {
                     'total_processed': len(self.processing_metrics),
-                    'avg_processing_time': np.mean([m.processing_time for m in self.processing_metrics]) if self.processing_metrics else 0,
+                    'avg_processing_time': unified_math.mean([m.processing_time for m in self.processing_metrics]) if self.processing_metrics else 0,
                     'max_processing_time': max([m.processing_time for m in self.processing_metrics]) if self.processing_metrics else 0
                 }
             }
@@ -719,25 +721,25 @@ def main():
         for i, data in enumerate(test_records):
             processed_record = processor.process_record(data, f"test_record_{i}")
             if processed_record:
-                print(f"Processed record {i}: {processed_record.data}")
-                print(f"Metadata: {processed_record.metadata}")
-                print(f"Validated: {processed_record.validated}")
-                print(f"Processed: {processed_record.processed}")
-                print("-" * 50)
+                safe_print(f"Processed record {i}: {processed_record.data}")
+                safe_print(f"Metadata: {processed_record.metadata}")
+                safe_print(f"Validated: {processed_record.validated}")
+                safe_print(f"Processed: {processed_record.processed}")
+                safe_print("-" * 50)
         
         # Wait for processing to complete
         time.sleep(2)
         
         # Get processor statistics
         stats = processor.get_processor_statistics()
-        print("Processor Statistics:")
+        safe_print("Processor Statistics:")
         print(json.dumps(stats, indent=2, default=str))
         
         # Shutdown processor
         processor.shutdown()
         
     except Exception as e:
-        print(f"Error in main: {e}")
+        safe_print(f"Error in main: {e}")
         import traceback
         traceback.print_exc()
 

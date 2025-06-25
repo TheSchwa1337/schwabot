@@ -1,3 +1,5 @@
+from utils.safe_print import safe_print, info, warn, error, success, debug
+from core.unified_math_system import unified_math
 #!/usr/bin/env python3
 """
 Profit Oracle - AI-Driven Profit Prediction and Optimization for Schwabot
@@ -23,7 +25,7 @@ from typing import Dict, List, Any, Optional, Tuple, Union
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta
 from enum import Enum
-import numpy as np
+from core.unified_math_system import unified_math
 from collections import defaultdict, deque
 
 logger = logging.getLogger(__name__)
@@ -267,11 +269,11 @@ class ProfitOracle:
                 predicted_return = base_return + (np.random.random() - 0.5) * 0.1
             
             # Add time horizon adjustment
-            time_adjustment = np.log(time_horizon + 1) * 0.01
+            time_adjustment = unified_math.unified_math.log(time_horizon + 1) * 0.01
             predicted_return += time_adjustment
             
             # Ensure reasonable bounds
-            predicted_return = max(-0.5, min(0.5, predicted_return))
+            predicted_return = max(-0.5, unified_math.min(0.5, predicted_return))
             
             return predicted_return
             
@@ -286,10 +288,10 @@ class ProfitOracle:
             base_confidence = model.get("accuracy", 0.75)
             
             # Adjust based on prediction magnitude
-            magnitude_factor = min(abs(predicted_return) * 2, 1.0)
+            magnitude_factor = unified_math.min(unified_math.abs(predicted_return) * 2, 1.0)
             
             # Adjust based on model usage
-            usage_factor = min(model.get("predictions_count", 0) / 100, 1.0)
+            usage_factor = unified_math.min(model.get("predictions_count", 0) / 100, 1.0)
             
             total_confidence = base_confidence * (0.6 + 0.2 * magnitude_factor + 0.2 * usage_factor)
             
@@ -319,15 +321,15 @@ class ProfitOracle:
                 
                 # Adjust risk based on market factors
                 volatility_risk = volatility * 0.4
-                liquidity_risk = (1.0 - min(liquidity, 1.0)) * 0.3
-                size_risk = max(0, (1e9 - market_cap) / 1e9) * 0.2
+                liquidity_risk = (1.0 - unified_math.min(liquidity, 1.0)) * 0.3
+                size_risk = unified_math.max(0, (1e9 - market_cap) / 1e9) * 0.2
                 
                 risk_score = base_risk + volatility_risk + liquidity_risk + size_risk
             else:
                 # Use random risk if no market data
                 risk_score = base_risk + np.random.random() * 0.4
             
-            return min(1.0, max(0.0, risk_score))
+            return unified_math.min(1.0, unified_math.max(0.0, risk_score))
             
         except Exception as e:
             logger.error(f"Error calculating risk score: {e}")
@@ -390,7 +392,7 @@ class ProfitOracle:
                 allocation_weights=allocation_weights,
                 expected_return=expected_return,
                 risk_level=risk_level,
-                confidence_score=np.mean([p.confidence_level.value for p in predictions.values()]),
+                confidence_score=unified_math.mean([p.confidence_level.value for p in predictions.values()]),
                 implementation_steps=self._generate_implementation_steps(allocation_weights),
                 timestamp=datetime.now(),
                 metadata={"risk_tolerance": risk_tolerance}
@@ -418,7 +420,7 @@ class ProfitOracle:
             
             # Select top assets
             sorted_assets = sorted(risk_adjusted_returns.items(), key=lambda x: x[1], reverse=True)
-            top_assets = sorted_assets[:min(5, len(sorted_assets))]
+            top_assets = sorted_assets[:unified_math.min(5, len(sorted_assets))]
             
             # Calculate weights based on risk-adjusted returns
             total_score = sum(score for _, score in top_assets)
@@ -502,7 +504,7 @@ class ProfitOracle:
             # Opportunity conditions
             high_volatility = volatility > 0.15
             high_volume = volume_change > 0.5
-            significant_price_movement = abs(price_change) > 0.05
+            significant_price_movement = unified_math.abs(price_change) > 0.05
             
             return high_volatility or high_volume or significant_price_movement
             
@@ -520,7 +522,7 @@ class ProfitOracle:
                 return "breakout"
             elif price_change < -0.05 and volume_change > 0.3:
                 return "breakdown"
-            elif abs(price_change) < 0.02 and volume_change > 0.5:
+            elif unified_math.abs(price_change) < 0.02 and volume_change > 0.5:
                 return "accumulation"
             else:
                 return "volatility_opportunity"
@@ -537,12 +539,12 @@ class ProfitOracle:
             
             # Base potential on volatility and recent price movement
             base_potential = volatility * 2
-            momentum_factor = abs(price_change) * 0.5
+            momentum_factor = unified_math.abs(price_change) * 0.5
             
             potential_return = base_potential + momentum_factor
             
             # Ensure reasonable bounds
-            return max(-0.3, min(0.3, potential_return))
+            return max(-0.3, unified_math.min(0.3, potential_return))
             
         except Exception as e:
             logger.error(f"Error estimating potential return: {e}")
@@ -556,11 +558,11 @@ class ProfitOracle:
             
             # Risk increases with volatility and decreases with liquidity
             volatility_risk = volatility * 0.6
-            liquidity_risk = (1.0 - min(liquidity, 1.0)) * 0.4
+            liquidity_risk = (1.0 - unified_math.min(liquidity, 1.0)) * 0.4
             
             risk_score = volatility_risk + liquidity_risk
             
-            return min(1.0, max(0.0, risk_score))
+            return unified_math.min(1.0, unified_math.max(0.0, risk_score))
             
         except Exception as e:
             logger.error(f"Error assessing opportunity risk: {e}")
@@ -575,7 +577,7 @@ class ProfitOracle:
             base_window = 24  # hours
             volatility_adjustment = volatility * 48
             
-            time_window = max(1, int(base_window - volatility_adjustment))
+            time_window = unified_math.max(1, int(base_window - volatility_adjustment))
             
             return time_window
             
@@ -590,12 +592,12 @@ class ProfitOracle:
             volume_change = market_data.get("volume_change", 0)
             
             # Confidence increases with volume and moderate volatility
-            volume_confidence = min(volume_change, 1.0) * 0.6
-            volatility_confidence = (1.0 - abs(volatility - 0.15)) * 0.4
+            volume_confidence = unified_math.min(volume_change, 1.0) * 0.6
+            volatility_confidence = (1.0 - unified_math.abs(volatility - 0.15)) * 0.4
             
             confidence = volume_confidence + volatility_confidence
             
-            return max(0.0, min(1.0, confidence))
+            return unified_math.max(0.0, unified_math.min(1.0, confidence))
             
         except Exception as e:
             logger.error(f"Error calculating opportunity confidence: {e}")
@@ -609,7 +611,7 @@ class ProfitOracle:
         
         # Calculate prediction accuracy (simulated)
         if total_predictions > 0:
-            avg_confidence = np.mean([
+            avg_confidence = unified_math.mean([
                 {"low": 0.3, "medium": 0.6, "high": 0.8, "very_high": 0.95}[p.confidence_level.value]
                 for p in self.predictions.values()
             ])
@@ -637,11 +639,11 @@ def main() -> None:
     }
     
     # This would be async in real usage
-    print("Profit Oracle initialized successfully")
+    safe_print("Profit Oracle initialized successfully")
     
     # Get statistics
     stats = oracle.get_oracle_statistics()
-    print(f"Oracle Statistics: {stats}")
+    safe_print(f"Oracle Statistics: {stats}")
 
 if __name__ == "__main__":
     main()

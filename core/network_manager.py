@@ -1,3 +1,5 @@
+from utils.safe_print import safe_print, info, warn, error, success, debug
+from core.unified_math_system import unified_math
 #!/usr/bin/env python3
 """
 Network Manager - API Connectivity and Network Optimization System
@@ -8,7 +10,7 @@ providing API connectivity, rate limiting, connection pooling, and mathematical
 network optimization capabilities.
 
 Core Mathematical Functions:
-- Connection Pool Optimization: C_opt = min(C_max, λ × T_avg) where λ is arrival rate
+- Connection Pool Optimization: C_opt = unified_math.min(C_max, λ × T_avg) where λ is arrival rate
 - Rate Limiting Algorithm: R_t = R_max × (1 - e^(-αt)) where α is decay factor
 - Network Latency Compensation: L_comp = L_measured + β × σ_L where β is compensation factor
 
@@ -31,7 +33,7 @@ from typing import Dict, List, Any, Optional, Tuple, Union
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta
 from enum import Enum
-import numpy as np
+from core.unified_math_system import unified_math
 from collections import defaultdict, deque
 import os
 import ssl
@@ -277,7 +279,7 @@ class NetworkManager:
         Optimize connection pool for a service.
         
         Mathematical Formula:
-        C_opt = min(C_max, λ × T_avg) where λ is arrival rate and T_avg is average service time
+        C_opt = unified_math.min(C_max, λ × T_avg) where λ is arrival rate and T_avg is average service time
         """
         try:
             pool = self.connection_pool.get(service_name, [])
@@ -289,11 +291,11 @@ class NetworkManager:
             
             # Calculate average service time
             service_times = [conn.latency / 1000.0 for conn in pool if conn.latency < float('inf')]
-            avg_service_time = np.mean(service_times) if service_times else 1.0
+            avg_service_time = unified_math.unified_math.mean(service_times) if service_times else 1.0
             
             # Calculate optimal pool size
             max_connections = 100  # From configuration
-            optimal_size = min(max_connections, int(arrival_rate * avg_service_time))
+            optimal_size = unified_math.min(max_connections, int(arrival_rate * avg_service_time))
             
             # Adjust pool size
             current_size = len(pool)
@@ -430,8 +432,8 @@ class NetworkManager:
                 return measured_latency
             
             # Calculate latency statistics
-            latency_mean = np.mean(service_latencies)
-            latency_std = np.std(service_latencies)
+            latency_mean = unified_math.unified_math.mean(service_latencies)
+            latency_std = unified_math.unified_math.std(service_latencies)
             
             # Apply compensation factor
             compensation_factor = 0.5  # Configurable
@@ -439,7 +441,7 @@ class NetworkManager:
             
             # Ensure compensation doesn't exceed reasonable bounds
             max_compensation = measured_latency * 2.0
-            compensated_latency = min(compensated_latency, max_compensation)
+            compensated_latency = unified_math.min(compensated_latency, max_compensation)
             
             return compensated_latency
             
@@ -525,7 +527,7 @@ class NetworkManager:
                 return None
             
             # Return connection with lowest latency
-            return min(active_connections, key=lambda x: x.latency)
+            return unified_math.min(active_connections, key=lambda x: x.latency)
             
         except Exception as e:
             logger.error(f"Error getting connection from pool: {e}")
@@ -611,7 +613,7 @@ class NetworkManager:
         
         avg_latencies = {}
         for service, latencies in service_latencies.items():
-            avg_latencies[service] = np.mean(latencies)
+            avg_latencies[service] = unified_math.unified_math.mean(latencies)
         
         return {
             "total_connections": total_connections,
@@ -640,21 +642,21 @@ def main() -> None:
     
     # Test rate limiting
     rate_limit_result = network_manager.apply_rate_limiting("coingecko")
-    print(f"Rate limit check: {rate_limit_result}")
+    safe_print(f"Rate limit check: {rate_limit_result}")
     
     # Test connection pool optimization
     pool_optimization = network_manager.optimize_connection_pool("coingecko")
-    print(f"Pool optimization: {pool_optimization}")
+    safe_print(f"Pool optimization: {pool_optimization}")
     
     # Test latency compensation
     compensated_latency = network_manager.compensate_network_latency(100.0, "coingecko")
-    print(f"Compensated latency: {compensated_latency:.2f}ms")
+    safe_print(f"Compensated latency: {compensated_latency:.2f}ms")
     
-    print("Network Manager initialized successfully")
+    safe_print("Network Manager initialized successfully")
     
     # Get statistics
     stats = network_manager.get_network_statistics()
-    print(f"Network Statistics: {stats}")
+    safe_print(f"Network Statistics: {stats}")
 
 if __name__ == "__main__":
     main() 

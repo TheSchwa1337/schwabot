@@ -1,3 +1,5 @@
+from utils.safe_print import safe_print, info, warn, error, success, debug
+from core.unified_math_system import unified_math
 #!/usr/bin/env python3
 """
 Configuration Manager - Hierarchical Config Loading and Dynamic Parameter Adjustment
@@ -31,7 +33,7 @@ from typing import Dict, List, Any, Optional, Tuple, Union
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta
 from enum import Enum
-import numpy as np
+from core.unified_math_system import unified_math
 from collections import defaultdict, deque
 import hashlib
 import copy
@@ -656,13 +658,13 @@ class ConfigManager:
         try:
             if parameter.parameter_id == "trading.risk_tolerance":
                 # Increase risk tolerance for better performance
-                return min(parameter.value * 1.1, 1.0)
+                return unified_math.min(parameter.value * 1.1, 1.0)
             elif parameter.parameter_id == "api.rate_limit":
                 # Increase rate limit for better performance
-                return min(parameter.value * 1.2, 10000)
+                return unified_math.min(parameter.value * 1.2, 10000)
             elif parameter.parameter_id == "mathematical.max_iterations":
                 # Increase iterations for better accuracy
-                return min(parameter.value * 1.5, 10000)
+                return unified_math.min(parameter.value * 1.5, 10000)
             else:
                 return parameter.value
                 
@@ -675,13 +677,13 @@ class ConfigManager:
         try:
             if parameter.parameter_id == "trading.risk_tolerance":
                 # Decrease risk tolerance for safety
-                return max(parameter.value * 0.8, 0.1)
+                return unified_math.max(parameter.value * 0.8, 0.1)
             elif parameter.parameter_id == "trading.max_position_size":
                 # Decrease position size for safety
-                return max(parameter.value * 0.7, 0.01)
+                return unified_math.max(parameter.value * 0.7, 0.01)
             elif parameter.parameter_id == "api.rate_limit":
                 # Decrease rate limit for safety
-                return max(parameter.value * 0.8, 10)
+                return unified_math.max(parameter.value * 0.8, 10)
             else:
                 return parameter.value
                 
@@ -694,10 +696,10 @@ class ConfigManager:
         try:
             if parameter.parameter_id == "mathematical.precision":
                 # Adjust precision for efficiency
-                return max(parameter.value * 0.5, 0.000001)
+                return unified_math.max(parameter.value * 0.5, 0.000001)
             elif parameter.parameter_id == "mathematical.max_iterations":
                 # Decrease iterations for efficiency
-                return max(parameter.value * 0.7, 100)
+                return unified_math.max(parameter.value * 0.7, 100)
             else:
                 return parameter.value
                 
@@ -797,15 +799,15 @@ def main() -> None:
     
     # Test configuration validation
     validation = config_manager.validate_configuration()
-    print(f"Configuration validation score: {validation.validation_score:.3f}")
+    safe_print(f"Configuration validation score: {validation.validation_score:.3f}")
     
     # Test parameter optimization
     optimization_results = config_manager.optimize_parameters("performance")
-    print(f"Optimized {len(optimization_results)} parameters")
+    safe_print(f"Optimized {len(optimization_results)} parameters")
     
     # Get statistics
     stats = config_manager.get_manager_statistics()
-    print(f"Manager Statistics: {stats}")
+    safe_print(f"Manager Statistics: {stats}")
 
 if __name__ == "__main__":
     main() 

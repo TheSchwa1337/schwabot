@@ -1,3 +1,5 @@
+from utils.safe_print import safe_print, info, warn, error, success, debug
+from core.unified_math_system import unified_math
 #!/usr/bin/env python3
 """
 Temporal Execution Correction Layer - Latency Correction and Swap Timing Optimizer
@@ -29,7 +31,7 @@ from typing import Dict, List, Any, Optional, Tuple, Union
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta
 from enum import Enum
-import numpy as np
+from core.unified_math_system import unified_math
 from collections import defaultdict, deque
 import os
 
@@ -497,8 +499,8 @@ class TemporalExecutionCorrectionLayer:
         
         # Calculate average latency
         if total_measurements > 0:
-            avg_latency = np.mean([m.latency for m in self.latency_measurements.values()])
-            avg_correction = np.mean([m.correction_applied for m in self.latency_measurements.values()])
+            avg_latency = unified_math.mean([m.latency for m in self.latency_measurements.values()])
+            avg_correction = unified_math.mean([m.correction_applied for m in self.latency_measurements.values()])
         else:
             avg_latency = 0.0
             avg_correction = 0.0
@@ -509,7 +511,7 @@ class TemporalExecutionCorrectionLayer:
         
         # Calculate sync statistics
         if total_sync_data > 0:
-            avg_sync_time = np.mean([s.sync_time for s in self.phase_sync_data.values()])
+            avg_sync_time = unified_math.mean([s.sync_time for s in self.phase_sync_data.values()])
         else:
             avg_sync_time = 0.0
         
@@ -557,11 +559,11 @@ def main() -> None:
         start_time, end_time, market_conditions
     )
     
-    print("Temporal Execution Correction Layer initialized successfully")
+    safe_print("Temporal Execution Correction Layer initialized successfully")
     
     # Get statistics
     stats = correction_layer.get_correction_statistics()
-    print(f"Correction Statistics: {stats}")
+    safe_print(f"Correction Statistics: {stats}")
 
 if __name__ == "__main__":
     main() 

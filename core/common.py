@@ -1,3 +1,5 @@
+from utils.safe_print import safe_print, info, warn, error, success, debug
+from core.unified_math_system import unified_math
 #!/usr/bin/env python3
 """
 Common - Shared Data Structures and Base Classes
@@ -29,7 +31,7 @@ from typing import Dict, List, Any, Optional, Tuple, Union, Callable, TypeVar, G
 from dataclasses import dataclass, field, asdict
 from datetime import datetime, timedelta
 from enum import Enum
-import numpy as np
+from core.unified_math_system import unified_math
 from abc import ABC, abstractmethod
 import asyncio
 import threading
@@ -350,12 +352,12 @@ class BaseComponent(ABC):
         return {
             'total_operations': self.total_operations,
             'failed_operations': self.failed_operations,
-            'success_rate': (self.total_operations - self.failed_operations) / max(self.total_operations, 1),
-            'avg_cpu_usage': np.mean([m.cpu_usage for m in metrics]),
-            'avg_memory_usage': np.mean([m.memory_usage for m in metrics]),
-            'avg_response_time': np.mean([m.response_time for m in metrics]),
-            'avg_throughput': np.mean([m.throughput for m in metrics]),
-            'avg_error_rate': np.mean([m.error_rate for m in metrics]),
+            'success_rate': (self.total_operations - self.failed_operations) / unified_math.max(self.total_operations, 1),
+            'avg_cpu_usage': unified_math.mean([m.cpu_usage for m in metrics]),
+            'avg_memory_usage': unified_math.mean([m.memory_usage for m in metrics]),
+            'avg_response_time': unified_math.mean([m.response_time for m in metrics]),
+            'avg_throughput': unified_math.mean([m.throughput for m in metrics]),
+            'avg_error_rate': unified_math.mean([m.error_rate for m in metrics]),
             'uptime': (datetime.now() - self.start_time).total_seconds() if self.start_time else 0
         }
     
@@ -442,7 +444,7 @@ class CacheMixin:
         with self._cache_lock:
             if len(self._cache) >= self._max_size:
                 # Remove oldest entry
-                oldest_key = min(self._cache.keys(), 
+                oldest_key = unified_math.min(self._cache.keys(), 
                                key=lambda k: self._cache[k][1])
                 del self._cache[oldest_key]
             
@@ -647,7 +649,7 @@ def safe_divide(numerator: float, denominator: float, default: float = 0.0) -> f
 
 def clamp(value: float, min_val: float, max_val: float) -> float:
     """Clamp value between min and max."""
-    return max(min_val, min(max_val, value))
+    return unified_math.max(min_val, unified_math.min(max_val, value))
 
 def normalize(value: float, min_val: float, max_val: float) -> float:
     """Normalize value between 0 and 1."""
@@ -762,29 +764,29 @@ def async_time_function(func: Callable) -> Callable:
 def main():
     """Main function for testing."""
     try:
-        print("Schwabot Common Module")
-        print("=" * 50)
+        safe_print("Schwabot Common Module")
+        safe_print("=" * 50)
         
         # Test utility functions
-        print(f"Generated ID: {generate_id()}")
-        print(f"Hash of 'test': {generate_hash('test')}")
-        print(f"Safe divide (10/2): {safe_divide(10, 2)}")
-        print(f"Clamp (5, 0, 10): {clamp(5, 0, 10)}")
-        print(f"Normalize (5, 0, 10): {normalize(5, 0, 10)}")
-        print(f"Percentage change (100, 110): {calculate_percentage_change(100, 110)}%")
+        safe_print(f"Generated ID: {generate_id()}")
+        safe_print(f"Hash of 'test': {generate_hash('test')}")
+        safe_print(f"Safe divide (10/2): {safe_divide(10, 2)}")
+        safe_print(f"Clamp (5, 0, 10): {clamp(5, 0, 10)}")
+        safe_print(f"Normalize (5, 0, 10): {normalize(5, 0, 10)}")
+        safe_print(f"Percentage change (100, 110): {calculate_percentage_change(100, 110)}%")
         
         # Test validation functions
-        print(f"Valid email: {is_valid_email('test@example.com')}")
-        print(f"Valid URL: {is_valid_url('https://example.com')}")
+        safe_print(f"Valid email: {is_valid_email('test@example.com')}")
+        safe_print(f"Valid URL: {is_valid_url('https://example.com')}")
         
         # Test time functions
         now = datetime.now()
         timestamp = datetime_to_timestamp(now)
         dt = timestamp_to_datetime(timestamp)
-        print(f"Timestamp conversion: {now} -> {timestamp} -> {dt}")
+        safe_print(f"Timestamp conversion: {now} -> {timestamp} -> {dt}")
         
         # Test formatting
-        print(f"Duration format: {format_duration(3661)}")
+        safe_print(f"Duration format: {format_duration(3661)}")
         
         # Test base component
         class TestComponent(BaseComponent):
@@ -801,12 +803,12 @@ def main():
                 return True
         
         component = TestComponent("test", "Test Component", ComponentType.SYSTEM)
-        print(f"Component info: {component.get_info()}")
+        safe_print(f"Component info: {component.get_info()}")
         
-        print("\nAll common functionality tests completed successfully!")
+        safe_print("\nAll common functionality tests completed successfully!")
         
     except Exception as e:
-        print(f"Error in main: {e}")
+        safe_print(f"Error in main: {e}")
         import traceback
         traceback.print_exc()
 

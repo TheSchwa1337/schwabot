@@ -1,3 +1,5 @@
+from utils.safe_print import safe_print, info, warn, error, success, debug
+from core.unified_math_system import unified_math
 #!/usr/bin/env python3
 """
 Authentication Manager - Security Validation and Role-Based Access Control
@@ -33,7 +35,7 @@ from typing import Dict, List, Any, Optional, Tuple, Union
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta
 from enum import Enum
-import numpy as np
+from core.unified_math_system import unified_math
 from collections import defaultdict, deque
 import os
 import bcrypt
@@ -486,7 +488,7 @@ class AuthManager:
             
             security_score = total_score / total_weight if total_weight > 0 else 0.0
             
-            return max(0.0, min(1.0, security_score))
+            return unified_math.max(0.0, unified_math.min(1.0, security_score))
             
         except Exception as e:
             logger.error(f"Error calculating security score: {e}")
@@ -531,7 +533,7 @@ class AuthManager:
                 return 0.5
             
             success_rate = successful_sessions / session_count
-            frequency_score = min(session_count / 10.0, 1.0)  # Normalize to 0-1
+            frequency_score = unified_math.min(session_count / 10.0, 1.0)  # Normalize to 0-1
             
             return (success_rate + frequency_score) / 2.0
             
@@ -562,7 +564,7 @@ class AuthManager:
             # Penalize high failure rates
             pattern_score = success_rate - (failure_rate * 0.5)
             
-            return max(0.0, min(1.0, pattern_score))
+            return unified_math.max(0.0, unified_math.min(1.0, pattern_score))
             
         except Exception as e:
             logger.error(f"Error calculating login pattern: {e}")
@@ -598,7 +600,7 @@ class AuthManager:
             # Bonus for using permissions appropriately for role
             role_appropriate_usage = 0.1 if user.role in ["admin", "user"] else 0.0
             
-            return min(1.0, usage_score + role_appropriate_usage)
+            return unified_math.min(1.0, usage_score + role_appropriate_usage)
             
         except Exception as e:
             logger.error(f"Error calculating permission usage: {e}")
@@ -768,7 +770,7 @@ class AuthManager:
             score = self.calculate_security_score(user_id)
             security_scores.append(score)
         
-        avg_security_score = np.mean(security_scores) if security_scores else 0.0
+        avg_security_score = unified_math.unified_math.mean(security_scores) if security_scores else 0.0
         
         # Calculate role distribution
         role_distribution = defaultdict(int)
@@ -800,31 +802,31 @@ def main() -> None:
     
     # Test user authentication
     auth_result = auth_manager.authenticate_user("admin", "admin123")
-    print(f"Authentication result: {auth_result}")
+    safe_print(f"Authentication result: {auth_result}")
     
     # Test token validation
     if auth_result["success"]:
         token = auth_result["token"]
         validation_result = auth_manager.validate_token(token)
-        print(f"Token validation: {validation_result}")
+        safe_print(f"Token validation: {validation_result}")
     
     # Test permission checking
     permission_result = auth_manager.check_permission("admin_001", "trading_config", "read")
-    print(f"Permission check: {permission_result}")
+    safe_print(f"Permission check: {permission_result}")
     
     # Test security score calculation
     security_score = auth_manager.calculate_security_score("admin_001")
-    print(f"Security score: {security_score:.3f}")
+    safe_print(f"Security score: {security_score:.3f}")
     
     # Test user creation
     create_result = auth_manager.create_user("testuser", "test@example.com", "TestPass123!", "user")
-    print(f"User creation: {create_result}")
+    safe_print(f"User creation: {create_result}")
     
-    print("Authentication Manager initialized successfully")
+    safe_print("Authentication Manager initialized successfully")
     
     # Get statistics
     stats = auth_manager.get_auth_statistics()
-    print(f"Auth Statistics: {stats}")
+    safe_print(f"Auth Statistics: {stats}")
 
 if __name__ == "__main__":
     main() 

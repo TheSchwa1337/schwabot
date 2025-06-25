@@ -1,3 +1,5 @@
+from utils.safe_print import safe_print, info, warn, error, success, debug
+from core.unified_math_system import unified_math
 #!/usr/bin/env python3
 """
 Backup Manager - Mathematical Compression and Disaster Recovery System
@@ -33,7 +35,7 @@ from typing import Dict, List, Any, Optional, Tuple, Union
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta
 from enum import Enum
-import numpy as np
+from core.unified_math_system import unified_math
 from collections import defaultdict, deque
 import os
 import tarfile
@@ -445,7 +447,7 @@ class BackupManager:
         try:
             # Create tar archive without compression
             with tarfile.open(destination_path, 'w') as tar:
-                tar.add(source_path, arcname=os.path.basename(source_path))
+                tar.unified_math.add(source_path, arcname=os.path.basename(source_path))
             
             return True
             
@@ -458,7 +460,7 @@ class BackupManager:
         try:
             # Create tar.gz archive
             with tarfile.open(destination_path, 'w:gz', compresslevel=6) as tar:
-                tar.add(source_path, arcname=os.path.basename(source_path))
+                tar.unified_math.add(source_path, arcname=os.path.basename(source_path))
             
             return True
             
@@ -497,7 +499,7 @@ class BackupManager:
         try:
             # Create tar.xz archive
             with tarfile.open(destination_path, 'w:xz') as tar:
-                tar.add(source_path, arcname=os.path.basename(source_path))
+                tar.unified_math.add(source_path, arcname=os.path.basename(source_path))
             
             return True
             
@@ -556,7 +558,7 @@ class BackupManager:
                 return 0.0
             
             compression_ratio = (1 - compressed_size / original_size) * 100
-            return max(0.0, min(100.0, compression_ratio))
+            return unified_math.max(0.0, unified_math.min(100.0, compression_ratio))
             
         except Exception as e:
             logger.error(f"Error calculating compression ratio: {e}")
@@ -765,7 +767,7 @@ class BackupManager:
                 return None
             
             # Return the most recent
-            return max(recent_backups, key=lambda x: x.timestamp)
+            return unified_math.max(recent_backups, key=lambda x: x.timestamp)
             
         except Exception as e:
             logger.error(f"Error getting last backup metadata: {e}")
@@ -785,7 +787,7 @@ class BackupManager:
                 return None
             
             # Return the most recent
-            return max(full_backups, key=lambda x: x.timestamp)
+            return unified_math.max(full_backups, key=lambda x: x.timestamp)
             
         except Exception as e:
             logger.error(f"Error getting last full backup: {e}")
@@ -875,7 +877,7 @@ class BackupManager:
         
         # Calculate compression statistics
         compression_ratios = [metadata.compression_ratio for metadata in self.backup_metadata.values()]
-        avg_compression_ratio = np.mean(compression_ratios) if compression_ratios else 0.0
+        avg_compression_ratio = unified_math.unified_math.mean(compression_ratios) if compression_ratios else 0.0
         
         # Calculate storage statistics
         total_backup_size = sum(metadata.compressed_size for metadata in self.backup_metadata.values())
@@ -914,18 +916,18 @@ def main() -> None:
         backup_type=BackupType.FULL,
         compression_type=CompressionType.GZIP
     )
-    print(f"Created backup job: {job_id}")
+    safe_print(f"Created backup job: {job_id}")
     
     # Test backup restoration
     if job_id:
         metadata = backup_manager.backup_metadata.get(f"metadata_{job_id}")
         if metadata:
             success = backup_manager.restore_backup(metadata.backup_id, "./restored_data")
-            print(f"Restore success: {success}")
+            safe_print(f"Restore success: {success}")
     
     # Get statistics
     stats = backup_manager.get_backup_statistics()
-    print(f"Backup Statistics: {stats}")
+    safe_print(f"Backup Statistics: {stats}")
 
 if __name__ == "__main__":
     main() 

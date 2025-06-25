@@ -1,3 +1,5 @@
+from utils.safe_print import safe_print, info, warn, error, success, debug
+from core.unified_math_system import unified_math
 #!/usr/bin/env python3
 """
 Fix Critical Issues - Hotpatch Bug and Sweep Syntax/Logic Errors Tool
@@ -27,7 +29,7 @@ from typing import Dict, List, Any, Optional, Tuple, Union
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta
 from enum import Enum
-import numpy as np
+from core.unified_math_system import unified_math
 from collections import defaultdict, deque
 import ast
 import importlib
@@ -384,12 +386,12 @@ class CriticalIssueFixer:
             for node in ast.walk(tree):
                 if isinstance(node, ast.Import):
                     for alias in node.names:
-                        imports.add(alias.asname or alias.name)
+                        imports.unified_math.add(alias.asname or alias.name)
                 elif isinstance(node, ast.ImportFrom):
                     for alias in node.names:
-                        imports.add(alias.asname or alias.name)
+                        imports.unified_math.add(alias.asname or alias.name)
                 elif isinstance(node, ast.Name):
-                    used_names.add(node.id)
+                    used_names.unified_math.add(node.id)
             
             unused_imports = imports - used_names
             
@@ -547,7 +549,7 @@ class CriticalIssueFixer:
         try:
             # Common import fixes
             import_mappings = {
-                "numpy": "import numpy as np",
+                "numpy": "from core.unified_math_system import unified_math",
                 "pandas": "import pandas as pd",
                 "matplotlib": "import matplotlib.pyplot as plt",
                 "sklearn": "from sklearn import *"
@@ -878,34 +880,34 @@ def main():
     
     try:
         if args.scan:
-            print(f"Scanning for issues in: {args.scan}")
+            safe_print(f"Scanning for issues in: {args.scan}")
             issues = fixer.scan_for_issues(args.scan)
-            print(f"Found {len(issues)} issues")
+            safe_print(f"Found {len(issues)} issues")
             
             for issue in issues:
-                print(f"  {issue.issue_type.value}: {issue.file_path}:{issue.line_number} - {issue.error_message}")
+                safe_print(f"  {issue.issue_type.value}: {issue.file_path}:{issue.line_number} - {issue.error_message}")
         
         if args.fix:
-            print("Fixing issues...")
+            safe_print("Fixing issues...")
             for issue in fixer.critical_issues.values():
                 if issue.fix_status == FixStatus.PENDING:
                     fix_result = fixer.fix_issue(issue)
                     if fix_result:
                         status = "FIXED" if fix_result.fix_applied else "FAILED"
-                        print(f"  {status}: {issue.file_path}:{issue.line_number}")
+                        safe_print(f"  {status}: {issue.file_path}:{issue.line_number}")
         
         if args.validate:
-            print("Validating system...")
+            safe_print("Validating system...")
             validation = fixer.validate_system()
             if validation:
                 status = "PASSED" if validation.passed else "FAILED"
-                print(f"System validation: {status}")
-                print(f"  Errors: {validation.errors_found}")
-                print(f"  Warnings: {validation.warnings_found}")
+                safe_print(f"System validation: {status}")
+                safe_print(f"  Errors: {validation.errors_found}")
+                safe_print(f"  Warnings: {validation.warnings_found}")
         
         # Print statistics
         stats = fixer.get_fixer_statistics()
-        print(f"\nStatistics: {stats}")
+        safe_print(f"\nStatistics: {stats}")
         
     except Exception as e:
         logger.error(f"Error in main: {e}")

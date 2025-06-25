@@ -1,3 +1,5 @@
+from utils.safe_print import safe_print, info, warn, error, success, debug
+from core.unified_math_system import unified_math
 #!/usr/bin/env python3
 """
 Optimization Engine - Mathematical Optimization and Performance Tuning
@@ -30,13 +32,13 @@ from typing import Dict, List, Any, Optional, Tuple, Union, Callable
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta
 from enum import Enum
-import numpy as np
+from core.unified_math_system import unified_math
 from collections import defaultdict, deque
 import queue
 import weakref
 import traceback
 import random
-import math
+from core.unified_math_system import unified_math
 
 logger = logging.getLogger(__name__)
 
@@ -152,7 +154,7 @@ class GradientDescentOptimizer:
                     
                     # Apply bounds
                     min_val, max_val = param_bounds[name]
-                    new_value = max(min_val, min(max_val, new_value))
+                    new_value = unified_math.max(min_val, unified_math.min(max_val, new_value))
                     
                     current_params[name] = new_value
                 
@@ -167,7 +169,7 @@ class GradientDescentOptimizer:
                     best_params = current_params.copy()
                 
                 # Check convergence
-                convergence = abs(current_value - objective_values[-2]) if len(objective_values) > 1 else float('inf')
+                convergence = unified_math.abs(current_value - objective_values[-2]) if len(objective_values) > 1 else float('inf')
                 convergence_history.append(convergence)
                 
                 if convergence < self.tolerance:
@@ -277,7 +279,7 @@ class GeneticAlgorithmOptimizer:
                 
                 # Calculate convergence
                 if len(objective_values) > 1:
-                    convergence = abs(objective_values[-1] - objective_values[-2])
+                    convergence = unified_math.abs(objective_values[-1] - objective_values[-2])
                     convergence_history.append(convergence)
                 
                 # Selection and reproduction
@@ -393,7 +395,7 @@ class GeneticAlgorithmOptimizer:
                 min_val, max_val = param_bounds[name]
                 std_dev = (max_val - min_val) * 0.1
                 mutation = random.gauss(0, std_dev)
-                mutated[i] = max(min_val, min(max_val, mutated[i] + mutation))
+                mutated[i] = unified_math.max(min_val, unified_math.min(max_val, mutated[i] + mutation))
         
         return mutated
 
@@ -450,7 +452,7 @@ class ParticleSwarmOptimizer:
                         
                         # Apply bounds
                         min_val, max_val = param_bounds[param_names[j]]
-                        particles[i][j] = max(min_val, min(max_val, particles[i][j]))
+                        particles[i][j] = unified_math.max(min_val, unified_math.min(max_val, particles[i][j]))
                     
                     # Evaluate fitness
                     current_value = objective_function(dict(zip(param_names, particles[i])))
@@ -470,7 +472,7 @@ class ParticleSwarmOptimizer:
                 
                 # Calculate convergence
                 if len(objective_values) > 1:
-                    convergence = abs(objective_values[-1] - objective_values[-2])
+                    convergence = unified_math.abs(objective_values[-1] - objective_values[-2])
                     convergence_history.append(convergence)
             
             end_time = datetime.now()
@@ -657,9 +659,9 @@ class OptimizationEngine:
                     'completed_optimizations': len(completed),
                     'failed_optimizations': len(failed),
                     'success_rate': len(completed) / len(optimizations),
-                    'best_objective_value': min(best_values),
-                    'avg_objective_value': np.mean(best_values),
-                    'avg_duration': np.mean(durations) if durations else 0,
+                    'best_objective_value': unified_math.min(best_values),
+                    'avg_objective_value': unified_math.unified_math.mean(best_values),
+                    'avg_duration': unified_math.unified_math.mean(durations) if durations else 0,
                     'methods_used': list(set(opt.metadata.get('method', 'unknown') for opt in optimizations))
                 }
             else:
@@ -704,24 +706,24 @@ def main():
         ]
         
         for method in methods:
-            print(f"\nTesting {method.value}...")
+            safe_print(f"\nTesting {method.value}...")
             result = engine.optimize_parameters(
                 test_objective, initial_params, param_bounds, method
             )
             
-            print(f"Status: {result.status.value}")
-            print(f"Best parameters: {result.best_parameters}")
-            print(f"Best objective value: {result.best_objective_value:.6f}")
-            print(f"Iterations: {result.iterations}")
-            print(f"Duration: {result.duration:.2f}s")
+            safe_print(f"Status: {result.status.value}")
+            safe_print(f"Best parameters: {result.best_parameters}")
+            safe_print(f"Best objective value: {result.best_objective_value:.6f}")
+            safe_print(f"Iterations: {result.iterations}")
+            safe_print(f"Duration: {result.duration:.2f}s")
         
         # Get optimization summary
         summary = engine.get_optimization_summary()
-        print(f"\nOptimization Summary:")
+        safe_print(f"\nOptimization Summary:")
         print(json.dumps(summary, indent=2, default=str))
         
     except Exception as e:
-        print(f"Error in main: {e}")
+        safe_print(f"Error in main: {e}")
         import traceback
         traceback.print_exc()
 

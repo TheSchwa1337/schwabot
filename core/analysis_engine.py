@@ -1,3 +1,5 @@
+from utils.safe_print import safe_print, info, warn, error, success, debug
+from core.unified_math_system import unified_math
 #!/usr/bin/env python3
 """
 Analysis Engine - Advanced Mathematical Analysis and Signal Processing
@@ -7,7 +9,7 @@ This module implements a comprehensive analysis engine for Schwabot,
 performing advanced mathematical analysis, signal processing, and pattern recognition.
 
 Core Mathematical Functions:
-- Signal Analysis: S(t) = Σ(aₙ * cos(ωₙt + φₙ)) + noise
+- Signal Analysis: S(t) = Σ(aₙ * unified_math.cos(ωₙt + φₙ)) + noise
 - Pattern Recognition: P(x) = argmax(P(C|x)) where C are pattern classes
 - Technical Indicators: RSI = 100 - (100 / (1 + RS)) where RS = avg_gain / avg_loss
 - Fourier Analysis: X(ω) = ∫x(t)e^(-jωt)dt
@@ -32,12 +34,12 @@ from typing import Dict, List, Any, Optional, Tuple, Union, Callable
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta
 from enum import Enum
-import numpy as np
+from core.unified_math_system import unified_math
 from collections import defaultdict, deque
 import queue
 import weakref
 import traceback
-import math
+from core.unified_math_system import unified_math
 import statistics
 from scipy import signal, stats
 from scipy.fft import fft, fftfreq, ifft
@@ -201,7 +203,7 @@ class SignalProcessor:
             
             # Return positive frequencies only
             positive_freq_mask = frequencies >= 0
-            return frequencies[positive_freq_mask], np.abs(fft_result[positive_freq_mask])
+            return frequencies[positive_freq_mask], unified_math.unified_math.abs(fft_result[positive_freq_mask])
             
         except Exception as e:
             logger.error(f"Error computing FFT: {e}")
@@ -210,7 +212,7 @@ class SignalProcessor:
     def compute_power_spectral_density(self, data: np.ndarray) -> Tuple[np.ndarray, np.ndarray]:
         """Compute power spectral density."""
         try:
-            frequencies, psd = signal.welch(data, fs=self.sample_rate, nperseg=min(256, len(data)//4))
+            frequencies, psd = signal.welch(data, fs=self.sample_rate, nperseg=unified_math.min(256, len(data)//4))
             return frequencies, psd
             
         except Exception as e:
@@ -245,8 +247,8 @@ class TechnicalIndicators:
             losses = np.where(deltas < 0, -deltas, 0)
             
             # Calculate average gains and losses
-            avg_gains = np.mean(gains[-period:])
-            avg_losses = np.mean(losses[-period:])
+            avg_gains = unified_math.unified_math.mean(gains[-period:])
+            avg_losses = unified_math.unified_math.mean(losses[-period:])
             
             if avg_losses == 0:
                 return 100.0
@@ -300,10 +302,10 @@ class TechnicalIndicators:
                 return prices[-1], prices[-1], prices[-1]
             
             # Calculate moving average
-            ma = np.mean(prices[-self.bollinger_period:])
+            ma = unified_math.unified_math.mean(prices[-self.bollinger_period:])
             
             # Calculate standard deviation
-            std = np.std(prices[-self.bollinger_period:])
+            std = unified_math.unified_math.std(prices[-self.bollinger_period:])
             
             # Calculate bands
             upper_band = ma + (self.bollinger_std * std)
@@ -322,8 +324,8 @@ class TechnicalIndicators:
                 return 50.0, 50.0
             
             # Calculate %K
-            highest_high = np.max(high[-period:])
-            lowest_low = np.min(low[-period:])
+            highest_high = unified_math.unified_math.max(high[-period:])
+            lowest_low = unified_math.unified_math.min(low[-period:])
             
             if highest_high == lowest_low:
                 k_percent = 50.0
@@ -333,8 +335,8 @@ class TechnicalIndicators:
             # Calculate %D (3-period SMA of %K)
             k_values = []
             for i in range(period, len(close)):
-                hh = np.max(high[i-period:i])
-                ll = np.min(low[i-period:i])
+                hh = unified_math.unified_math.max(high[i-period:i])
+                ll = unified_math.unified_math.min(low[i-period:i])
                 if hh == ll:
                     k_val = 50.0
                 else:
@@ -342,7 +344,7 @@ class TechnicalIndicators:
                 k_values.append(k_val)
             
             if len(k_values) >= 3:
-                d_percent = np.mean(k_values[-3:])
+                d_percent = unified_math.unified_math.mean(k_values[-3:])
             else:
                 d_percent = k_percent
             
@@ -362,7 +364,7 @@ class TechnicalIndicators:
             alpha = 2 / (period + 1)
             
             # Initialize EMA with SMA
-            ema = np.mean(prices[:period])
+            ema = unified_math.unified_math.mean(prices[:period])
             
             # Calculate EMA
             for price in prices[period:]:
@@ -507,8 +509,8 @@ class PatternRecognizer:
                 return False
             
             # Calculate price range
-            price_range = np.max(prices) - np.min(prices)
-            avg_price = np.mean(prices)
+            price_range = unified_math.unified_math.max(prices) - unified_math.unified_math.min(prices)
+            avg_price = unified_math.unified_math.mean(prices)
             
             # Check if range is small relative to average price
             return (price_range / avg_price) < 0.1
@@ -532,7 +534,7 @@ class PatternRecognizer:
             last_two_peaks = peaks[-2:]
             peak_values = prices[last_two_peaks]
             
-            return abs(peak_values[0] - peak_values[1]) / peak_values[0] < 0.05
+            return unified_math.abs(peak_values[0] - peak_values[1]) / peak_values[0] < 0.05
             
         except Exception:
             return False
@@ -553,7 +555,7 @@ class PatternRecognizer:
             last_two_valleys = valleys[-2:]
             valley_values = prices[last_two_valleys]
             
-            return abs(valley_values[0] - valley_values[1]) / valley_values[0] < 0.05
+            return unified_math.abs(valley_values[0] - valley_values[1]) / valley_values[0] < 0.05
             
         except Exception:
             return False
@@ -578,7 +580,7 @@ class PatternRecognizer:
                 # Middle peak should be higher than others
                 return (peak_values[1] > peak_values[0] and 
                        peak_values[1] > peak_values[2] and
-                       abs(peak_values[0] - peak_values[2]) / peak_values[0] < 0.1)
+                       unified_math.abs(peak_values[0] - peak_values[2]) / peak_values[0] < 0.1)
             
             return False
             
@@ -614,13 +616,13 @@ class PatternRecognizer:
         """Calculate confidence in consolidation detection."""
         try:
             # Calculate coefficient of variation
-            std_dev = np.std(prices)
-            mean_price = np.mean(prices)
+            std_dev = unified_math.unified_math.std(prices)
+            mean_price = unified_math.unified_math.mean(prices)
             
             cv = std_dev / mean_price if mean_price > 0 else 0
             
             # Lower CV indicates higher confidence in consolidation
-            return max(0, 1 - cv * 10)
+            return unified_math.max(0, 1 - cv * 10)
             
         except Exception:
             return 0.5
@@ -673,7 +675,7 @@ class AltitudeLogic:
         """Calculate escape velocity needed to break resistance."""
         try:
             # Escape velocity increases with resistance level
-            escape_velocity = resistance_level * (1 + abs(altitude))
+            escape_velocity = resistance_level * (1 + unified_math.abs(altitude))
             
             return escape_velocity
             
@@ -802,7 +804,7 @@ class AnalysisEngine:
                 value=rsi_value,
                 timestamp=timestamp,
                 signal_type=rsi_signal,
-                confidence=abs(rsi_value - 50) / 50,
+                confidence=unified_math.abs(rsi_value - 50) / 50,
                 parameters={'period': self.technical_indicators.rsi_period}
             ))
             
@@ -814,7 +816,7 @@ class AnalysisEngine:
                 value=macd_line,
                 timestamp=timestamp,
                 signal_type=macd_signal,
-                confidence=abs(macd_line) / max(abs(macd_line), 1),
+                confidence=unified_math.abs(macd_line) / unified_math.max(unified_math.abs(macd_line), 1),
                 parameters={
                     'fast': self.technical_indicators.macd_fast,
                     'slow': self.technical_indicators.macd_slow,
@@ -831,7 +833,7 @@ class AnalysisEngine:
                 value=bb_position,
                 timestamp=timestamp,
                 signal_type=bb_signal,
-                confidence=abs(bb_position - 0.5) * 2,
+                confidence=unified_math.abs(bb_position - 0.5) * 2,
                 parameters={
                     'period': self.technical_indicators.bollinger_period,
                     'std': self.technical_indicators.bollinger_std
@@ -848,7 +850,7 @@ class AnalysisEngine:
                 value=k_percent,
                 timestamp=timestamp,
                 signal_type=stoch_signal,
-                confidence=abs(k_percent - 50) / 50,
+                confidence=unified_math.abs(k_percent - 50) / 50,
                 parameters={'period': 14}
             ))
             
@@ -908,9 +910,9 @@ class AnalysisEngine:
             
             # Consider altitude
             if altitude > 0.1:
-                buy_signals += abs(altitude)
+                buy_signals += unified_math.abs(altitude)
             elif altitude < -0.1:
-                sell_signals += abs(altitude)
+                sell_signals += unified_math.abs(altitude)
             
             # Determine final signal
             if buy_signals > sell_signals * 1.5:
@@ -981,7 +983,7 @@ class AnalysisEngine:
                 else:
                     risk_factors.append(0.5)
             
-            return np.mean(risk_factors) if risk_factors else 0.5
+            return unified_math.unified_math.mean(risk_factors) if risk_factors else 0.5
             
         except Exception as e:
             logger.error(f"Error calculating risk score: {e}")
@@ -1063,8 +1065,8 @@ class AnalysisEngine:
             
             # Calculate statistics
             total_analyses = len(analyses)
-            avg_confidence = np.mean([a.confidence_score for a in analyses])
-            avg_risk = np.mean([a.risk_score for a in analyses])
+            avg_confidence = unified_math.mean([a.confidence_score for a in analyses])
+            avg_risk = unified_math.mean([a.risk_score for a in analyses])
             
             # Count signals
             signal_counts = defaultdict(int)
@@ -1113,29 +1115,29 @@ def main():
         # Perform analysis
         result = engine.analyze_market_data(market_data)
         
-        print("Analysis Result:")
-        print(f"Symbol: {result.symbol}")
-        print(f"Confidence Score: {result.confidence_score:.2f}")
-        print(f"Risk Score: {result.risk_score:.2f}")
-        print(f"Signals: {[s.value for s in result.signals]}")
-        print(f"Indicators: {len(result.indicators)}")
-        print(f"Patterns: {len(result.patterns)}")
+        safe_print("Analysis Result:")
+        safe_print(f"Symbol: {result.symbol}")
+        safe_print(f"Confidence Score: {result.confidence_score:.2f}")
+        safe_print(f"Risk Score: {result.risk_score:.2f}")
+        safe_print(f"Signals: {[s.value for s in result.signals]}")
+        safe_print(f"Indicators: {len(result.indicators)}")
+        safe_print(f"Patterns: {len(result.patterns)}")
         
         # Print indicator details
         for indicator in result.indicators:
-            print(f"  {indicator.name}: {indicator.value:.2f} ({indicator.signal_type.value})")
+            safe_print(f"  {indicator.name}: {indicator.value:.2f} ({indicator.signal_type.value})")
         
         # Print pattern details
         for pattern in result.patterns:
-            print(f"  {pattern.pattern_type.value}: {pattern.description} (confidence: {pattern.confidence:.2f})")
+            safe_print(f"  {pattern.pattern_type.value}: {pattern.description} (confidence: {pattern.confidence:.2f})")
         
         # Get analysis summary
         summary = engine.get_analysis_summary()
-        print(f"\nAnalysis Summary:")
+        safe_print(f"\nAnalysis Summary:")
         print(json.dumps(summary, indent=2, default=str))
         
     except Exception as e:
-        print(f"Error in main: {e}")
+        safe_print(f"Error in main: {e}")
         import traceback
         traceback.print_exc()
 

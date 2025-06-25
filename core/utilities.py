@@ -1,3 +1,5 @@
+from utils.safe_print import safe_print, info, warn, error, success, debug
+from core.unified_math_system import unified_math
 #!/usr/bin/env python3
 """
 Utilities - Mathematical Helper Functions and System Utilities
@@ -25,7 +27,7 @@ Core Functionality:
 import logging
 import json
 import time
-import math
+from core.unified_math_system import unified_math
 import hashlib
 import os
 import sys
@@ -35,7 +37,7 @@ from typing import Dict, List, Any, Optional, Tuple, Union, Callable
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta
 from enum import Enum
-import numpy as np
+from core.unified_math_system import unified_math
 from collections import defaultdict, deque
 import queue
 import weakref
@@ -94,7 +96,7 @@ class MathematicalUtils:
             if window and window < len(returns):
                 returns = returns[-window:]
             
-            return float(np.std(returns))
+            return float(unified_math.unified_math.std(returns))
             
         except Exception as e:
             logger.error(f"Error calculating volatility: {e}")
@@ -107,14 +109,14 @@ class MathematicalUtils:
             if not returns:
                 return 0.0
             
-            avg_return = np.mean(returns)
-            volatility = np.std(returns)
+            avg_return = unified_math.unified_math.mean(returns)
+            volatility = unified_math.unified_math.std(returns)
             
             if volatility == 0:
                 return 0.0
             
             # Annualize if needed (assuming daily returns)
-            sharpe = (avg_return - risk_free_rate/252) / volatility * np.sqrt(252)
+            sharpe = (avg_return - risk_free_rate/252) / volatility * unified_math.unified_math.sqrt(252)
             return float(sharpe)
             
         except Exception as e:
@@ -132,8 +134,8 @@ class MathematicalUtils:
             running_max = np.maximum.accumulate(cumulative_returns)
             drawdowns = (cumulative_returns - running_max) / running_max
             
-            max_drawdown = float(np.min(drawdowns))
-            return abs(max_drawdown)
+            max_drawdown = float(unified_math.unified_math.min(drawdowns))
+            return unified_math.abs(max_drawdown)
             
         except Exception as e:
             logger.error(f"Error calculating max drawdown: {e}")
@@ -146,7 +148,7 @@ class MathematicalUtils:
             if len(series1) != len(series2) or len(series1) < 2:
                 return 0.0
             
-            correlation = np.corrcoef(series1, series2)[0, 1]
+            correlation = unified_math.unified_math.correlation(series1, series2)[0, 1]
             return float(correlation) if not np.isnan(correlation) else 0.0
             
         except Exception as e:
@@ -163,23 +165,23 @@ class MathematicalUtils:
             data_array = np.array(data)
             
             if method == 'minmax':
-                min_val = np.min(data_array)
-                max_val = np.max(data_array)
+                min_val = unified_math.unified_math.min(data_array)
+                max_val = unified_math.unified_math.max(data_array)
                 if max_val != min_val:
                     normalized = (data_array - min_val) / (max_val - min_val)
                 else:
                     normalized = np.zeros_like(data_array)
             
             elif method == 'zscore':
-                mean_val = np.mean(data_array)
-                std_val = np.std(data_array)
+                mean_val = unified_math.unified_math.mean(data_array)
+                std_val = unified_math.unified_math.std(data_array)
                 if std_val != 0:
                     normalized = (data_array - mean_val) / std_val
                 else:
                     normalized = np.zeros_like(data_array)
             
             elif method == 'log':
-                normalized = np.log1p(np.abs(data_array))
+                normalized = np.log1p(unified_math.unified_math.abs(data_array))
             
             else:
                 logger.warning(f"Unknown normalization method: {method}")
@@ -200,7 +202,7 @@ class MathematicalUtils:
             
             moving_avg = []
             for i in range(window - 1, len(data)):
-                avg = np.mean(data[i - window + 1:i + 1])
+                avg = unified_math.unified_math.mean(data[i - window + 1:i + 1])
                 moving_avg.append(float(avg))
             
             return moving_avg
@@ -241,10 +243,10 @@ class MathematicalUtils:
             rsi_values = []
             for i in range(period, len(returns)):
                 gains = [r for r in returns[i-period:i] if r > 0]
-                losses = [abs(r) for r in returns[i-period:i] if r < 0]
+                losses = [unified_math.abs(r) for r in returns[i-period:i] if r < 0]
                 
-                avg_gain = np.mean(gains) if gains else 0
-                avg_loss = np.mean(losses) if losses else 0
+                avg_gain = unified_math.unified_math.mean(gains) if gains else 0
+                avg_loss = unified_math.unified_math.mean(losses) if losses else 0
                 
                 if avg_loss == 0:
                     rsi = 100
@@ -310,7 +312,7 @@ class FinancialUtils:
                 return 0.0
             
             kelly = (win_rate * avg_win - (1 - win_rate) * avg_loss) / avg_win
-            return max(0.0, min(1.0, float(kelly)))  # Clamp between 0 and 1
+            return unified_math.max(0.0, unified_math.min(1.0, float(kelly)))  # Clamp between 0 and 1
             
         except Exception as e:
             logger.error(f"Error calculating Kelly Criterion: {e}")
@@ -346,7 +348,7 @@ class FinancialUtils:
             if not tail_returns:
                 return var
             
-            cvar = np.mean(tail_returns)
+            cvar = unified_math.unified_math.mean(tail_returns)
             return float(cvar)
             
         except Exception as e:
@@ -377,11 +379,11 @@ class DataProcessingUtils:
                 outliers = (data_array < lower_bound) | (data_array > upper_bound)
             
             elif method == 'zscore':
-                mean_val = np.mean(data_array)
-                std_val = np.std(data_array)
+                mean_val = unified_math.unified_math.mean(data_array)
+                std_val = unified_math.unified_math.std(data_array)
                 
                 if std_val > 0:
-                    z_scores = np.abs((data_array - mean_val) / std_val)
+                    z_scores = unified_math.abs((data_array - mean_val) / std_val)
                     outliers = z_scores > threshold
                 else:
                     outliers = np.zeros_like(data_array, dtype=bool)
@@ -466,18 +468,18 @@ class DataProcessingUtils:
                 window_data = data[i - window + 1:i + 1]
                 
                 if statistic == 'mean':
-                    result = np.mean(window_data)
+                    result = unified_math.unified_math.mean(window_data)
                 elif statistic == 'std':
-                    result = np.std(window_data)
+                    result = unified_math.unified_math.std(window_data)
                 elif statistic == 'min':
-                    result = np.min(window_data)
+                    result = unified_math.unified_math.min(window_data)
                 elif statistic == 'max':
-                    result = np.max(window_data)
+                    result = unified_math.unified_math.max(window_data)
                 elif statistic == 'median':
                     result = np.median(window_data)
                 else:
                     logger.warning(f"Unknown statistic: {statistic}")
-                    result = np.mean(window_data)
+                    result = unified_math.unified_math.mean(window_data)
                 
                 results.append(float(result))
             
@@ -782,47 +784,47 @@ def main():
         sharpe = MathematicalUtils.calculate_sharpe_ratio(returns)
         max_dd = MathematicalUtils.calculate_max_drawdown(returns)
         
-        print("Mathematical Utils Test:")
-        print(f"Returns: {returns}")
-        print(f"Volatility: {volatility:.4f}")
-        print(f"Sharpe Ratio: {sharpe:.4f}")
-        print(f"Max Drawdown: {max_dd:.4f}")
+        safe_print("Mathematical Utils Test:")
+        safe_print(f"Returns: {returns}")
+        safe_print(f"Volatility: {volatility:.4f}")
+        safe_print(f"Sharpe Ratio: {sharpe:.4f}")
+        safe_print(f"Max Drawdown: {max_dd:.4f}")
         
         # Test financial utilities
         pv = FinancialUtils.calculate_present_value(1000, 0.05, 5)
         fv = FinancialUtils.calculate_future_value(1000, 0.05, 5)
         cagr = FinancialUtils.calculate_compound_annual_growth_rate(1000, 1500, 3)
         
-        print("\nFinancial Utils Test:")
-        print(f"Present Value: ${pv:.2f}")
-        print(f"Future Value: ${fv:.2f}")
-        print(f"CAGR: {cagr:.2%}")
+        safe_print("\nFinancial Utils Test:")
+        safe_print(f"Present Value: ${pv:.2f}")
+        safe_print(f"Future Value: ${fv:.2f}")
+        safe_print(f"CAGR: {cagr:.2%}")
         
         # Test data processing utilities
         outliers = DataProcessingUtils.detect_outliers(test_prices)
         cleaned_data = DataProcessingUtils.remove_outliers(test_prices)
         
-        print("\nData Processing Utils Test:")
-        print(f"Outliers detected: {sum(outliers)}")
-        print(f"Cleaned data length: {len(cleaned_data)}")
+        safe_print("\nData Processing Utils Test:")
+        safe_print(f"Outliers detected: {sum(outliers)}")
+        safe_print(f"Cleaned data length: {len(cleaned_data)}")
         
         # Test system utilities
         system_info = SystemUtils.get_system_info()
         memory_usage = SystemUtils.get_memory_usage()
         cpu_usage = SystemUtils.get_cpu_usage()
         
-        print("\nSystem Utils Test:")
-        print(f"Platform: {system_info.get('platform', 'Unknown')}")
-        print(f"Memory Usage: {memory_usage.get('memory_percent', 0):.1f}%")
-        print(f"CPU Usage: {cpu_usage.get('cpu_percent', 0):.1f}%")
+        safe_print("\nSystem Utils Test:")
+        safe_print(f"Platform: {system_info.get('platform', 'Unknown')}")
+        safe_print(f"Memory Usage: {memory_usage.get('memory_percent', 0):.1f}%")
+        safe_print(f"CPU Usage: {cpu_usage.get('cpu_percent', 0):.1f}%")
         
         # Test file utilities
         test_data = {'test': 'data', 'numbers': [1, 2, 3, 4, 5]}
         FileUtils.save_json(test_data, 'test_utils.json')
         loaded_data = FileUtils.load_json('test_utils.json')
         
-        print("\nFile Utils Test:")
-        print(f"Data saved and loaded: {loaded_data == test_data}")
+        safe_print("\nFile Utils Test:")
+        safe_print(f"Data saved and loaded: {loaded_data == test_data}")
         
         # Test timing utilities
         def test_function():
@@ -832,14 +834,14 @@ def main():
         result, execution_time = TimingUtils.time_function(test_function)
         formatted_time = TimingUtils.format_duration(execution_time)
         
-        print("\nTiming Utils Test:")
-        print(f"Function result: {result}")
-        print(f"Execution time: {formatted_time}")
+        safe_print("\nTiming Utils Test:")
+        safe_print(f"Function result: {result}")
+        safe_print(f"Execution time: {formatted_time}")
         
-        print("\nAll utility tests completed successfully!")
+        safe_print("\nAll utility tests completed successfully!")
         
     except Exception as e:
-        print(f"Error in main: {e}")
+        safe_print(f"Error in main: {e}")
         import traceback
         traceback.print_exc()
 

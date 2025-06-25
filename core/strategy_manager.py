@@ -1,3 +1,5 @@
+from utils.safe_print import safe_print, info, warn, error, success, debug
+from core.unified_math_system import unified_math
 #!/usr/bin/env python3
 """
 Strategy Manager - Mathematical Strategy Optimization and Execution Engine
@@ -31,7 +33,7 @@ from typing import Dict, List, Any, Optional, Tuple, Union, Callable
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta
 from enum import Enum
-import numpy as np
+from core.unified_math_system import unified_math
 from collections import defaultdict, deque
 import os
 import queue
@@ -281,9 +283,9 @@ class StrategyExecutor:
             momentum = np.random.normal(0, 0.02)
             threshold = self.config.parameters.get('momentum_threshold', 0.02)
             
-            if abs(momentum) > threshold:
+            if unified_math.abs(momentum) > threshold:
                 signal_type = 'buy' if momentum > 0 else 'sell'
-                confidence = min(abs(momentum) / threshold, 1.0)
+                confidence = unified_math.min(unified_math.abs(momentum) / threshold, 1.0)
             else:
                 signal_type = 'hold'
                 confidence = 0.5
@@ -312,9 +314,9 @@ class StrategyExecutor:
             deviation = np.random.normal(0, 0.01)
             threshold = self.config.parameters.get('std_dev_threshold', 2.0)
             
-            if abs(deviation) > threshold * 0.01:
+            if unified_math.abs(deviation) > threshold * 0.01:
                 signal_type = 'sell' if deviation > 0 else 'buy'
-                confidence = min(abs(deviation) / (threshold * 0.01), 1.0)
+                confidence = unified_math.min(unified_math.abs(deviation) / (threshold * 0.01), 1.0)
             else:
                 signal_type = 'hold'
                 confidence = 0.5
@@ -340,12 +342,12 @@ class StrategyExecutor:
             price1 = 50000.0 + np.random.normal(0, 50)
             price2 = 50000.0 + np.random.normal(0, 50)
             
-            spread = abs(price1 - price2) / min(price1, price2)
+            spread = unified_math.abs(price1 - price2) / unified_math.min(price1, price2)
             threshold = self.config.parameters.get('spread_threshold', 0.001)
             
             if spread > threshold:
                 signal_type = 'buy'  # Buy lower, sell higher
-                confidence = min(spread / threshold, 1.0)
+                confidence = unified_math.min(spread / threshold, 1.0)
             else:
                 signal_type = 'hold'
                 confidence = 0.5
@@ -431,8 +433,8 @@ class StrategyExecutor:
             
             # Calculate performance metrics
             total_return = sum(returns)
-            volatility = np.std(returns) if len(returns) > 1 else 0
-            sharpe_ratio = (np.mean(returns) - 0.02/252) / volatility if volatility > 0 else 0  # Assuming 2% risk-free rate
+            volatility = unified_math.unified_math.std(returns) if len(returns) > 1 else 0
+            sharpe_ratio = (unified_math.unified_math.mean(returns) - 0.02/252) / volatility if volatility > 0 else 0  # Assuming 2% risk-free rate
             
             # Calculate win rate
             winning_trades = sum(1 for r in returns if r > 0)
@@ -441,14 +443,14 @@ class StrategyExecutor:
             
             # Calculate profit factor
             gross_profit = sum(r for r in returns if r > 0)
-            gross_loss = abs(sum(r for r in returns if r < 0))
+            gross_loss = unified_math.abs(sum(r for r in returns if r < 0))
             profit_factor = gross_profit / gross_loss if gross_loss > 0 else float('inf')
             
             # Calculate max drawdown
             cumulative_returns = np.cumsum(returns)
             running_max = np.maximum.accumulate(cumulative_returns)
             drawdowns = cumulative_returns - running_max
-            max_drawdown = abs(np.min(drawdowns)) if len(drawdowns) > 0 else 0
+            max_drawdown = unified_math.abs(unified_math.unified_math.min(drawdowns)) if len(drawdowns) > 0 else 0
             
             # Create performance record
             performance = StrategyPerformance(
@@ -700,7 +702,7 @@ class StrategyManager:
                 return None
             
             # Pad arrays to same length
-            max_length = max(len(data) for data in performance_data)
+            max_length = unified_math.max(len(data) for data in performance_data)
             padded_data = []
             
             for data in performance_data:
@@ -710,7 +712,7 @@ class StrategyManager:
                     padded_data.append(data[:max_length])
             
             # Calculate correlation matrix
-            correlation_matrix = np.corrcoef(padded_data)
+            correlation_matrix = unified_math.unified_math.correlation(padded_data)
             self.correlation_matrix = correlation_matrix
             
             return correlation_matrix
@@ -736,10 +738,10 @@ class StrategyManager:
                 return {strategy_id: 1.0/len(self.strategies) for strategy_id in self.strategies.keys()}
             
             # Simple weight optimization based on Sharpe ratio
-            total_sharpe = sum(max(0, sharpe) for sharpe in performances.values())
+            total_sharpe = sum(unified_math.max(0, sharpe) for sharpe in performances.values())
             
             if total_sharpe > 0:
-                weights = {strategy_id: max(0, sharpe) / total_sharpe 
+                weights = {strategy_id: unified_math.max(0, sharpe) / total_sharpe 
                           for strategy_id, sharpe in performances.items()}
             else:
                 # Equal weights if no positive Sharpe ratios
@@ -800,7 +802,7 @@ def main():
         
         # Start all strategies
         start_results = manager.start_all_strategies()
-        print("Strategy start results:", start_results)
+        safe_print("Strategy start results:", start_results)
         
         # Let strategies run for a while
         time.sleep(10)
@@ -808,32 +810,32 @@ def main():
         # Get performance summaries
         for strategy_id in manager.strategies.keys():
             performance = manager.get_strategy_performance(strategy_id)
-            print(f"Strategy {strategy_id} performance:")
+            safe_print(f"Strategy {strategy_id} performance:")
             print(json.dumps(performance, indent=2, default=str))
-            print("-" * 50)
+            safe_print("-" * 50)
         
         # Get portfolio performance
         portfolio_performance = manager.get_portfolio_performance()
-        print("Portfolio Performance:")
+        safe_print("Portfolio Performance:")
         print(json.dumps(portfolio_performance, indent=2, default=str))
         
         # Calculate correlations
         correlations = manager.calculate_strategy_correlations()
         if correlations is not None:
-            print("Strategy Correlations:")
+            safe_print("Strategy Correlations:")
             print(correlations)
         
         # Optimize weights
         weights = manager.optimize_portfolio_weights()
-        print("Optimized Portfolio Weights:")
+        safe_print("Optimized Portfolio Weights:")
         print(json.dumps(weights, indent=2))
         
         # Stop all strategies
         stop_results = manager.stop_all_strategies()
-        print("Strategy stop results:", stop_results)
+        safe_print("Strategy stop results:", stop_results)
         
     except Exception as e:
-        print(f"Error in main: {e}")
+        safe_print(f"Error in main: {e}")
         import traceback
         traceback.print_exc()
 

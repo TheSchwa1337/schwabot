@@ -1,3 +1,5 @@
+from utils.safe_print import safe_print, info, warn, error, success, debug
+from core.unified_math_system import unified_math
 #!/usr/bin/env python3
 """
 System Orchestrator - Comprehensive System Coordination and Lifecycle Management
@@ -24,7 +26,7 @@ from typing import Dict, List, Any, Optional, Tuple, Union, Callable
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta
 from enum import Enum
-import numpy as np
+from core.unified_math_system import unified_math
 from collections import defaultdict, deque
 import queue
 import weakref
@@ -111,8 +113,10 @@ class ComponentManager:
         self.max_retries = 3
         self.retry_delay = 5  # seconds
     
-    def register_component(self, component_id: str, name: str, component_type: str,
-                          instance: Any = None, dependencies: List[str] = None) -> bool:
+    def register_component(
+            self, component_id: str, name: str, component_type: str,
+            instance: Any = None, dependencies: List[str] = None
+    ) -> bool:
         """Register a component."""
         try:
             component_info = ComponentInfo(
@@ -363,8 +367,10 @@ class EventManager:
         except Exception as e:
             logger.error(f"Error processing event: {e}")
     
-    def get_event_history(self, event_type: Optional[EventType] = None, 
-                         limit: int = 100) -> List[SystemEvent]:
+    def get_event_history(
+            self, event_type: Optional[EventType] = None,
+            limit: int = 100
+    ) -> List[SystemEvent]:
         """Get event history."""
         try:
             events = list(self.event_history)
@@ -468,7 +474,7 @@ class HealthMonitor:
             
             # Calculate error rate
             error_count = sum(c.error_count for c in components.values())
-            total_operations = max(total_components, 1)
+            total_operations = unified_math.max(total_components, 1)
             error_rate = error_count / total_operations
             
             metrics = SystemMetrics(
@@ -523,13 +529,6 @@ class HealthMonitor:
             
             # Emit alerts
             for alert in alerts:
-                event = SystemEvent(
-                    event_id=f"alert_{int(time.time())}",
-                    event_type=EventType.RESOURCE_ALERT,
-                    timestamp=datetime.now(),
-                    severity="warning",
-                    message=alert
-                )
                 # This would be sent to the event manager
                 logger.warning(f"Health alert: {alert}")
             
@@ -728,8 +727,10 @@ class SystemOrchestrator:
             logger.error(f"Error getting status: {e}")
             return {'state': self.state.value, 'error': str(e)}
     
-    def register_component(self, component_id: str, name: str, component_type: str,
-                          instance: Any = None, dependencies: List[str] = None) -> bool:
+    def register_component(
+            self, component_id: str, name: str, component_type: str,
+            instance: Any = None, dependencies: List[str] = None
+    ) -> bool:
         """Register a component with the orchestrator."""
         return self.component_manager.register_component(
             component_id, name, component_type, instance, dependencies
@@ -737,7 +738,7 @@ class SystemOrchestrator:
     
     def emit_event(self, event: SystemEvent) -> None:
         """Emit an event through the orchestrator."""
-        self.event_manager.emit_event(event)
+
 
 def main():
     """Main function for testing."""
@@ -754,23 +755,22 @@ def main():
         success = asyncio.run(orchestrator.start())
         
         if success:
-            print("Orchestrator started successfully!")
+            safe_print("Orchestrator started successfully!")
             
             # Get status
             status = orchestrator.get_status()
-            print("Orchestrator Status:")
+            safe_print("Orchestrator Status:")
             print(json.dumps(status, indent=2, default=str))
             
             # Stop orchestrator
             asyncio.run(orchestrator.stop())
-            print("Orchestrator stopped")
+            safe_print("Orchestrator stopped")
         else:
-            print("Orchestrator failed to start!")
+            safe_print("Orchestrator failed to start!")
         
     except Exception as e:
-        print(f"Error in main: {e}")
-        import traceback
-        traceback.print_exc()
+        safe_print(f"Error in main: {e}")
+
 
 if __name__ == "__main__":
-    main() 
+    main()

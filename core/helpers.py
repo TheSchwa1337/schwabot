@@ -1,3 +1,5 @@
+from utils.safe_print import safe_print, info, warn, error, success, debug
+from core.unified_math_system import unified_math
 #!/usr/bin/env python3
 """
 Helpers - Mathematical Helper Functions and System Helpers
@@ -25,7 +27,7 @@ Core Functionality:
 import logging
 import json
 import time
-import math
+from core.unified_math_system import unified_math
 import hashlib
 import os
 import sys
@@ -35,7 +37,7 @@ from typing import Dict, List, Any, Optional, Tuple, Union, Callable, TypeVar, G
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta
 from enum import Enum
-import numpy as np
+from core.unified_math_system import unified_math
 from collections import defaultdict, deque
 import queue
 import weakref
@@ -274,7 +276,7 @@ class ProcessingHelpers:
         try:
             if value < 0:
                 return default
-            return math.sqrt(value)
+            return unified_math.unified_math.sqrt(value)
         except Exception:
             return default
     
@@ -284,7 +286,7 @@ class ProcessingHelpers:
         try:
             if value <= 0 or base <= 0:
                 return default
-            return math.log(value, base)
+            return unified_math.unified_math.log(value, base)
         except Exception:
             return default
     
@@ -305,7 +307,7 @@ class ProcessingHelpers:
     def clamp(value: float, min_val: float, max_val: float) -> float:
         """Clamp value between min and max."""
         try:
-            return max(min_val, min(max_val, value))
+            return unified_math.max(min_val, unified_math.min(max_val, value))
         except Exception:
             return min_val
     
@@ -318,8 +320,8 @@ class ProcessingHelpers:
             
             smoothed = []
             for i in range(len(data)):
-                start = max(0, i - window_size // 2)
-                end = min(len(data), i + window_size // 2 + 1)
+                start = unified_math.max(0, i - window_size // 2)
+                end = unified_math.min(len(data), i + window_size // 2 + 1)
                 window_data = data[start:end]
                 smoothed.append(sum(window_data) / len(window_data))
             
@@ -336,7 +338,7 @@ class ProcessingHelpers:
             result = []
             for item in data:
                 if item not in seen:
-                    seen.add(item)
+                    seen.unified_math.add(item)
                     result.append(item)
             return result
         except Exception as e:
@@ -430,7 +432,7 @@ class SystemHelpers:
                 logging.getLogger().addHandler(file_handler)
             
         except Exception as e:
-            print(f"Error setting up logging: {e}")
+            safe_print(f"Error setting up logging: {e}")
     
     @staticmethod
     def get_memory_usage_mb() -> float:
@@ -714,55 +716,55 @@ def main():
         SystemHelpers.setup_logging('INFO')
         
         # Test validation helpers
-        print("Testing Validation Helpers:")
+        safe_print("Testing Validation Helpers:")
         
         # Numeric validation
         num_result = ValidationHelpers.validate_numeric(42, min_value=0, max_value=100)
-        print(f"Numeric validation (42): {num_result.is_valid}")
+        safe_print(f"Numeric validation (42): {num_result.is_valid}")
         
         # String validation
         str_result = ValidationHelpers.validate_string("test", min_length=2, max_length=10)
-        print(f"String validation ('test'): {str_result.is_valid}")
+        safe_print(f"String validation ('test'): {str_result.is_valid}")
         
         # List validation
         list_result = ValidationHelpers.validate_list([1, 2, 3], min_length=2)
-        print(f"List validation ([1,2,3]): {list_result.is_valid}")
+        safe_print(f"List validation ([1,2,3]): {list_result.is_valid}")
         
         # Test processing helpers
-        print("\nTesting Processing Helpers:")
+        safe_print("\nTesting Processing Helpers:")
         
         # Safe operations
         safe_div = ProcessingHelpers.safe_divide(10, 2)
-        print(f"Safe division (10/2): {safe_div}")
+        safe_print(f"Safe division (10/2): {safe_div}")
         
         # Data smoothing
         data = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
         smoothed = ProcessingHelpers.smooth_data(data, window_size=3)
-        print(f"Smoothed data: {smoothed[:5]}...")
+        safe_print(f"Smoothed data: {smoothed[:5]}...")
         
         # Test system helpers
-        print("\nTesting System Helpers:")
+        safe_print("\nTesting System Helpers:")
         
         # Memory usage
         memory_mb = SystemHelpers.get_memory_usage_mb()
-        print(f"Memory usage: {memory_mb:.2f} MB")
+        safe_print(f"Memory usage: {memory_mb:.2f} MB")
         
         # CPU usage
         cpu_percent = SystemHelpers.get_cpu_usage_percent()
-        print(f"CPU usage: {cpu_percent:.1f}%")
+        safe_print(f"CPU usage: {cpu_percent:.1f}%")
         
         # Test error helpers
-        print("\nTesting Error Helpers:")
+        safe_print("\nTesting Error Helpers:")
         
         # Safe execution
         def test_func():
             return 42
         
         result = ErrorHelpers.safe_execute(test_func, default_return=0)
-        print(f"Safe execution result: {result}")
+        safe_print(f"Safe execution result: {result}")
         
         # Test performance helpers
-        print("\nTesting Performance Helpers:")
+        safe_print("\nTesting Performance Helpers:")
         
         @PerformanceHelpers.time_function
         def slow_function():
@@ -770,12 +772,12 @@ def main():
             return "done"
         
         result = slow_function()
-        print(f"Timed function result: {result}")
+        safe_print(f"Timed function result: {result}")
         
-        print("\nAll helper tests completed successfully!")
+        safe_print("\nAll helper tests completed successfully!")
         
     except Exception as e:
-        print(f"Error in main: {e}")
+        safe_print(f"Error in main: {e}")
         import traceback
         traceback.print_exc()
 

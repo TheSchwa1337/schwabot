@@ -1,3 +1,5 @@
+from utils.safe_print import safe_print, info, warn, error, success, debug
+from core.unified_math_system import unified_math
 #!/usr/bin/env python3
 """
 BTC Tick Matrix Initializer - Matrix Bootstrap and Hash Interlock Grid
@@ -12,7 +14,7 @@ Core Mathematical Functions:
 - Causal Entry Field: Eₜ = argmax(signal_strength_t · weight_matrix_t)
 """
 
-import numpy as np
+from core.unified_math_system import unified_math
 import hashlib
 import json
 import logging
@@ -31,7 +33,7 @@ try:
     from schwabot.mathlib.sfsss_tensor import SFSSTensor
     from schwabot.mathlib.ufs_tensor import UFSTensor
 except ImportError as e:
-    print(f"Warning: Could not import required modules: {e}")
+    safe_print(f"Warning: Could not import required modules: {e}")
     # Create mock classes for testing
     MultiBitBTCProcessor = type('MultiBitBTCProcessor', (), {})
     SFSSTensor = type('SFSSTensor', (), {})
@@ -100,12 +102,12 @@ class MatrixBootstrap:
                 volumes.append(initial_ticks[i].volume)
             
             # Calculate statistical parameters
-            price_mean = np.mean(price_deltas)
-            price_std = np.std(price_deltas)
-            volume_mean = np.mean(volume_deltas)
-            volume_std = np.std(volume_deltas)
-            spread_mean = np.mean(spreads)
-            volume_mean_abs = np.mean(volumes)
+            price_mean = unified_math.unified_math.mean(price_deltas)
+            price_std = unified_math.unified_math.std(price_deltas)
+            volume_mean = unified_math.unified_math.mean(volume_deltas)
+            volume_std = unified_math.unified_math.std(volume_deltas)
+            spread_mean = unified_math.unified_math.mean(spreads)
+            volume_mean_abs = unified_math.unified_math.mean(volumes)
             
             # Create bootstrap matrix
             matrix = np.zeros((self.config.matrix_dimensions, self.config.matrix_dimensions))
@@ -181,12 +183,12 @@ class MatrixBootstrap:
                 return {}
             
             stats = {
-                'matrix_mean': float(np.mean(self.bootstrap_matrix)),
-                'matrix_std': float(np.std(self.bootstrap_matrix)),
-                'matrix_min': float(np.min(self.bootstrap_matrix)),
-                'matrix_max': float(np.max(self.bootstrap_matrix)),
+                'matrix_mean': float(unified_math.unified_math.mean(self.bootstrap_matrix)),
+                'matrix_std': float(unified_math.unified_math.std(self.bootstrap_matrix)),
+                'matrix_min': float(unified_math.unified_math.min(self.bootstrap_matrix)),
+                'matrix_max': float(unified_math.unified_math.max(self.bootstrap_matrix)),
                 'matrix_condition': float(np.linalg.cond(self.bootstrap_matrix)),
-                'matrix_determinant': float(np.linalg.det(self.bootstrap_matrix)),
+                'matrix_determinant': float(unified_math.unified_math.determinant(self.bootstrap_matrix)),
                 'matrix_rank': int(np.linalg.matrix_rank(self.bootstrap_matrix))
             }
             
@@ -281,7 +283,7 @@ class HashInterlockGrid:
         """Calculate Hamming distance between two hashes."""
         try:
             if len(hash1) != len(hash2):
-                return max(len(hash1), len(hash2))
+                return unified_math.max(len(hash1), len(hash2))
             
             distance = 0
             for c1, c2 in zip(hash1, hash2):
@@ -307,11 +309,11 @@ class HashInterlockGrid:
             stats = {
                 'total_hashes': len(self.hash_grid),
                 'unique_hashes': len(set(self.hash_grid.keys())),
-                'avg_hash_length': float(np.mean(hash_lengths)),
-                'price_range': float(np.max(prices) - np.min(prices)),
-                'price_mean': float(np.mean(prices)),
-                'oldest_timestamp': min(timestamps).isoformat() if timestamps else None,
-                'newest_timestamp': max(timestamps).isoformat() if timestamps else None
+                'avg_hash_length': float(unified_math.unified_math.mean(hash_lengths)),
+                'price_range': float(unified_math.unified_math.max(prices) - unified_math.unified_math.min(prices)),
+                'price_mean': float(unified_math.unified_math.mean(prices)),
+                'oldest_timestamp': unified_math.min(timestamps).isoformat() if timestamps else None,
+                'newest_timestamp': unified_math.max(timestamps).isoformat() if timestamps else None
             }
             
             return stats
@@ -366,7 +368,7 @@ class CausalEntryField:
                                 mode='constant')
             
             # Calculate signal strength using matrix multiplication
-            signal_strength = np.dot(features, np.dot(matrix, features))
+            signal_strength = unified_math.unified_math.dot_product(features, unified_math.unified_math.dot_product(matrix, features))
             
             # Cache result
             cache_key = f"{tick.timestamp.isoformat()}_{tick.price}_{tick.volume}"
@@ -463,12 +465,12 @@ class CausalEntryField:
             
             stats = {
                 'total_entries': len(self.entry_history),
-                'avg_signal_strength': float(np.mean(signal_strengths)),
-                'avg_weighted_strength': float(np.mean(weighted_strengths)),
-                'max_signal_strength': float(np.max(signal_strengths)),
-                'min_signal_strength': float(np.min(signal_strengths)),
-                'price_range': float(np.max(prices) - np.min(prices)),
-                'price_mean': float(np.mean(prices))
+                'avg_signal_strength': float(unified_math.unified_math.mean(signal_strengths)),
+                'avg_weighted_strength': float(unified_math.unified_math.mean(weighted_strengths)),
+                'max_signal_strength': float(unified_math.unified_math.max(signal_strengths)),
+                'min_signal_strength': float(unified_math.unified_math.min(signal_strengths)),
+                'price_range': float(unified_math.unified_math.max(prices) - unified_math.unified_math.min(prices)),
+                'price_mean': float(unified_math.unified_math.mean(prices))
             }
             
             return stats
@@ -617,7 +619,7 @@ def main():
         success = initializer.initialize_matrix_system(initial_ticks)
         
         if success:
-            print("Matrix system initialized successfully")
+            safe_print("Matrix system initialized successfully")
             
             # Process some additional ticks
             for i in range(10):
@@ -632,15 +634,15 @@ def main():
                 )
                 
                 result = initializer.process_tick(tick)
-                print(f"Processed tick: {result}")
+                safe_print(f"Processed tick: {result}")
             
             # Get system statistics
             stats = initializer.get_system_statistics()
-            print("System Statistics:")
+            safe_print("System Statistics:")
             print(json.dumps(stats, indent=2, default=str))
         
     except Exception as e:
-        print(f"Error in main: {e}")
+        safe_print(f"Error in main: {e}")
         import traceback
         traceback.print_exc()
 

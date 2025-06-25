@@ -1,3 +1,5 @@
+from utils.safe_print import safe_print, info, warn, error, success, debug
+from core.unified_math_system import unified_math
 #!/usr/bin/env python3
 """
 Performance Monitor - Trading Performance Tracking and Analysis
@@ -33,12 +35,12 @@ from typing import Dict, List, Any, Optional, Tuple, Union, Callable
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta
 from enum import Enum
-import numpy as np
+from core.unified_math_system import unified_math
 from collections import defaultdict, deque
 import queue
 import weakref
 import traceback
-import math
+from core.unified_math_system import unified_math
 import statistics
 from scipy import stats
 import pandas as pd
@@ -146,10 +148,10 @@ class RiskMetrics:
             excess_returns = returns - (self.risk_free_rate / periods_per_year)
             
             # Calculate Sharpe ratio
-            if np.std(excess_returns) == 0:
+            if unified_math.unified_math.std(excess_returns) == 0:
                 return 0.0
             
-            sharpe_ratio = np.mean(excess_returns) / np.std(excess_returns) * np.sqrt(periods_per_year)
+            sharpe_ratio = unified_math.unified_math.mean(excess_returns) / unified_math.unified_math.std(excess_returns) * unified_math.unified_math.sqrt(periods_per_year)
             
             return sharpe_ratio
             
@@ -170,14 +172,14 @@ class RiskMetrics:
             downside_returns = excess_returns[excess_returns < 0]
             
             if len(downside_returns) == 0:
-                return float('inf') if np.mean(excess_returns) > 0 else 0.0
+                return float('inf') if unified_math.unified_math.mean(excess_returns) > 0 else 0.0
             
-            downside_deviation = np.std(downside_returns)
+            downside_deviation = unified_math.unified_math.std(downside_returns)
             
             if downside_deviation == 0:
                 return 0.0
             
-            sortino_ratio = np.mean(excess_returns) / downside_deviation * np.sqrt(periods_per_year)
+            sortino_ratio = unified_math.unified_math.mean(excess_returns) / downside_deviation * unified_math.unified_math.sqrt(periods_per_year)
             
             return sortino_ratio
             
@@ -198,7 +200,7 @@ class RiskMetrics:
             drawdown = (equity_curve - running_max) / running_max
             
             # Find maximum drawdown
-            max_drawdown = np.min(drawdown)
+            max_drawdown = unified_math.unified_math.min(drawdown)
             max_drawdown_idx = np.argmin(drawdown)
             
             # Find peak before maximum drawdown
@@ -226,7 +228,7 @@ class RiskMetrics:
             var_percentile = (1 - confidence_level) * 100
             var = np.percentile(returns, var_percentile)
             
-            return abs(var)
+            return unified_math.abs(var)
             
         except Exception as e:
             logger.error(f"Error calculating VaR: {e}")
@@ -250,9 +252,9 @@ class RiskMetrics:
             if len(tail_returns) == 0:
                 return var
             
-            cvar = np.mean(tail_returns)
+            cvar = unified_math.unified_math.mean(tail_returns)
             
-            return abs(cvar)
+            return unified_math.abs(cvar)
             
         except Exception as e:
             logger.error(f"Error calculating CVaR: {e}")
@@ -265,8 +267,8 @@ class RiskMetrics:
                 return 1.0
             
             # Calculate covariance and variance
-            covariance = np.cov(portfolio_returns, market_returns)[0, 1]
-            market_variance = np.var(market_returns)
+            covariance = unified_math.unified_math.covariance(portfolio_returns, market_returns)[0, 1]
+            market_variance = unified_math.unified_math.var(market_returns)
             
             if market_variance == 0:
                 return 1.0
@@ -296,7 +298,7 @@ class RiskMetrics:
                 return 0.0
             
             # Calculate Treynor ratio
-            treynor_ratio = np.mean(excess_returns) / beta * periods_per_year
+            treynor_ratio = unified_math.unified_math.mean(excess_returns) / beta * periods_per_year
             
             return treynor_ratio
             
@@ -343,7 +345,7 @@ class PerformanceMetrics:
             if len(returns) < 2:
                 return 0.0
             
-            volatility = np.std(returns) * np.sqrt(periods_per_year)
+            volatility = unified_math.unified_math.std(returns) * unified_math.unified_math.sqrt(periods_per_year)
             
             return volatility
             
@@ -386,7 +388,7 @@ class PerformanceMetrics:
                 if pnl > 0:
                     total_profit += pnl
                 else:
-                    total_loss += abs(pnl)
+                    total_loss += unified_math.abs(pnl)
             
             return total_profit / total_loss if total_loss > 0 else float('inf')
             
@@ -408,10 +410,10 @@ class PerformanceMetrics:
                 if pnl > 0:
                     wins.append(pnl)
                 else:
-                    losses.append(abs(pnl))
+                    losses.append(unified_math.abs(pnl))
             
-            avg_win = np.mean(wins) if wins else 0.0
-            avg_loss = np.mean(losses) if losses else 0.0
+            avg_win = unified_math.unified_math.mean(wins) if wins else 0.0
+            avg_loss = unified_math.unified_math.mean(losses) if losses else 0.0
             
             return avg_win, avg_loss
             
@@ -425,7 +427,7 @@ class PerformanceMetrics:
             if max_drawdown == 0:
                 return 0.0
             
-            calmar_ratio = annualized_return / abs(max_drawdown)
+            calmar_ratio = annualized_return / unified_math.abs(max_drawdown)
             
             return calmar_ratio
             
@@ -444,10 +446,10 @@ class PerformanceMetrics:
             excess_returns = portfolio_returns - benchmark_returns
             
             # Calculate information ratio
-            if np.std(excess_returns) == 0:
+            if unified_math.unified_math.std(excess_returns) == 0:
                 return 0.0
             
-            information_ratio = np.mean(excess_returns) / np.std(excess_returns)
+            information_ratio = unified_math.unified_math.mean(excess_returns) / unified_math.unified_math.std(excess_returns)
             
             return information_ratio
             
@@ -719,7 +721,7 @@ class PerformanceMonitor:
             else:  # sell
                 # Calculate realized P&L
                 if position.quantity > 0:
-                    realized_pnl = (trade.price - position.avg_price) * min(trade.quantity, position.quantity)
+                    realized_pnl = (trade.price - position.avg_price) * unified_math.min(trade.quantity, position.quantity)
                     position.realized_pnl += realized_pnl
                 
                 position.quantity -= trade.quantity
@@ -905,7 +907,7 @@ def main():
         # Take snapshots
         for i in range(5):
             snapshot = monitor.take_snapshot()
-            print(f"Snapshot {i+1}: Value: ${snapshot.total_value:,.2f}, P&L: ${snapshot.total_pnl:,.2f}")
+            safe_print(f"Snapshot {i+1}: Value: ${snapshot.total_value:,.2f}, P&L: ${snapshot.total_pnl:,.2f}")
             time.sleep(0.1)
         
         # Generate performance report
@@ -913,21 +915,21 @@ def main():
         end_date = datetime.now()
         report = monitor.generate_performance_report(start_date, end_date)
         
-        print(f"\nPerformance Report:")
-        print(f"Total Return: {report.total_return:.2%}")
-        print(f"Annualized Return: {report.annualized_return:.2%}")
-        print(f"Sharpe Ratio: {report.sharpe_ratio:.2f}")
-        print(f"Max Drawdown: {report.max_drawdown:.2%}")
-        print(f"Win Rate: {report.win_rate:.2%}")
-        print(f"Total Trades: {report.total_trades}")
+        safe_print(f"\nPerformance Report:")
+        safe_print(f"Total Return: {report.total_return:.2%}")
+        safe_print(f"Annualized Return: {report.annualized_return:.2%}")
+        safe_print(f"Sharpe Ratio: {report.sharpe_ratio:.2f}")
+        safe_print(f"Max Drawdown: {report.max_drawdown:.2%}")
+        safe_print(f"Win Rate: {report.win_rate:.2%}")
+        safe_print(f"Total Trades: {report.total_trades}")
         
         # Get performance summary
         summary = monitor.get_performance_summary()
-        print(f"\nPerformance Summary:")
+        safe_print(f"\nPerformance Summary:")
         print(json.dumps(summary, indent=2, default=str))
         
     except Exception as e:
-        print(f"Error in main: {e}")
+        safe_print(f"Error in main: {e}")
         import traceback
         traceback.print_exc()
 

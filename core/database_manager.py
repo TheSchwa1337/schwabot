@@ -1,3 +1,5 @@
+from utils.safe_print import safe_print, info, warn, error, success, debug
+from core.unified_math_system import unified_math
 #!/usr/bin/env python3
 """
 Database Manager - Mathematical Query Optimization and Connection Pooling
@@ -32,7 +34,7 @@ from typing import Dict, List, Any, Optional, Tuple, Union, Callable
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta
 from enum import Enum
-import numpy as np
+from core.unified_math_system import unified_math
 from collections import defaultdict, deque
 import os
 import queue
@@ -577,7 +579,7 @@ class DatabaseManager:
                 'query_cache': self.query_cache.get_cache_statistics() if self.query_cache else {},
                 'query_metrics': {
                     'total_queries': len(self.query_metrics),
-                    'avg_execution_time': np.mean([m.execution_time for m in self.query_metrics]) if self.query_metrics else 0,
+                    'avg_execution_time': unified_math.mean([m.execution_time for m in self.query_metrics]) if self.query_metrics else 0,
                     'max_execution_time': max([m.execution_time for m in self.query_metrics]) if self.query_metrics else 0,
                     'query_types': self._get_query_type_distribution()
                 }
@@ -676,19 +678,19 @@ def main():
         select_sql = "SELECT * FROM test_table WHERE value > ?"
         results = db_manager.execute_query(select_sql, (5.0,))
         
-        print(f"Query results: {results}")
+        safe_print(f"Query results: {results}")
         
         # Get database statistics
         stats = db_manager.get_database_statistics()
-        print("Database Statistics:")
+        safe_print("Database Statistics:")
         print(json.dumps(stats, indent=2, default=str))
         
         # Create backup
         backup_success = db_manager.create_backup("./data/backup.db")
-        print(f"Backup created: {backup_success}")
+        safe_print(f"Backup created: {backup_success}")
         
     except Exception as e:
-        print(f"Error in main: {e}")
+        safe_print(f"Error in main: {e}")
         import traceback
         traceback.print_exc()
 

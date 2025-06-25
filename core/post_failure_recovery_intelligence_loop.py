@@ -1,3 +1,5 @@
+from utils.safe_print import safe_print, info, warn, error, success, debug
+from core.unified_math_system import unified_math
 #!/usr/bin/env python3
 """
 Post-Failure Recovery Intelligence Loop - Fallback Logic and Trade Memory Recall
@@ -29,7 +31,7 @@ from typing import Dict, List, Any, Optional, Tuple, Union
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta
 from enum import Enum
-import numpy as np
+from core.unified_math_system import unified_math
 from collections import defaultdict, deque
 import os
 
@@ -226,8 +228,8 @@ class PostFailureRecoveryIntelligenceLoop:
                 timestamp=datetime.now(),
                 metadata={
                     "num_losses": len(recent_losses),
-                    "average_loss": np.mean(recent_losses) if recent_losses else 0.0,
-                    "max_loss": max(recent_losses) if recent_losses else 0.0
+                    "average_loss": unified_math.unified_math.mean(recent_losses) if recent_losses else 0.0,
+                    "max_loss": unified_math.max(recent_losses) if recent_losses else 0.0
                 }
             )
             
@@ -282,10 +284,10 @@ class PostFailureRecoveryIntelligenceLoop:
                 hash_vectors.append(hash_vector)
             
             # Calculate mean vector
-            fallback_vector = np.mean(hash_vectors, axis=0)
+            fallback_vector = unified_math.unified_math.mean(hash_vectors, axis=0)
             
             # Calculate confidence score based on number of profitable hashes
-            confidence_score = min(len(profitable_hashes) / len(historical_hashes), 1.0)
+            confidence_score = unified_math.min(len(profitable_hashes) / len(historical_hashes), 1.0)
             
             # Create fallback position object
             fallback_position = FallbackPosition(
@@ -335,7 +337,7 @@ class PostFailureRecoveryIntelligenceLoop:
             correction_factor = profit_difference / time_delta if time_delta > 0 else 0.0
             
             # Apply correction factor limits
-            correction_factor = max(-1.0, min(1.0, correction_factor))
+            correction_factor = max(-1.0, unified_math.min(1.0, correction_factor))
             
             # Create profit equilibrium object
             profit_equilibrium = ProfitEquilibrium(
@@ -481,12 +483,12 @@ class PostFailureRecoveryIntelligenceLoop:
             volatility_adjustment = 1.0 - (volatility * 0.5)
             
             # Higher volume increases success probability
-            volume_adjustment = min(volume / 2.0, 1.0)
+            volume_adjustment = unified_math.min(volume / 2.0, 1.0)
             
             # Calculate final probability
             success_probability = base_probability * volatility_adjustment * volume_adjustment
             
-            return max(0.0, min(1.0, success_probability))
+            return unified_math.max(0.0, unified_math.min(1.0, success_probability))
             
         except Exception as e:
             logger.error(f"Error calculating success probability: {e}")
@@ -544,8 +546,8 @@ class PostFailureRecoveryIntelligenceLoop:
             volatility = market_conditions.get("volatility", 0.1)
             
             # Adaptive parameters based on market conditions
-            entry_delay = max(0, int(30 * (1 - volatility * 2)))  # Shorter delay for low volatility
-            position_scaling = max(0.25, 1.0 - volatility)  # Smaller position for high volatility
+            entry_delay = unified_math.max(0, int(30 * (1 - volatility * 2)))  # Shorter delay for low volatility
+            position_scaling = unified_math.max(0.25, 1.0 - volatility)  # Smaller position for high volatility
             
             return {
                 "recovery_mode": "adaptive",
@@ -596,13 +598,13 @@ class PostFailureRecoveryIntelligenceLoop:
         
         # Calculate fallback statistics
         if total_positions > 0:
-            avg_confidence = np.mean([p.confidence_score for p in self.fallback_positions.values()])
+            avg_confidence = unified_math.mean([p.confidence_score for p in self.fallback_positions.values()])
         else:
             avg_confidence = 0.0
         
         # Calculate equilibrium statistics
         if total_equilibriums > 0:
-            avg_correction = np.mean([e.correction_factor for e in self.profit_equilibriums.values()])
+            avg_correction = unified_math.mean([e.correction_factor for e in self.profit_equilibriums.values()])
         else:
             avg_correction = 0.0
         
@@ -612,7 +614,7 @@ class PostFailureRecoveryIntelligenceLoop:
             strategy_modes[strategy.recovery_mode.value] += 1
         
         if total_strategies > 0:
-            avg_success_probability = np.mean([s.success_probability for s in self.recovery_strategies.values()])
+            avg_success_probability = unified_math.mean([s.success_probability for s in self.recovery_strategies.values()])
         else:
             avg_success_probability = 0.0
         
@@ -658,11 +660,11 @@ def main() -> None:
         market_conditions=market_conditions
     )
     
-    print("Post-Failure Recovery Intelligence Loop initialized successfully")
+    safe_print("Post-Failure Recovery Intelligence Loop initialized successfully")
     
     # Get statistics
     stats = recovery_loop.get_recovery_statistics()
-    print(f"Recovery Statistics: {stats}")
+    safe_print(f"Recovery Statistics: {stats}")
 
 if __name__ == "__main__":
     main() 

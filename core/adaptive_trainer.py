@@ -1,3 +1,5 @@
+from utils.safe_print import safe_print, info, warn, error, success, debug
+from core.unified_math_system import unified_math
 #!/usr/bin/env python3
 """
 Adaptive Trainer - Machine Learning Model Training and Adaptation for Schwabot
@@ -23,7 +25,7 @@ from typing import Dict, List, Any, Optional, Tuple, Union
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta
 from enum import Enum
-import numpy as np
+from core.unified_math_system import unified_math
 from collections import defaultdict, deque
 
 logger = logging.getLogger(__name__)
@@ -424,7 +426,7 @@ class AdaptiveTrainer:
             
             duration = base_duration * mode_multiplier * complexity_multiplier
             
-            return max(0.1, min(5.0, duration))  # Between 0.1 and 5 seconds
+            return unified_math.max(0.1, unified_math.min(5.0, duration))  # Between 0.1 and 5 seconds
             
         except Exception as e:
             logger.error(f"Error estimating training duration: {e}")
@@ -449,7 +451,7 @@ class AdaptiveTrainer:
             
             # Generate other metrics
             metrics = {
-                "accuracy": max(0.0, min(1.0, accuracy)),
+                "accuracy": unified_math.max(0.0, unified_math.min(1.0, accuracy)),
                 "precision": accuracy * 0.95,
                 "recall": accuracy * 0.92,
                 "f1_score": accuracy * 0.93,
@@ -602,7 +604,7 @@ class AdaptiveTrainer:
             if performance_data["versions"]:
                 all_metrics = [v["performance_metrics"] for v in performance_data["versions"]]
                 performance_data["overall_performance"] = {
-                    "avg_accuracy": np.mean([m.get("accuracy", 0) for m in all_metrics]),
+                    "avg_accuracy": unified_math.mean([m.get("accuracy", 0) for m in all_metrics]),
                     "best_accuracy": max([m.get("accuracy", 0) for m in all_metrics]),
                     "total_versions": len(performance_data["versions"]),
                     "deployed_versions": sum(1 for v in performance_data["versions"] if v["deployment_status"] == "deployed")
@@ -627,7 +629,7 @@ class AdaptiveTrainer:
         
         # Calculate average performance
         all_metrics = [r.metrics for r in self.training_results.values() if r.success]
-        avg_accuracy = np.mean([m.get("accuracy", 0) for m in all_metrics]) if all_metrics else 0.0
+        avg_accuracy = unified_math.mean([m.get("accuracy", 0) for m in all_metrics]) if all_metrics else 0.0
         
         return {
             "total_configurations": total_configs,
@@ -651,11 +653,11 @@ def main() -> None:
         hyperparameters={"batch_size": 500, "epochs": 50}
     )
     
-    print(f"Created training configuration: {config_id}")
+    safe_print(f"Created training configuration: {config_id}")
     
     # Get statistics
     stats = trainer.get_trainer_statistics()
-    print(f"Trainer Statistics: {stats}")
+    safe_print(f"Trainer Statistics: {stats}")
 
 if __name__ == "__main__":
     main() 

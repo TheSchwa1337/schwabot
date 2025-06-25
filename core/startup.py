@@ -1,3 +1,5 @@
+from utils.safe_print import safe_print, info, warn, error, success, debug
+from core.unified_math_system import unified_math
 #!/usr/bin/env python3
 """
 System Startup - Comprehensive System Initialization and Bootstrap
@@ -26,7 +28,7 @@ from typing import Dict, List, Any, Optional, Tuple, Union, Callable
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta
 from enum import Enum
-import numpy as np
+from core.unified_math_system import unified_math
 from collections import defaultdict, deque
 import queue
 import weakref
@@ -434,7 +436,7 @@ class ComponentLoader:
             'total_components': len(self.components),
             'loaded_components': self.loaded_components.copy(),
             'failed_components': self.failed_components.copy(),
-            'success_rate': len(self.loaded_components) / max(len(self.components), 1)
+            'success_rate': len(self.loaded_components) / unified_math.max(len(self.components), 1)
         }
 
 class StartupManager:
@@ -526,7 +528,7 @@ class StartupManager:
             logger.info("Logging configured successfully")
             
         except Exception as e:
-            print(f"Error setting up logging: {e}")
+            safe_print(f"Error setting up logging: {e}")
             # Fallback to basic logging
             logging.basicConfig(level=logging.INFO)
     
@@ -725,16 +727,16 @@ def main():
         
         # Print summary
         summary = startup_manager.get_startup_summary()
-        print("Startup Summary:")
+        safe_print("Startup Summary:")
         print(json.dumps(summary, indent=2, default=str))
         
         if success:
-            print("System startup completed successfully!")
+            safe_print("System startup completed successfully!")
         else:
-            print("System startup failed!")
+            safe_print("System startup failed!")
         
     except Exception as e:
-        print(f"Error in main: {e}")
+        safe_print(f"Error in main: {e}")
         import traceback
         traceback.print_exc()
 

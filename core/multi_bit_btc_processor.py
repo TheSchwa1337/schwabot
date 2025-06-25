@@ -1,3 +1,5 @@
+from utils.safe_print import safe_print, info, warn, error, success, debug
+from core.unified_math_system import unified_math
 #!/usr/bin/env python3
 """
 Multi-Bit BTC Processor - 16-bit Tickstream Compression and Logic Handler
@@ -30,7 +32,7 @@ from typing import Dict, List, Any, Optional, Tuple, Union
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta
 from enum import Enum
-import numpy as np
+from core.unified_math_system import unified_math
 from collections import defaultdict, deque
 import os
 
@@ -291,7 +293,7 @@ class MultiBitBTCProcessor:
             frame_collapse = sum(entropy_modulations) * entropy_weight
             
             # Calculate average entropy modulation
-            avg_entropy_modulation = np.mean(entropy_modulations) if entropy_modulations else 0.0
+            avg_entropy_modulation = unified_math.unified_math.mean(entropy_modulations) if entropy_modulations else 0.0
             
             # Create multi-bit frame object
             multi_bit_frame = MultiBitFrame(
@@ -322,8 +324,8 @@ class MultiBitBTCProcessor:
         """Calculate entropy modulation for a tick."""
         try:
             # Calculate entropy based on price and volume
-            price_entropy = abs(tick.price - 50000) / 50000  # Normalize around typical BTC price
-            volume_entropy = min(tick.volume / 1000, 1.0)  # Normalize volume
+            price_entropy = unified_math.abs(tick.price - 50000) / 50000  # Normalize around typical BTC price
+            volume_entropy = unified_math.min(tick.volume / 1000, 1.0)  # Normalize volume
             
             # Combine entropy components
             total_entropy = (price_entropy + volume_entropy) / 2
@@ -332,7 +334,7 @@ class MultiBitBTCProcessor:
             frame_scale = tick.bit_frame / 16.0
             entropy_modulation = total_entropy * frame_scale
             
-            return max(0.0, min(1.0, entropy_modulation))
+            return unified_math.max(0.0, unified_math.min(1.0, entropy_modulation))
             
         except Exception as e:
             logger.error(f"Error calculating entropy modulation: {e}")
@@ -355,7 +357,7 @@ class MultiBitBTCProcessor:
             drift_id = f"drift_{int(time.time())}"
             
             # Calculate drift velocity using the mathematical formula
-            profit_difference = abs(current_profit - previous_profit)
+            profit_difference = unified_math.abs(current_profit - previous_profit)
             drift_velocity = profit_difference / time_delta if time_delta > 0 else 0.0
             
             # Create profit drift object
@@ -455,8 +457,8 @@ class MultiBitBTCProcessor:
                 xor_patterns.append(xor_result)
             
             # Calculate pattern statistics
-            pattern_mean = np.mean(xor_patterns)
-            pattern_std = np.std(xor_patterns)
+            pattern_mean = unified_math.unified_math.mean(xor_patterns)
+            pattern_std = unified_math.unified_math.std(xor_patterns)
             pattern_entropy = self._calculate_pattern_entropy(xor_patterns)
             
             # Detect repeating patterns
@@ -507,7 +509,7 @@ class MultiBitBTCProcessor:
             repeating_patterns = []
             
             # Look for patterns of different lengths
-            for pattern_length in range(2, min(8, len(patterns) // 2)):
+            for pattern_length in range(2, unified_math.min(8, len(patterns) // 2)):
                 for start_idx in range(len(patterns) - pattern_length * 2):
                     pattern = patterns[start_idx:start_idx + pattern_length]
                     next_pattern = patterns[start_idx + pattern_length:start_idx + pattern_length * 2]
@@ -539,7 +541,7 @@ class MultiBitBTCProcessor:
                 "frame_size": 2,
                 "num_ticks": len(frame_data),
                 "frame_values": frame_data,
-                "frame_mean": np.mean(frame_data) if frame_data else 0.0
+                "frame_mean": unified_math.unified_math.mean(frame_data) if frame_data else 0.0
             }
             
         except Exception as e:
@@ -559,7 +561,7 @@ class MultiBitBTCProcessor:
                 "frame_size": 4,
                 "num_ticks": len(frame_data),
                 "frame_values": frame_data,
-                "frame_mean": np.mean(frame_data) if frame_data else 0.0
+                "frame_mean": unified_math.unified_math.mean(frame_data) if frame_data else 0.0
             }
             
         except Exception as e:
@@ -579,7 +581,7 @@ class MultiBitBTCProcessor:
                 "frame_size": 8,
                 "num_ticks": len(frame_data),
                 "frame_values": frame_data,
-                "frame_mean": np.mean(frame_data) if frame_data else 0.0
+                "frame_mean": unified_math.unified_math.mean(frame_data) if frame_data else 0.0
             }
             
         except Exception as e:
@@ -599,7 +601,7 @@ class MultiBitBTCProcessor:
                 "frame_size": 16,
                 "num_ticks": len(frame_data),
                 "frame_values": frame_data,
-                "frame_mean": np.mean(frame_data) if frame_data else 0.0
+                "frame_mean": unified_math.unified_math.mean(frame_data) if frame_data else 0.0
             }
             
         except Exception as e:
@@ -620,7 +622,7 @@ class MultiBitBTCProcessor:
         
         # Calculate average drift velocity
         if total_drifts > 0:
-            avg_drift_velocity = np.mean([d.drift_velocity for d in self.profit_drifts.values()])
+            avg_drift_velocity = unified_math.mean([d.drift_velocity for d in self.profit_drifts.values()])
         else:
             avg_drift_velocity = 0.0
         
@@ -663,11 +665,11 @@ def main() -> None:
         volume=100
     )
     
-    print("Multi-Bit BTC Processor initialized successfully")
+    safe_print("Multi-Bit BTC Processor initialized successfully")
     
     # Get statistics
     stats = processor.get_processor_statistics()
-    print(f"Processor Statistics: {stats}")
+    safe_print(f"Processor Statistics: {stats}")
 
 if __name__ == "__main__":
     main() 

@@ -1,3 +1,5 @@
+from utils.safe_print import safe_print, info, warn, error, success, debug
+from core.unified_math_system import unified_math
 #!/usr/bin/env python3
 """
 Constants - Mathematical Constants and System Configuration
@@ -20,14 +22,14 @@ Core Functionality:
 - Performance thresholds
 """
 
-import math
+from core.unified_math_system import unified_math
 from typing import Dict, List, Any
 from enum import Enum
 
 # Mathematical Constants
 PI = math.pi
 E = math.e
-GOLDEN_RATIO = (1 + math.sqrt(5)) / 2
+GOLDEN_RATIO = (1 + unified_math.unified_math.sqrt(5)) / 2
 EULER_MASCHERONI = 0.5772156649015329
 CATALAN_CONSTANT = 0.9159655941772190
 
@@ -508,44 +510,44 @@ def get_success_message(key: str) -> str:
 def main():
     """Main function for testing."""
     try:
-        print("Schwabot Constants Module")
-        print("=" * 50)
+        safe_print("Schwabot Constants Module")
+        safe_print("=" * 50)
         
         # Test mathematical constants
-        print(f"PI: {PI}")
-        print(f"E: {E}")
-        print(f"Golden Ratio: {GOLDEN_RATIO}")
+        safe_print(f"PI: {PI}")
+        safe_print(f"E: {E}")
+        safe_print(f"Golden Ratio: {GOLDEN_RATIO}")
         
         # Test financial constants
-        print(f"Risk-free rate (annual): {RISK_FREE_RATE_ANNUAL}")
-        print(f"Risk-free rate (daily): {RISK_FREE_RATE_DAILY}")
-        print(f"Trading days per year: {TRADING_DAYS_PER_YEAR}")
+        safe_print(f"Risk-free rate (annual): {RISK_FREE_RATE_ANNUAL}")
+        safe_print(f"Risk-free rate (daily): {RISK_FREE_RATE_DAILY}")
+        safe_print(f"Trading days per year: {TRADING_DAYS_PER_YEAR}")
         
         # Test trading constants
-        print(f"Default commission rate: {DEFAULT_COMMISSION_RATE}")
-        print(f"Default slippage: {DEFAULT_SLIPPAGE}")
-        print(f"Max position size: {MAX_POSITION_SIZE}")
+        safe_print(f"Default commission rate: {DEFAULT_COMMISSION_RATE}")
+        safe_print(f"Default slippage: {DEFAULT_SLIPPAGE}")
+        safe_print(f"Max position size: {MAX_POSITION_SIZE}")
         
         # Test system constants
-        print(f"Default log level: {DEFAULT_LOG_LEVEL}")
-        print(f"Default cache size: {DEFAULT_CACHE_SIZE}")
-        print(f"Default timeout: {DEFAULT_TIMEOUT}")
+        safe_print(f"Default log level: {DEFAULT_LOG_LEVEL}")
+        safe_print(f"Default cache size: {DEFAULT_CACHE_SIZE}")
+        safe_print(f"Default timeout: {DEFAULT_TIMEOUT}")
         
         # Test error codes
-        print(f"Success code: {ErrorCodes.SUCCESS}")
-        print(f"General error code: {ErrorCodes.GENERAL_ERROR}")
-        print(f"Validation error code: {ErrorCodes.VALIDATION_ERROR}")
+        safe_print(f"Success code: {ErrorCodes.SUCCESS}")
+        safe_print(f"General error code: {ErrorCodes.GENERAL_ERROR}")
+        safe_print(f"Validation error code: {ErrorCodes.VALIDATION_ERROR}")
         
         # Test helper functions
-        print(f"Constant PI: {get_constant('PI')}")
-        print(f"Default commission: {get_default_value('commission_rate')}")
-        print(f"Error message: {get_error_message(ErrorCodes.SUCCESS)}")
-        print(f"Success message: {get_success_message('order_placed')}")
+        safe_print(f"Constant PI: {get_constant('PI')}")
+        safe_print(f"Default commission: {get_default_value('commission_rate')}")
+        safe_print(f"Error message: {get_error_message(ErrorCodes.SUCCESS)}")
+        safe_print(f"Success message: {get_success_message('order_placed')}")
         
-        print("\nAll constants loaded successfully!")
+        safe_print("\nAll constants loaded successfully!")
         
     except Exception as e:
-        print(f"Error in main: {e}")
+        safe_print(f"Error in main: {e}")
         import traceback
         traceback.print_exc()
 

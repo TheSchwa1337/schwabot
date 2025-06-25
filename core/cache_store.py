@@ -1,3 +1,5 @@
+from utils.safe_print import safe_print, info, warn, error, success, debug
+from core.unified_math_system import unified_math
 #!/usr/bin/env python3
 """
 Cache Store - Mathematical Cache Optimization and Memory Management
@@ -30,7 +32,7 @@ from typing import Dict, List, Any, Optional, Tuple, Union
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta
 from enum import Enum
-import numpy as np
+from core.unified_math_system import unified_math
 from collections import defaultdict, deque, OrderedDict
 import os
 import pickle
@@ -621,10 +623,10 @@ class CacheStore:
         try:
             # Weighted improvement calculation
             hit_ratio_improvement = (after["hit_ratio"] - before["hit_ratio"]) * 0.6
-            memory_efficiency = (before["memory_usage"] - after["memory_usage"]) / max(before["memory_usage"], 1) * 0.4
+            memory_efficiency = (before["memory_usage"] - after["memory_usage"]) / unified_math.max(before["memory_usage"], 1) * 0.4
             
             improvement_score = hit_ratio_improvement + memory_efficiency
-            return max(-1.0, min(1.0, improvement_score))
+            return max(-1.0, unified_math.min(1.0, improvement_score))
             
         except Exception as e:
             logger.error(f"Error calculating improvement score: {e}")
@@ -641,7 +643,7 @@ class CacheStore:
             hit_ratios[level.value] = self.calculate_hit_ratio(level)
         
         # Calculate overall hit ratio
-        overall_hit_ratio = np.mean(list(hit_ratios.values()))
+        overall_hit_ratio = unified_math.unified_math.mean(list(hit_ratios.values()))
         
         # Calculate eviction statistics
         total_evictions = len(self.eviction_history)
@@ -674,20 +676,20 @@ def main() -> None:
     # Test cache operations
     cache_store.set("test_key", "test_value", ttl=300, level=CacheLevel.L1)
     value = cache_store.get("test_key", CacheLevel.L1)
-    print(f"Retrieved value: {value}")
+    safe_print(f"Retrieved value: {value}")
     
     # Test hit ratio calculation
     hit_ratio = cache_store.calculate_hit_ratio(CacheLevel.L1)
-    print(f"Hit ratio: {hit_ratio:.3f}")
+    safe_print(f"Hit ratio: {hit_ratio:.3f}")
     
     # Test cache optimization
     optimization = cache_store.optimize_cache(CacheLevel.L1)
     if optimization:
-        print(f"Optimization improvement: {optimization.improvement_score:.3f}")
+        safe_print(f"Optimization improvement: {optimization.improvement_score:.3f}")
     
     # Get statistics
     stats = cache_store.get_cache_statistics()
-    print(f"Cache Statistics: {stats}")
+    safe_print(f"Cache Statistics: {stats}")
 
 if __name__ == "__main__":
     main() 

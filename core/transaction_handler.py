@@ -1,3 +1,5 @@
+from utils.safe_print import safe_print, info, warn, error, success, debug
+from core.unified_math_system import unified_math
 #!/usr/bin/env python3
 """
 Transaction Handler - Mathematical Transaction Optimization and Order Management
@@ -31,7 +33,7 @@ from typing import Dict, List, Any, Optional, Tuple, Union, Callable
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta
 from enum import Enum
-import numpy as np
+from core.unified_math_system import unified_math
 from collections import defaultdict, deque
 import os
 import queue
@@ -326,10 +328,10 @@ class SlippageModel:
             
             stats = {
                 'total_predictions': len(predictions),
-                'mean_actual_slippage': float(np.mean(actual_slippages)),
-                'mean_predicted_slippage': float(np.mean(predicted_slippages)),
-                'mean_error': float(np.mean(errors)),
-                'error_std': float(np.std(errors)),
+                'mean_actual_slippage': float(unified_math.unified_math.mean(actual_slippages)),
+                'mean_predicted_slippage': float(unified_math.unified_math.mean(predicted_slippages)),
+                'mean_error': float(unified_math.unified_math.mean(errors)),
+                'error_std': float(unified_math.unified_math.std(errors)),
                 'model_parameters': self.model_parameters.copy()
             }
             
@@ -398,7 +400,7 @@ class ExecutionOptimizer:
             # Simple volume-weighted optimization
             if 'volume_profile' in market_data:
                 volume_profile = market_data['volume_profile']
-                optimal_quantity = min(order.quantity, volume_profile.get('peak_volume', order.quantity))
+                optimal_quantity = unified_math.min(order.quantity, volume_profile.get('peak_volume', order.quantity))
                 
                 return {
                     'recommended_quantity': optimal_quantity,
@@ -581,7 +583,7 @@ class TransactionHandler:
         try:
             # Calculate metrics
             total_cost = execution.executed_quantity * execution.executed_price + execution.fees
-            execution_quality = 1.0 - abs(execution.slippage) / execution.executed_price
+            execution_quality = 1.0 - unified_math.abs(execution.slippage) / execution.executed_price
             fill_rate = execution.executed_quantity / order.quantity
             execution_speed = 1.0  # Simulated - would be actual time in practice
             
@@ -628,9 +630,9 @@ class TransactionHandler:
             
             # Calculate statistics
             total_cost = sum(t.total_cost for t in transactions)
-            avg_execution_quality = np.mean([t.execution_quality for t in transactions])
-            avg_fill_rate = np.mean([t.fill_rate for t in transactions])
-            avg_slippage = np.mean([abs(t.average_slippage) for t in transactions])
+            avg_execution_quality = unified_math.mean([t.execution_quality for t in transactions])
+            avg_fill_rate = unified_math.mean([t.fill_rate for t in transactions])
+            avg_slippage = unified_math.mean([unified_math.abs(t.average_slippage) for t in transactions])
             
             # Slippage model statistics
             slippage_stats = self.slippage_model.get_slippage_statistics()
@@ -701,22 +703,22 @@ def main():
         # Submit orders
         for order in orders:
             success, message = handler.submit_order(order, market_data)
-            print(f"Order {order.order_id}: {message}")
+            safe_print(f"Order {order.order_id}: {message}")
             
             if success:
                 # Get order status
                 status = handler.get_order_status(order.order_id)
-                print(f"Order status: {json.dumps(status, indent=2, default=str)}")
+                safe_print(f"Order status: {json.dumps(status, indent=2, default=str)}")
             
-            print("-" * 50)
+            safe_print("-" * 50)
         
         # Get transaction statistics
         stats = handler.get_transaction_statistics()
-        print("Transaction Statistics:")
+        safe_print("Transaction Statistics:")
         print(json.dumps(stats, indent=2, default=str))
         
     except Exception as e:
-        print(f"Error in main: {e}")
+        safe_print(f"Error in main: {e}")
         import traceback
         traceback.print_exc()
 

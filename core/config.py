@@ -1,3 +1,5 @@
+from utils.safe_print import safe_print, info, warn, error, success, debug
+from core.unified_math_system import unified_math
 #!/usr/bin/env python3
 """
 Configuration Manager - Mathematical Parameter Optimization and Dynamic Configuration
@@ -32,7 +34,7 @@ from typing import Dict, List, Any, Optional, Tuple, Union, Callable
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta
 from enum import Enum
-import numpy as np
+from core.unified_math_system import unified_math
 from collections import defaultdict, deque
 import os
 import queue
@@ -344,7 +346,7 @@ class ConfigValidator:
                 'valid_configs': valid_configs,
                 'invalid_configs': invalid_configs,
                 'validation_rate': (valid_configs / total_validations * 100) if total_validations > 0 else 0,
-                'avg_validation_score': float(np.mean([v.validation_score for v in validations])),
+                'avg_validation_score': float(unified_math.mean([v.validation_score for v in validations])),
                 'common_errors': dict(sorted(error_counts.items(), key=lambda x: x[1], reverse=True)[:10])
             }
             
@@ -433,7 +435,7 @@ class ParameterOptimizer:
                     new_value = param_info['value'] + learning_rate * perturbation
                     
                     # Clamp to bounds
-                    new_value = max(param_info['min'], min(param_info['max'], new_value))
+                    new_value = unified_math.max(param_info['min'], unified_math.min(param_info['max'], new_value))
                     
                     # Update parameter
                     section.parameters[param_name].value = new_value
@@ -1027,19 +1029,19 @@ def main():
         
         # Get configuration summary
         summary = config_manager.get_configuration_summary()
-        print("Configuration Summary:")
+        safe_print("Configuration Summary:")
         print(json.dumps(summary, indent=2, default=str))
         
         # Test parameter updates
         success = config_manager.set_parameter('trading', 'max_position_size', 0.15)
-        print(f"Parameter update success: {success}")
+        safe_print(f"Parameter update success: {success}")
         
         # Validate trading section
         validation = config_manager.validate_section('trading')
         if validation:
-            print(f"Trading section validation: {validation.is_valid}")
+            safe_print(f"Trading section validation: {validation.is_valid}")
             if not validation.is_valid:
-                print(f"Errors: {validation.errors}")
+                safe_print(f"Errors: {validation.errors}")
         
         # Test optimization (with dummy objective function)
         def dummy_objective(section):
@@ -1049,7 +1051,7 @@ def main():
             return max_pos * (1 - risk_thresh)
         
         optimization_result = config_manager.optimize_section('trading', dummy_objective, 'genetic_algorithm')
-        print("Optimization Result:")
+        safe_print("Optimization Result:")
         print(json.dumps(optimization_result, indent=2, default=str))
         
         # Save configuration
@@ -1059,10 +1061,10 @@ def main():
         new_manager = ConfigManager()
         new_manager.load_configuration('test_config.json')
         
-        print("Configuration management test completed successfully")
+        safe_print("Configuration management test completed successfully")
         
     except Exception as e:
-        print(f"Error in main: {e}")
+        safe_print(f"Error in main: {e}")
         import traceback
         traceback.print_exc()
 

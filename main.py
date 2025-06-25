@@ -1,3 +1,4 @@
+from utils.safe_print import safe_print, info, warn, error, success, debug
 #!/usr/bin/env python3
 """
 Schwabot Main Entry Point - Advanced Trading System
@@ -417,7 +418,7 @@ async def main_async():
         
         if args.version:
             package_info = get_info()
-            print(f"Schwabot Trading System v{package_info['version']}")
+            safe_print(f"Schwabot Trading System v{package_info['version']}")
             return
         
         # Set up signal handlers

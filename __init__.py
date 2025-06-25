@@ -1,3 +1,4 @@
+from utils.safe_print import safe_print, info, warn, error, success, debug
 #!/usr/bin/env python3
 """
 Schwabot - Advanced Trading System Package
@@ -441,24 +442,24 @@ def main() -> None:
     try:
         # Initialize package
         init_result = initialize()
-        print(f"Schwabot package initialization: {init_result['status']}")
+        safe_print(f"Schwabot package initialization: {init_result['status']}")
         
         if init_result['status'] == 'ready':
-            print("Package initialized successfully")
+            safe_print("Package initialized successfully")
             
             # Get package info
             info = get_info()
-            print(f"Package version: {info['version']}")
-            print(f"Initialized modules: {info['initialized_modules']}")
+            safe_print(f"Package version: {info['version']}")
+            safe_print(f"Initialized modules: {info['initialized_modules']}")
             
             # Shutdown package
             shutdown_result = shutdown()
-            print(f"Package shutdown: {shutdown_result['status']}")
+            safe_print(f"Package shutdown: {shutdown_result['status']}")
         else:
-            print(f"Package initialization failed: {init_result.get('error', 'Unknown error')}")
+            safe_print(f"Package initialization failed: {init_result.get('error', 'Unknown error')}")
             
     except Exception as e:
-        print(f"Error in main: {e}")
+        safe_print(f"Error in main: {e}")
 
 if __name__ == "__main__":
     main()

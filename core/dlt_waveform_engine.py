@@ -1,3 +1,5 @@
+from utils.safe_print import safe_print, info, warn, error, success, debug
+from core.unified_math_system import unified_math
 #!/usr/bin/env python3
 """
 DLT Waveform Engine - Delta-Length Tick Harmonic Translation Core
@@ -8,7 +10,7 @@ providing comprehensive harmonic translation, ZPE compression, and recursive
 feedback pulse detection for the trading system.
 
 Core Mathematical Functions:
-- ZPE Compression Envelope: Z_t = ∇ · ψ(ω, t) + η * sin(2πfΔt)
+- ZPE Compression Envelope: Z_t = ∇ · ψ(ω, t) + η * unified_math.sin(2πfΔt)
 - Recursive Feedback Pulse: Rₜ = α * Rₜ₋₁ + (1 - α) * Pₜ
 - DLT Logic Cascade: Λₜ = FFT(dP/dt) ⊕ θₜ
 
@@ -28,7 +30,7 @@ from typing import Dict, List, Any, Optional, Tuple, Union
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta
 from enum import Enum
-import numpy as np
+from core.unified_math_system import unified_math
 from collections import defaultdict, deque
 import os
 
@@ -202,7 +204,7 @@ class DLTWaveformEngine:
         Calculate ZPE Compression Envelope.
         
         Mathematical Formula:
-        Z_t = ∇ · ψ(ω, t) + η * sin(2πfΔt)
+        Z_t = ∇ · ψ(ω, t) + η * unified_math.sin(2πfΔt)
         
         Where:
         - ∇ · ψ(ω, t) is the pressure gradient
@@ -215,7 +217,7 @@ class DLTWaveformEngine:
             
             # Calculate compression envelope using the mathematical formula
             pressure_component = pressure_gradient
-            sinusoidal_component = phase_drift * np.sin(2 * np.pi * tick_frequency * time_delta)
+            sinusoidal_component = phase_drift * np.unified_math.sin(2 * np.pi * tick_frequency * time_delta)
             compression_envelope = pressure_component + sinusoidal_component
             
             # Create ZPE compression object
@@ -314,8 +316,8 @@ class DLTWaveformEngine:
             
             # Apply XOR operation with theta phase
             # Convert theta to complex number for XOR operation
-            theta_complex = np.exp(1j * theta_phase)
-            dlt_logic = np.mean(np.abs(fft_result * theta_complex))
+            theta_complex = unified_math.unified_math.exp(1j * theta_phase)
+            dlt_logic = unified_math.unified_math.mean(unified_math.unified_math.abs(fft_result * theta_complex))
             
             # Create DLT cascade object
             dlt_cascade = DLTCascade(
@@ -325,7 +327,7 @@ class DLTWaveformEngine:
                 dlt_logic=dlt_logic,
                 timestamp=datetime.now(),
                 metadata={
-                    "fft_magnitude": np.mean(np.abs(fft_result)),
+                    "fft_magnitude": unified_math.unified_math.mean(unified_math.unified_math.abs(fft_result)),
                     "theta_complex": theta_complex
                 }
             )
@@ -391,12 +393,12 @@ class DLTWaveformEngine:
     def _process_sine_waveform(self, time_array: np.ndarray, frequency: float,
                              amplitude: float, phase: float) -> np.ndarray:
         """Process sine waveform."""
-        return amplitude * np.sin(2 * np.pi * frequency * time_array + phase)
+        return amplitude * np.unified_math.sin(2 * np.pi * frequency * time_array + phase)
 
     def _process_square_waveform(self, time_array: np.ndarray, frequency: float,
                                amplitude: float, phase: float) -> np.ndarray:
         """Process square waveform."""
-        sine_wave = np.sin(2 * np.pi * frequency * time_array + phase)
+        sine_wave = np.unified_math.sin(2 * np.pi * frequency * time_array + phase)
         return amplitude * np.sign(sine_wave)
 
     def _process_saw_waveform(self, time_array: np.ndarray, frequency: float,
@@ -410,29 +412,29 @@ class DLTWaveformEngine:
                                  amplitude: float, phase: float) -> np.ndarray:
         """Process triangle waveform."""
         # Triangle wave using arcsin of sine wave
-        sine_wave = np.sin(2 * np.pi * frequency * time_array + phase)
+        sine_wave = np.unified_math.sin(2 * np.pi * frequency * time_array + phase)
         return amplitude * (2 / np.pi) * np.arcsin(sine_wave)
 
     def _process_complex_waveform(self, time_array: np.ndarray, frequency: float,
                                 amplitude: float, phase: float) -> np.ndarray:
         """Process complex waveform (combination of multiple harmonics)."""
         # Complex waveform with multiple harmonics
-        fundamental = amplitude * np.sin(2 * np.pi * frequency * time_array + phase)
-        harmonic1 = 0.5 * amplitude * np.sin(4 * np.pi * frequency * time_array + 2 * phase)
-        harmonic2 = 0.25 * amplitude * np.sin(6 * np.pi * frequency * time_array + 3 * phase)
+        fundamental = amplitude * np.unified_math.sin(2 * np.pi * frequency * time_array + phase)
+        harmonic1 = 0.5 * amplitude * np.unified_math.sin(4 * np.pi * frequency * time_array + 2 * phase)
+        harmonic2 = 0.25 * amplitude * np.unified_math.sin(6 * np.pi * frequency * time_array + 3 * phase)
         return fundamental + harmonic1 + harmonic2
 
     def _calculate_waveform_compression(self, waveform_values: np.ndarray, frequency: float) -> Dict[str, Any]:
         """Calculate compression metrics for waveform."""
         try:
             # Calculate various compression metrics
-            rms_value = np.sqrt(np.mean(waveform_values**2))
-            peak_value = np.max(np.abs(waveform_values))
+            rms_value = unified_math.unified_math.sqrt(unified_math.unified_math.mean(waveform_values**2))
+            peak_value = unified_math.unified_math.max(unified_math.unified_math.abs(waveform_values))
             crest_factor = peak_value / rms_value if rms_value > 0 else 0
             
             # Calculate spectral components
             fft_spectrum = np.fft.fft(waveform_values)
-            spectral_density = np.abs(fft_spectrum)**2
+            spectral_density = unified_math.unified_math.abs(fft_spectrum)**2
             
             # Calculate compression ratio
             compression_ratio = len(waveform_values) / (len(waveform_values) * 0.1)  # Simplified
@@ -460,8 +462,8 @@ class DLTWaveformEngine:
             tick_intervals = np.diff(tick_data)
             
             # Calculate frequency statistics
-            mean_interval = np.mean(tick_intervals)
-            std_interval = np.std(tick_intervals)
+            mean_interval = unified_math.unified_math.mean(tick_intervals)
+            std_interval = unified_math.unified_math.std(tick_intervals)
             frequency = 1.0 / mean_interval if mean_interval > 0 else 0
             
             # Detect frequency patterns
@@ -493,7 +495,7 @@ class DLTWaveformEngine:
                     peaks.append(i)
             
             # Calculate pattern strength
-            pattern_strength = np.max(autocorr) / np.mean(autocorr) if np.mean(autocorr) > 0 else 0
+            pattern_strength = unified_math.unified_math.max(autocorr) / unified_math.unified_math.mean(autocorr) if unified_math.unified_math.mean(autocorr) > 0 else 0
             
             return {
                 "autocorrelation": autocorr.tolist(),
@@ -514,17 +516,17 @@ class DLTWaveformEngine:
         
         # Calculate average compression values
         if total_zpe_compressions > 0:
-            avg_compression = np.mean([z.compression_envelope for z in self.zpe_compressions.values()])
+            avg_compression = unified_math.mean([z.compression_envelope for z in self.zpe_compressions.values()])
         else:
             avg_compression = 0.0
         
         if total_recursive_feedbacks > 0:
-            avg_feedback = np.mean([r.recursive_envelope for r in self.recursive_feedbacks.values()])
+            avg_feedback = unified_math.mean([r.recursive_envelope for r in self.recursive_feedbacks.values()])
         else:
             avg_feedback = 0.0
         
         if total_dlt_cascades > 0:
-            avg_dlt_logic = np.mean([d.dlt_logic for d in self.dlt_cascades.values()])
+            avg_dlt_logic = unified_math.mean([d.dlt_logic for d in self.dlt_cascades.values()])
         else:
             avg_dlt_logic = 0.0
         
@@ -565,11 +567,11 @@ def main() -> None:
         theta_phase=np.pi/4
     )
     
-    print("DLT Waveform Engine initialized successfully")
+    safe_print("DLT Waveform Engine initialized successfully")
     
     # Get statistics
     stats = engine.get_engine_statistics()
-    print(f"Engine Statistics: {stats}")
+    safe_print(f"Engine Statistics: {stats}")
 
 if __name__ == "__main__":
     main() 

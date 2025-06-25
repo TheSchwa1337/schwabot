@@ -1,3 +1,5 @@
+from utils.safe_print import safe_print, info, warn, error, success, debug
+from core.unified_math_system import unified_math
 #!/usr/bin/env python3
 """
 CLI Matrix Visualizer - Real-time Dashboard and Matrix State Visualization
@@ -13,7 +15,7 @@ Core Mathematical Functions:
 - Delta Range Logic: Δ(t) = |price_t - price_{t-1}| · ζ
 """
 
-import numpy as np
+from core.unified_math_system import unified_math
 import json
 import logging
 from typing import Dict, List, Any, Optional, Tuple
@@ -34,7 +36,7 @@ try:
     from schwabot.mathlib.sfsss_tensor import SFSSTensor
     from schwabot.mathlib.ufs_tensor import UFSTensor
 except ImportError as e:
-    print(f"Warning: Could not import required modules: {e}")
+    safe_print(f"Warning: Could not import required modules: {e}")
     # Create mock classes for testing
     MultiBitBTCProcessor = type('MultiBitBTCProcessor', (), {})
     BTCTickMatrixInitializer = type('BTCTickMatrixInitializer', (), {})
@@ -140,8 +142,8 @@ class GlyphFrameProjection:
             glyphs = self.glyph_sets[self.config.glyph_set]
             
             # Normalize values to [0, 1]
-            normalized_ratio = max(0.0, min(1.0, entry_exit_ratio))
-            normalized_strength = max(0.0, min(1.0, signal_strength))
+            normalized_ratio = unified_math.max(0.0, unified_math.min(1.0, entry_exit_ratio))
+            normalized_strength = unified_math.max(0.0, unified_math.min(1.0, signal_strength))
             
             # Determine glyph based on ratio and strength
             if normalized_ratio > 0.7:
@@ -222,7 +224,7 @@ class VectorOverlay:
                 return glyphs["neutral"]
             
             price_change = current_price - previous_price
-            price_change_pct = abs(price_change) / previous_price
+            price_change_pct = unified_math.abs(price_change) / previous_price
             
             # Classify movement based on price change and volume
             if price_change > 0:
@@ -295,10 +297,10 @@ class VectorOverlay:
                 'up_movements': movements.count(glyphs["up"]) + movements.count(glyphs["strong_up"]),
                 'down_movements': movements.count(glyphs["down"]) + movements.count(glyphs["strong_down"]),
                 'neutral_movements': movements.count(glyphs["neutral"]),
-                'avg_price_change': float(np.mean(price_changes)),
-                'price_change_std': float(np.std(price_changes)),
-                'max_price_change': float(np.max(price_changes)),
-                'min_price_change': float(np.min(price_changes))
+                'avg_price_change': float(unified_math.unified_math.mean(price_changes)),
+                'price_change_std': float(unified_math.unified_math.std(price_changes)),
+                'max_price_change': float(unified_math.unified_math.max(price_changes)),
+                'min_price_change': float(unified_math.unified_math.min(price_changes))
             }
             
             return stats
@@ -332,7 +334,7 @@ class DeltaRangeLogic:
             if previous_price == 0:
                 return 0.0
             
-            delta = abs(current_price - previous_price)
+            delta = unified_math.abs(current_price - previous_price)
             delta_range = delta * volatility_factor
             
             # Store in history
@@ -360,12 +362,12 @@ class DeltaRangeLogic:
             
             stats = {
                 'total_deltas': len(self.delta_history),
-                'avg_delta': float(np.mean(deltas)),
-                'avg_delta_range': float(np.mean(delta_ranges)),
-                'max_delta': float(np.max(deltas)),
-                'min_delta': float(np.min(deltas)),
-                'delta_std': float(np.std(deltas)),
-                'delta_range_std': float(np.std(delta_ranges))
+                'avg_delta': float(unified_math.unified_math.mean(deltas)),
+                'avg_delta_range': float(unified_math.unified_math.mean(delta_ranges)),
+                'max_delta': float(unified_math.unified_math.max(deltas)),
+                'min_delta': float(unified_math.unified_math.min(deltas)),
+                'delta_std': float(unified_math.unified_math.std(deltas)),
+                'delta_range_std': float(unified_math.unified_math.std(delta_ranges))
             }
             
             return stats
@@ -466,67 +468,67 @@ class CLIMatrixVisualizer:
     
     def _render_empty_dashboard(self):
         """Render empty dashboard."""
-        print("=" * self.config.terminal_width)
-        print("SCHWABOT CLI MATRIX VISUALIZER")
-        print("=" * self.config.terminal_width)
+        safe_print("=" * self.config.terminal_width)
+        safe_print("SCHWABOT CLI MATRIX VISUALIZER")
+        safe_print("=" * self.config.terminal_width)
         print()
-        print("Waiting for matrix states...")
+        safe_print("Waiting for matrix states...")
         print()
-        print("=" * self.config.terminal_width)
+        safe_print("=" * self.config.terminal_width)
     
     def _render_header(self, current_state: Optional[MatrixState]):
         """Render dashboard header."""
-        print("=" * self.config.terminal_width)
-        print("SCHWABOT CLI MATRIX VISUALIZER")
-        print("=" * self.config.terminal_width)
+        safe_print("=" * self.config.terminal_width)
+        safe_print("SCHWABOT CLI MATRIX VISUALIZER")
+        safe_print("=" * self.config.terminal_width)
         
         if current_state:
-            print(f"Current Price: ${current_state.price:.2f} | "
+            safe_print(f"Current Price: ${current_state.price:.2f} | "
                   f"Volume: {current_state.volume:.2f} | "
                   f"Delta: {current_state.delta:.4f}")
-            print(f"Entry/Exit Ratio: {current_state.entry_exit_ratio:.3f} | "
+            safe_print(f"Entry/Exit Ratio: {current_state.entry_exit_ratio:.3f} | "
                   f"Signal Strength: {current_state.signal_strength:.3f}")
-            print(f"Hash: {current_state.hash_value[:16]}...")
+            safe_print(f"Hash: {current_state.hash_value[:16]}...")
         else:
-            print("No current state available")
+            safe_print("No current state available")
         
-        print("-" * self.config.terminal_width)
+        safe_print("-" * self.config.terminal_width)
     
     def _render_glyph_matrix(self, matrix: List[List[str]]):
         """Render glyph matrix."""
-        print("GLYPH MATRIX:")
-        print("-" * self.config.terminal_width)
+        safe_print("GLYPH MATRIX:")
+        safe_print("-" * self.config.terminal_width)
         
         for row in matrix:
-            print("".join(row))
+            safe_print("".join(row))
         
-        print("-" * self.config.terminal_width)
+        safe_print("-" * self.config.terminal_width)
     
     def _render_vector_overlay(self, overlay: List[str]):
         """Render vector overlay."""
         if not overlay:
             return
         
-        print("VECTOR OVERLAY:")
-        print("-" * self.config.terminal_width)
+        safe_print("VECTOR OVERLAY:")
+        safe_print("-" * self.config.terminal_width)
         
         # Display overlay in chunks
         chunk_size = self.config.terminal_width
         for i in range(0, len(overlay), chunk_size):
             chunk = overlay[i:i+chunk_size]
-            print("".join(chunk))
+            safe_print("".join(chunk))
         
-        print("-" * self.config.terminal_width)
+        safe_print("-" * self.config.terminal_width)
     
     def _render_statistics(self):
         """Render statistics."""
-        print("STATISTICS:")
-        print("-" * self.config.terminal_width)
+        safe_print("STATISTICS:")
+        safe_print("-" * self.config.terminal_width)
         
         # Movement statistics
         movement_stats = self.vector_overlay.get_movement_statistics()
         if movement_stats:
-            print(f"Movements: {movement_stats.get('total_movements', 0)} | "
+            safe_print(f"Movements: {movement_stats.get('total_movements', 0)} | "
                   f"Up: {movement_stats.get('up_movements', 0)} | "
                   f"Down: {movement_stats.get('down_movements', 0)} | "
                   f"Neutral: {movement_stats.get('neutral_movements', 0)}")
@@ -534,18 +536,18 @@ class CLIMatrixVisualizer:
         # Delta statistics
         delta_stats = self.delta_logic.get_delta_statistics()
         if delta_stats:
-            print(f"Avg Delta: {delta_stats.get('avg_delta', 0):.4f} | "
+            safe_print(f"Avg Delta: {delta_stats.get('avg_delta', 0):.4f} | "
                   f"Avg Range: {delta_stats.get('avg_delta_range', 0):.4f} | "
                   f"Max Delta: {delta_stats.get('max_delta', 0):.4f}")
         
-        print("-" * self.config.terminal_width)
+        safe_print("-" * self.config.terminal_width)
     
     def _render_footer(self):
         """Render dashboard footer."""
-        print(f"Last Update: {datetime.now().strftime('%H:%M:%S')} | "
+        safe_print(f"Last Update: {datetime.now().strftime('%H:%M:%S')} | "
               f"States: {len(self.matrix_states)} | "
               f"Terminal: {self.config.terminal_width}x{self.config.terminal_height}")
-        print("=" * self.config.terminal_width)
+        safe_print("=" * self.config.terminal_width)
     
     def get_visualization_data(self) -> Dict[str, Any]:
         """Get visualization data for external use."""
@@ -592,7 +594,7 @@ def main():
             timestamp = datetime.now() + timedelta(seconds=i)
             price = base_price + np.random.normal(0, 100)
             volume = np.random.uniform(0.1, 10.0)
-            delta = abs(price - base_price)
+            delta = unified_math.abs(price - base_price)
             
             state = MatrixState(
                 timestamp=timestamp,
@@ -620,11 +622,11 @@ def main():
         
         # Get visualization data
         data = visualizer.get_visualization_data()
-        print("Visualization Data:")
+        safe_print("Visualization Data:")
         print(json.dumps(data, indent=2, default=str))
         
     except Exception as e:
-        print(f"Error in main: {e}")
+        safe_print(f"Error in main: {e}")
         import traceback
         traceback.print_exc()
 

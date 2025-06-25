@@ -1,3 +1,5 @@
+from utils.safe_print import safe_print, info, warn, error, success, debug
+from core.unified_math_system import unified_math
 #!/usr/bin/env python3
 """
 Decision Engine - Mathematical Decision Models and AI-Driven Trading Logic
@@ -31,7 +33,7 @@ from typing import Dict, List, Any, Optional, Tuple, Union, Callable
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta
 from enum import Enum
-import numpy as np
+from core.unified_math_system import unified_math
 from collections import defaultdict, deque
 import os
 import queue
@@ -212,7 +214,7 @@ class DecisionFactorCalculator:
                 # Calculate volume trend
                 recent_volumes = [d.volume for d in historical_data[-5:]]
                 if len(recent_volumes) >= 2:
-                    volume_change = (recent_volumes[-1] - recent_volumes[0]) / max(recent_volumes[0], 1)
+                    volume_change = (recent_volumes[-1] - recent_volumes[0]) / unified_math.max(recent_volumes[0], 1)
                     volume_trend = np.tanh(volume_change * 5)  # Normalize to [-1, 1]
                 else:
                     volume_trend = 0.0
@@ -247,13 +249,13 @@ class DecisionFactorCalculator:
             else:
                 # Calculate simple moving averages
                 prices = [d.price for d in historical_data[-10:]]
-                sma_5 = np.mean(prices[-5:])
-                sma_10 = np.mean(prices)
+                sma_5 = unified_math.unified_math.mean(prices[-5:])
+                sma_10 = unified_math.unified_math.mean(prices)
                 
                 # Calculate RSI-like indicator
                 price_changes = np.diff(prices)
                 gains = np.sum(price_changes[price_changes > 0])
-                losses = abs(np.sum(price_changes[price_changes < 0]))
+                losses = unified_math.abs(np.sum(price_changes[price_changes < 0]))
                 
                 if losses > 0:
                     rs = gains / losses
@@ -299,7 +301,7 @@ class DecisionFactorCalculator:
             if historical_data and len(historical_data) >= 5:
                 # Use price volatility as a sentiment proxy
                 prices = [d.price for d in historical_data[-5:]]
-                volatility = np.std(prices) / np.mean(prices)
+                volatility = unified_math.unified_math.std(prices) / unified_math.unified_math.mean(prices)
                 sentiment_score = -np.tanh(volatility * 10)  # Higher volatility = lower sentiment
             
             return DecisionFactor(
@@ -332,7 +334,7 @@ class DecisionFactorCalculator:
             else:
                 # Calculate price volatility
                 prices = [d.price for d in historical_data[-5:]]
-                volatility = np.std(prices) / np.mean(prices)
+                volatility = unified_math.unified_math.std(prices) / unified_math.unified_math.mean(prices)
                 volatility_score = -np.tanh(volatility * 20)  # Higher volatility = lower score
             
             return DecisionFactor(
@@ -364,7 +366,7 @@ class DecisionFactorCalculator:
             
             # Normalize values to [0, 1] range
             values = [f.value for f in factors]
-            min_val, max_val = min(values), max(values)
+            min_val, max_val = unified_math.min(values), unified_math.max(values)
             
             if max_val != min_val:
                 for factor in factors:
@@ -420,7 +422,7 @@ class RiskAssessor:
                     risk_scores.append(0.5)  # Default moderate risk
             
             # Calculate overall risk score
-            overall_risk = np.sqrt(np.mean(np.array(risk_scores) ** 2))
+            overall_risk = unified_math.unified_math.sqrt(unified_math.unified_math.mean(np.array(risk_scores) ** 2))
             
             # Determine risk level
             if overall_risk < 0.3:
@@ -455,10 +457,10 @@ class RiskAssessor:
                 return 0.5
             
             prices = [d.price for d in historical_data[-10:]]
-            volatility = np.std(prices) / np.mean(prices)
+            volatility = unified_math.unified_math.std(prices) / unified_math.unified_math.mean(prices)
             
             # Normalize to [0, 1] risk score
-            risk_score = min(volatility * 10, 1.0)
+            risk_score = unified_math.min(volatility * 10, 1.0)
             return risk_score
             
         except Exception as e:
@@ -474,10 +476,10 @@ class RiskAssessor:
                 return 0.5
             
             volumes = [d.volume for d in historical_data[-10:]]
-            volatility = np.std(volumes) / np.mean(volumes)
+            volatility = unified_math.unified_math.std(volumes) / unified_math.unified_math.mean(volumes)
             
             # Normalize to [0, 1] risk score
-            risk_score = min(volatility * 5, 1.0)
+            risk_score = unified_math.min(volatility * 5, 1.0)
             return risk_score
             
         except Exception as e:
@@ -498,13 +500,13 @@ class RiskAssessor:
                 # Check for extreme price movements
                 prices = [d.price for d in historical_data[-5:]]
                 price_changes = np.diff(prices)
-                max_change = np.max(np.abs(price_changes))
-                avg_price = np.mean(prices)
+                max_change = unified_math.unified_math.max(unified_math.unified_math.abs(price_changes))
+                avg_price = unified_math.unified_math.mean(prices)
                 
                 if avg_price > 0:
                     relative_change = max_change / avg_price
                     if relative_change > 0.1:  # 10% change
-                        risk_score = min(relative_change * 5, 1.0)
+                        risk_score = unified_math.min(relative_change * 5, 1.0)
             
             return risk_score
             
@@ -518,7 +520,7 @@ class RiskAssessor:
         """Assess position size risk."""
         try:
             # Position size risk increases with larger positions
-            risk_score = min(position_size * 2, 1.0)
+            risk_score = unified_math.min(position_size * 2, 1.0)
             return risk_score
             
         except Exception as e:
@@ -532,7 +534,7 @@ class RiskAssessor:
         try:
             # Simplified liquidity assessment based on spread
             spread_ratio = market_data.spread / market_data.price
-            risk_score = min(spread_ratio * 100, 1.0)  # Higher spread = higher risk
+            risk_score = unified_math.min(spread_ratio * 100, 1.0)  # Higher spread = higher risk
             return risk_score
             
         except Exception as e:
@@ -640,10 +642,10 @@ class DecisionEngine:
         """Calculate confidence score."""
         try:
             # Confidence increases with decision strength and decreases with risk
-            confidence = abs(decision_score) * (1 - risk_score)
+            confidence = unified_math.abs(decision_score) * (1 - risk_score)
             
             # Apply sigmoid function for smooth scaling
-            confidence = 1 / (1 + np.exp(-confidence * 5))
+            confidence = 1 / (1 + unified_math.exp(-confidence * 5))
             
             return float(confidence)
             
@@ -698,15 +700,15 @@ class DecisionEngine:
         """Calculate recommended position size."""
         try:
             # Base position size on decision strength and confidence
-            base_size = abs(decision_score) * confidence_score
+            base_size = unified_math.abs(decision_score) * confidence_score
             
             # Adjust for risk
             risk_adjustment = 1 - risk_score
             position_size = base_size * risk_adjustment
             
             # Apply limits
-            position_size = max(self.config.min_position_size, 
-                              min(self.config.max_position_size, position_size))
+            position_size = unified_math.max(self.config.min_position_size, 
+                              unified_math.min(self.config.max_position_size, position_size))
             
             return float(position_size)
             
@@ -787,11 +789,11 @@ class DecisionEngine:
                 'decision_distribution': dict(decision_counts),
                 'confidence_distribution': dict(confidence_counts),
                 'risk_distribution': dict(risk_counts),
-                'avg_decision_score': float(np.mean(decision_scores)),
-                'avg_confidence_score': float(np.mean(confidence_scores)),
-                'avg_risk_score': float(np.mean(risk_scores)),
-                'max_decision_score': float(np.max(decision_scores)),
-                'min_decision_score': float(np.min(decision_scores))
+                'avg_decision_score': float(unified_math.unified_math.mean(decision_scores)),
+                'avg_confidence_score': float(unified_math.unified_math.mean(confidence_scores)),
+                'avg_risk_score': float(unified_math.unified_math.mean(risk_scores)),
+                'max_decision_score': float(unified_math.unified_math.max(decision_scores)),
+                'min_decision_score': float(unified_math.unified_math.min(decision_scores))
             }
             
             return stats
@@ -847,22 +849,22 @@ def main():
             current_data = historical_data[-(i+1)]
             decision = engine.make_decision(current_data, historical_data, 0.0)
             
-            print(f"Decision {i+1}:")
-            print(f"  Type: {decision.decision_type.value}")
-            print(f"  Confidence: {decision.confidence_level.value}")
-            print(f"  Risk: {decision.risk_level.value}")
-            print(f"  Score: {decision.decision_score:.3f}")
-            print(f"  Position Size: {decision.position_size:.3f}")
-            print(f"  Action: {decision.recommended_action}")
-            print("-" * 50)
+            safe_print(f"Decision {i+1}:")
+            safe_print(f"  Type: {decision.decision_type.value}")
+            safe_print(f"  Confidence: {decision.confidence_level.value}")
+            safe_print(f"  Risk: {decision.risk_level.value}")
+            safe_print(f"  Score: {decision.decision_score:.3f}")
+            safe_print(f"  Position Size: {decision.position_size:.3f}")
+            safe_print(f"  Action: {decision.recommended_action}")
+            safe_print("-" * 50)
         
         # Get engine statistics
         stats = engine.get_decision_statistics()
-        print("Decision Engine Statistics:")
+        safe_print("Decision Engine Statistics:")
         print(json.dumps(stats, indent=2, default=str))
         
     except Exception as e:
-        print(f"Error in main: {e}")
+        safe_print(f"Error in main: {e}")
         import traceback
         traceback.print_exc()
 

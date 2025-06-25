@@ -1,3 +1,5 @@
+from utils.safe_print import safe_print, info, warn, error, success, debug
+from core.unified_math_system import unified_math
 #!/usr/bin/env python3
 """
 Profit Routing Engine - Strategic Reallocation and Rebalance Vectorizer
@@ -8,7 +10,7 @@ comprehensive strategic reallocation, rebalance vectorization, and profit
 capture routing by hash-layer feedback for the trading system.
 
 Core Mathematical Functions:
-- Delta Trade Triggering: ΔP = max(P_exit - P_entry, 0)
+- Delta Trade Triggering: ΔP = unified_math.max(P_exit - P_entry, 0)
 - Matrix Basket Selector: Bᵢ = W · Mᵢ
 - Smart Money Reversal Logic: σₜ = sign(EMA₁₆ - SMA₅₀) × Volₜ
 
@@ -29,7 +31,7 @@ from typing import Dict, List, Any, Optional, Tuple, Union
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta
 from enum import Enum
-import numpy as np
+from core.unified_math_system import unified_math
 from collections import defaultdict, deque
 import os
 
@@ -203,7 +205,7 @@ class ProfitRoutingEngine:
         Calculate Delta Trade Triggering.
         
         Mathematical Formula:
-        ΔP = max(P_exit - P_entry, 0)
+        ΔP = unified_math.max(P_exit - P_entry, 0)
         
         Where:
         - P_exit is the exit price
@@ -214,7 +216,7 @@ class ProfitRoutingEngine:
             route_id = f"route_{route_type.value}_{int(time.time())}"
             
             # Calculate delta profit using the mathematical formula
-            delta_profit = max(exit_price - entry_price, 0)
+            delta_profit = unified_math.max(exit_price - entry_price, 0)
             
             # Calculate basket weights based on route type
             basket_weights = self._calculate_basket_weights(route_type, delta_profit)
@@ -315,7 +317,7 @@ class ProfitRoutingEngine:
             weighted_basket = np.zeros(len(assets))
             for i, asset in enumerate(assets):
                 # Bᵢ = W · Mᵢ
-                basket_component = np.dot(weight_matrix[i], long_hold_matrices[asset][i])
+                basket_component = unified_math.unified_math.dot_product(weight_matrix[i], long_hold_matrices[asset][i])
                 weighted_basket[i] = basket_component
             
             # Normalize weighted basket
@@ -379,7 +381,7 @@ class ProfitRoutingEngine:
                 metadata={
                     "ma_difference": ma_difference,
                     "signal_direction": "positive" if reversal_signal > 0 else "negative",
-                    "signal_strength": abs(reversal_signal)
+                    "signal_strength": unified_math.abs(reversal_signal)
                 }
             )
             
@@ -452,7 +454,7 @@ class ProfitRoutingEngine:
             
             expected_return = base_return * multiplier * (1 + total_profit * 0.1)
             
-            return max(0.0, min(0.5, expected_return))  # Cap between 0% and 50%
+            return unified_math.max(0.0, unified_math.min(0.5, expected_return))  # Cap between 0% and 50%
             
         except Exception as e:
             logger.error(f"Error calculating expected return: {e}")
@@ -475,7 +477,7 @@ class ProfitRoutingEngine:
             risk_adjustment = 1.0 + (risk_tolerance - 0.5) * 0.4  # ±20% adjustment
             risk_level = base_risk * risk_adjustment
             
-            return max(0.0, min(1.0, risk_level))
+            return unified_math.max(0.0, unified_math.min(1.0, risk_level))
             
         except Exception as e:
             logger.error(f"Error calculating risk level: {e}")
@@ -578,13 +580,13 @@ class ProfitRoutingEngine:
         
         # Calculate average delta profit
         if total_routes > 0:
-            avg_delta_profit = np.mean([r.delta_profit for r in self.trade_routes.values()])
+            avg_delta_profit = unified_math.mean([r.delta_profit for r in self.trade_routes.values()])
         else:
             avg_delta_profit = 0.0
         
         # Calculate average reversal signal strength
         if total_signals > 0:
-            avg_signal_strength = np.mean([abs(s.reversal_signal) for s in self.smart_money_signals.values()])
+            avg_signal_strength = unified_math.mean([unified_math.abs(s.reversal_signal) for s in self.smart_money_signals.values()])
         else:
             avg_signal_strength = 0.0
         
@@ -633,11 +635,11 @@ def main() -> None:
         risk_tolerance=0.6
     )
     
-    print("Profit Routing Engine initialized successfully")
+    safe_print("Profit Routing Engine initialized successfully")
     
     # Get statistics
     stats = engine.get_engine_statistics()
-    print(f"Engine Statistics: {stats}")
+    safe_print(f"Engine Statistics: {stats}")
 
 if __name__ == "__main__":
     main() 
