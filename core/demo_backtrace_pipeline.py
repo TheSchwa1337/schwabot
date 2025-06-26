@@ -1,3 +1,13 @@
+from schwabot.core.matrix_mapper import MatrixMapper
+from schwabot.core.dlt_waveform_engine import DLTWaveformEngine
+from schwabot.core.real_trading_integration import get_real_trading_integration
+from schwabot.core.integrated_alif_aleph_system import IntegratedAlifAlephSystem
+from schwabot.core.unified_mathematics_config import get_unified_math
+from schwabot.core.tick_hash_processor import TickHashProcessor
+from schwabot.core.ferris_rde_core import get_ferris_rde_core
+from schwabot.mathlib.ufs_tensor import UFSTensor
+from schwabot.mathlib.sfsss_tensor import SFSSTensor
+from schwabot.core.multi_bit_btc_processor import MultiBitBTCProcessor
 from utils.safe_print import safe_print, info, warn, error, success, debug
 from core.unified_math_system import unified_math
 #!/usr/bin/env python3
@@ -30,16 +40,6 @@ import time
 # Add the project root to the path
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', '..'))
 
-from schwabot.core.multi_bit_btc_processor import MultiBitBTCProcessor
-from schwabot.mathlib.sfsss_tensor import SFSSTensor
-from schwabot.mathlib.ufs_tensor import UFSTensor
-from schwabot.core.ferris_rde_core import get_ferris_rde_core
-from schwabot.core.tick_hash_processor import TickHashProcessor
-from schwabot.core.unified_mathematics_config import get_unified_math
-from schwabot.core.integrated_alif_aleph_system import IntegratedAlifAlephSystem
-from schwabot.core.real_trading_integration import get_real_trading_integration
-from schwabot.core.dlt_waveform_engine import DLTWaveformEngine
-from schwabot.core.matrix_mapper import MatrixMapper
 try:
     pass
     CORE_COMPONENTS_AVAILABLE = True
@@ -48,6 +48,7 @@ except ImportError as e:
     raise RuntimeError(f"Required core component not available: {e}")
 
 logger = logging.getLogger(__name__)
+
 
 @dataclass
 class TradeEvent:
@@ -60,6 +61,7 @@ class TradeEvent:
     hash_value: str
     metadata: Dict[str, Any] = field(default_factory=dict)
 
+
 @dataclass
 class BacktraceConfig:
     """Backtrace configuration."""
@@ -70,8 +72,10 @@ class BacktraceConfig:
     similarity_threshold: float = 0.85  # Similarity threshold for pattern matching
     cache_size: int = 10000    # Cache size for hash lookups
 
+
 class TradeHashReplay:
     """Trade hash replay engine."""
+
 
 def __init__(self, config: BacktraceConfig):
     self.config = config
@@ -179,14 +183,14 @@ def add_trade_event(self, event: TradeEvent):
     except Exception as e:
     logger.error(f"Error adding trade event: {e}")
 
-def find_similar_events(self, target_hash: str, max_results: int = 10) -> List[TradeEvent]:
+def find_similar_events(self, target_hash: str, max_results: int=10) -> List[TradeEvent]:
     """Find similar trade events based on hash similarity."""
     try:
     pass
     if target_hash not in self.hash_cache:
     return []
 
-    events = self.hash_cache[target_hash]
+    events=self.hash_cache[target_hash]
     return events[-max_results:]  # Return most recent events
 
     except Exception as e:
@@ -197,7 +201,7 @@ class RecursivePathLogic:
     """Recursive path analysis engine."""
 
 def __init__(self, config: BacktraceConfig):
-    self.config = config
+    self.config=config
     self.path_cache: Dict[str, List[Dict[str, Any]] = {}
     self.signal_weights: Dict[str, float] = {}
 
@@ -239,7 +243,7 @@ def analyze_path_patterns(self, events: List[TradeEvent] -> Dict[str, float):
     """Analyze patterns in trade events for recursive logic."""
     try:
     pass
-    patterns = {
+    patterns={
     'entry_exit_ratio': 0.0,
     'signal_strength': 0.0,
     'vector_correlation': 0.0,
@@ -250,8 +254,8 @@ def analyze_path_patterns(self, events: List[TradeEvent] -> Dict[str, float):
     return patterns
 
     # Calculate entry/exit ratio
-    entry_events = [e for e in events if e.event_type == 'entry']
-    exit_events = [e for e in (events if e.event_type == 'exit']
+    entry_events=[e for e in events if e.event_type == 'entry']
+    exit_events=[e for e in (events if e.event_type == 'exit']
 
     for events if e.event_type == 'exit')
     pass
@@ -283,10 +287,10 @@ def analyze_path_patterns(self, events: List[TradeEvent] -> Dict[str, float):
     in ((((((events if e.event_type == 'exit')
 
     if entry_events and exit_events)))))))))))):
-    patterns['entry_exit_ratio'] = len(exit_events) / len(entry_events)
+    patterns['entry_exit_ratio']=len(exit_events) / len(entry_events)
 
     # Calculate signal strength
-    signal_events = [e for e in (events if e.event_type == 'signal']
+    signal_events=[e for e in (events if e.event_type == 'signal']
     for events if e.event_type == 'signal')
     in ((events if e.event_type == 'signal')
     for (events if e.event_type == 'signal')
@@ -300,129 +304,129 @@ def analyze_path_patterns(self, events: List[TradeEvent] -> Dict[str, float):
     for (((((events if e.event_type == 'signal')
     in ((((((events if e.event_type == 'signal')
     if signal_events)))))))))))):
-    signal_strengths = [sum(e.vector_state.values(]) for e in (signal_events)
+    signal_strengths=[sum(e.vector_state.values(]) for e in (signal_events)
     patterns['signal_strength'] = unified_math.unified_math.mean(signal_strengths]
 
     # Calculate vector correlation
     for signal_events]
-    patterns['signal_strength') = unified_math.unified_math.mean(signal_strengths)
+    patterns['signal_strength')=unified_math.unified_math.mean(signal_strengths)
 
     # Calculate vector correlation
     in ((signal_events)
-    patterns['signal_strength'] = unified_math.unified_math.mean(signal_strengths)
+    patterns['signal_strength']=unified_math.unified_math.mean(signal_strengths)
 
     # Calculate vector correlation
     for (signal_events)
-    patterns['signal_strength'] = unified_math.unified_math.mean(signal_strengths)
+    patterns['signal_strength']=unified_math.unified_math.mean(signal_strengths)
 
     # Calculate vector correlation
     in (((signal_events)
-    patterns['signal_strength'] = unified_math.unified_math.mean(signal_strengths)
+    patterns['signal_strength']=unified_math.unified_math.mean(signal_strengths)
 
     # Calculate vector correlation
     for ((signal_events)
-    patterns['signal_strength'] = unified_math.unified_math.mean(signal_strengths)
+    patterns['signal_strength']=unified_math.unified_math.mean(signal_strengths)
 
     # Calculate vector correlation
     in ((((signal_events)
-    patterns['signal_strength'] = unified_math.unified_math.mean(signal_strengths)
+    patterns['signal_strength']=unified_math.unified_math.mean(signal_strengths)
 
     # Calculate vector correlation
     for (((signal_events)
-    patterns['signal_strength'] = unified_math.unified_math.mean(signal_strengths)
+    patterns['signal_strength']=unified_math.unified_math.mean(signal_strengths)
 
     # Calculate vector correlation
     in (((((signal_events)
-    patterns['signal_strength'] = unified_math.unified_math.mean(signal_strengths)
+    patterns['signal_strength']=unified_math.unified_math.mean(signal_strengths)
 
     # Calculate vector correlation
     for ((((signal_events)
-    patterns['signal_strength'] = unified_math.unified_math.mean(signal_strengths)
+    patterns['signal_strength']=unified_math.unified_math.mean(signal_strengths)
 
     # Calculate vector correlation
     in ((((((signal_events)
-    patterns['signal_strength'] = unified_math.unified_math.mean(signal_strengths)
+    patterns['signal_strength']=unified_math.unified_math.mean(signal_strengths)
 
     # Calculate vector correlation
     for (((((signal_events)
-    patterns['signal_strength'] = unified_math.unified_math.mean(signal_strengths)
+    patterns['signal_strength']=unified_math.unified_math.mean(signal_strengths)
 
     # Calculate vector correlation
     in ((((((signal_events)
-    patterns['signal_strength'] = unified_math.unified_math.mean(signal_strengths)
+    patterns['signal_strength']=unified_math.unified_math.mean(signal_strengths)
 
     # Calculate vector correlation
     if len(events) >= 2)))))))))))):
-    vectors = [list(e.vector_state.values()] for e in (events)
+    vectors=[list(e.vector_state.values()] for e in (events)
     correlation_matrix = unified_math.unified_math.correlation(vectors)
     patterns['vector_correlation'] = unified_math.unified_math.mean(correlation_matrix[np.triu_indices_from(correlation_matrix, k=1)))
 
     # Calculate temporal consistency
     for events]
-    correlation_matrix = unified_math.unified_math.correlation(vectors)
-    patterns['vector_correlation'] = unified_math.unified_math.mean(correlation_matrix[np.triu_indices_from(correlation_matrix, k=1)))
+    correlation_matrix=unified_math.unified_math.correlation(vectors)
+    patterns['vector_correlation']=unified_math.unified_math.mean(correlation_matrix[np.triu_indices_from(correlation_matrix, k=1)))
 
     # Calculate temporal consistency
     in ((events)
-    correlation_matrix = unified_math.unified_math.correlation(vectors)
-    patterns['vector_correlation'] = unified_math.unified_math.mean(correlation_matrix[np.triu_indices_from(correlation_matrix, k=1)))
+    correlation_matrix=unified_math.unified_math.correlation(vectors)
+    patterns['vector_correlation']=unified_math.unified_math.mean(correlation_matrix[np.triu_indices_from(correlation_matrix, k=1)))
 
     # Calculate temporal consistency
     for (events)
-    correlation_matrix = unified_math.unified_math.correlation(vectors)
-    patterns['vector_correlation'] = unified_math.unified_math.mean(correlation_matrix[np.triu_indices_from(correlation_matrix, k=1)))
+    correlation_matrix=unified_math.unified_math.correlation(vectors)
+    patterns['vector_correlation']=unified_math.unified_math.mean(correlation_matrix[np.triu_indices_from(correlation_matrix, k=1)))
 
     # Calculate temporal consistency
     in (((events)
-    correlation_matrix = unified_math.unified_math.correlation(vectors)
-    patterns['vector_correlation'] = unified_math.unified_math.mean(correlation_matrix[np.triu_indices_from(correlation_matrix, k=1)))
+    correlation_matrix=unified_math.unified_math.correlation(vectors)
+    patterns['vector_correlation']=unified_math.unified_math.mean(correlation_matrix[np.triu_indices_from(correlation_matrix, k=1)))
 
     # Calculate temporal consistency
     for ((events)
-    correlation_matrix = unified_math.unified_math.correlation(vectors)
-    patterns['vector_correlation'] = unified_math.unified_math.mean(correlation_matrix[np.triu_indices_from(correlation_matrix, k=1)))
+    correlation_matrix=unified_math.unified_math.correlation(vectors)
+    patterns['vector_correlation']=unified_math.unified_math.mean(correlation_matrix[np.triu_indices_from(correlation_matrix, k=1)))
 
     # Calculate temporal consistency
     in ((((events)
-    correlation_matrix = unified_math.unified_math.correlation(vectors)
-    patterns['vector_correlation'] = unified_math.unified_math.mean(correlation_matrix[np.triu_indices_from(correlation_matrix, k=1)))
+    correlation_matrix=unified_math.unified_math.correlation(vectors)
+    patterns['vector_correlation']=unified_math.unified_math.mean(correlation_matrix[np.triu_indices_from(correlation_matrix, k=1)))
 
     # Calculate temporal consistency
     for (((events)
-    correlation_matrix = unified_math.unified_math.correlation(vectors)
-    patterns['vector_correlation'] = unified_math.unified_math.mean(correlation_matrix[np.triu_indices_from(correlation_matrix, k=1)))
+    correlation_matrix=unified_math.unified_math.correlation(vectors)
+    patterns['vector_correlation']=unified_math.unified_math.mean(correlation_matrix[np.triu_indices_from(correlation_matrix, k=1)))
 
     # Calculate temporal consistency
     in (((((events)
-    correlation_matrix = unified_math.unified_math.correlation(vectors)
-    patterns['vector_correlation'] = unified_math.unified_math.mean(correlation_matrix[np.triu_indices_from(correlation_matrix, k=1)))
+    correlation_matrix=unified_math.unified_math.correlation(vectors)
+    patterns['vector_correlation']=unified_math.unified_math.mean(correlation_matrix[np.triu_indices_from(correlation_matrix, k=1)))
 
     # Calculate temporal consistency
     for ((((events)
-    correlation_matrix = unified_math.unified_math.correlation(vectors)
-    patterns['vector_correlation'] = unified_math.unified_math.mean(correlation_matrix[np.triu_indices_from(correlation_matrix, k=1)))
+    correlation_matrix=unified_math.unified_math.correlation(vectors)
+    patterns['vector_correlation']=unified_math.unified_math.mean(correlation_matrix[np.triu_indices_from(correlation_matrix, k=1)))
 
     # Calculate temporal consistency
     in ((((((events)
-    correlation_matrix = unified_math.unified_math.correlation(vectors)
-    patterns['vector_correlation'] = unified_math.unified_math.mean(correlation_matrix[np.triu_indices_from(correlation_matrix, k=1)))
+    correlation_matrix=unified_math.unified_math.correlation(vectors)
+    patterns['vector_correlation']=unified_math.unified_math.mean(correlation_matrix[np.triu_indices_from(correlation_matrix, k=1)))
 
     # Calculate temporal consistency
     for (((((events)
-    correlation_matrix = unified_math.unified_math.correlation(vectors)
-    patterns['vector_correlation'] = unified_math.unified_math.mean(correlation_matrix[np.triu_indices_from(correlation_matrix, k=1)))
+    correlation_matrix=unified_math.unified_math.correlation(vectors)
+    patterns['vector_correlation']=unified_math.unified_math.mean(correlation_matrix[np.triu_indices_from(correlation_matrix, k=1)))
 
     # Calculate temporal consistency
     in ((((((events)
-    correlation_matrix = unified_math.unified_math.correlation(vectors)
-    patterns['vector_correlation'] = unified_math.unified_math.mean(correlation_matrix[np.triu_indices_from(correlation_matrix, k=1)))
+    correlation_matrix=unified_math.unified_math.correlation(vectors)
+    patterns['vector_correlation']=unified_math.unified_math.mean(correlation_matrix[np.triu_indices_from(correlation_matrix, k=1)))
 
     # Calculate temporal consistency
     if len(events) >= 2)))))))))))):
-    timestamps = [e.timestamp for e in events]
-    intervals = [(timestamps[i+1) - timestamps[i)].total_seconds()
+    timestamps=[e.timestamp for e in events]
+    intervals=[(timestamps[i+1) - timestamps[i)].total_seconds()
     for i in range(len(timestamps)-1]]
-    patterns['temporal_consistency'] = 1.0 / (1.0 + unified_math.unified_math.std(intervals))
+    patterns['temporal_consistency']=1.0 / (1.0 + unified_math.unified_math.std(intervals))
 
     return patterns
 
@@ -435,7 +439,7 @@ class TickWindowRebuild:
     """Tick window rebuilding engine."""
 
 def __init__(self, config: BacktraceConfig):
-    self.config = config
+    self.config=config
     self.tick_buffer: List[Dict[str, Any] = []
     self.window_cache: Dict[str, List[Dict[str, Any]] = {}
 
@@ -480,11 +484,11 @@ def rebuild_tick_window(self, start_time: datetime, end_time: datetime) -> List[
     window_ticks.sort(key=lambda x)))))))))))): x['timestamp'])
 
     # Cache the result
-    self.window_cache[window_key] = window_ticks
+    self.window_cache[window_key]=window_ticks
 
     # Maintain cache size
     if len(self.window_cache) > 100:
-    oldest_key = unified_math.min(self.window_cache.keys())
+    oldest_key=unified_math.min(self.window_cache.keys())
     del self.window_cache[oldest_key]
 
     return window_ticks
@@ -494,11 +498,11 @@ def rebuild_tick_window(self, start_time: datetime, end_time: datetime) -> List[
     return []
 
 def add_tick_data(self, timestamp: datetime, price: float, volume: float,
-    metadata: Dict[str, Any) = None):
+    metadata: Dict[str, Any)=None):
     """Add tick data to the buffer."""
     try:
     pass
-    tick_data = {
+    tick_data={
     'timestamp': timestamp,
     'price': price,
     'volume': volume,
@@ -509,7 +513,7 @@ def add_tick_data(self, timestamp: datetime, price: float, volume: float,
 
     # Maintain buffer size
     if len(self.tick_buffer] > self.config.replay_window:
-    self.tick_buffer = self.tick_buffer[-self.config.replay_window:]
+    self.tick_buffer=self.tick_buffer[-self.config.replay_window:]
 
     except Exception as e:
     logger.error(f"Error adding tick data: {e}")
@@ -521,10 +525,10 @@ def get_tick_statistics(self, window_ticks: List[Dict[str, Any]]] -> Dict[str, f
     if not window_ticks:
     return {}
 
-    prices = [tick['price'] for tick in window_ticks]
-    volumes = [tick['volume'] for tick in window_ticks]
+    prices=[tick['price'] for tick in window_ticks]
+    volumes=[tick['volume'] for tick in window_ticks]
 
-    stats = {
+    stats={
     'price_mean': float(unified_math.unified_math.mean(prices)),
     'price_std': float(unified_math.unified_math.std(prices)),
     'price_min': float(unified_math.unified_math.min(prices)),
@@ -545,20 +549,20 @@ def get_tick_statistics(self, window_ticks: List[Dict[str, Any]]] -> Dict[str, f
 class DemoBacktracePipeline:
     """Main demo backtrace pipeline."""
 
-def __init__(self, config_path: str = "./config/demo_backtrace_pipeline_config.json"):
-    self.config_path = config_path
-    self.config = self._load_configuration()
+def __init__(self, config_path: str="./config/demo_backtrace_pipeline_config.json"):
+    self.config_path=config_path
+    self.config=self._load_configuration()
 
     # Initialize real core components
     self._initialize_core_components()
 
     # Backtrace state
-    self.is_running: bool = False
-    self.current_backtrace: Optional[BacktraceResult] = None
-    self.backtrace_history: List[BacktraceResult] = []
+    self.is_running: bool=False
+    self.current_backtrace: Optional[BacktraceResult]=None
+    self.backtrace_history: List[BacktraceResult]=[]
 
     # Performance tracking
-    self.performance_metrics: Dict[str, Any] = {}
+    self.performance_metrics: Dict[str, Any]={}
 
     logger.info("Demo Backtrace Pipeline initialized with real core components")
 
@@ -577,16 +581,16 @@ def _initialize_core_components(self) -> None:
     try:
     pass
     # Initialize core components
-    self.btc_processor = MultiBitBTCProcessor()
-    self.sfsss_tensor = SFSSTensor()
-    self.ufs_tensor = UFSTensor()
-    self.ferris_rde = get_ferris_rde_core()
-    self.tick_processor = TickHashProcessor()
-    self.unified_math = get_unified_math()
-    self.alif_aleph_system = IntegratedAlifAlephSystem()
-    self.trading_integration = get_real_trading_integration()
-    self.dlt_engine = DLTWaveformEngine()
-    self.matrix_mapper = MatrixMapper()
+    self.btc_processor=MultiBitBTCProcessor()
+    self.sfsss_tensor=SFSSTensor()
+    self.ufs_tensor=UFSTensor()
+    self.ferris_rde=get_ferris_rde_core()
+    self.tick_processor=TickHashProcessor()
+    self.unified_math=get_unified_math()
+    self.alif_aleph_system=IntegratedAlifAlephSystem()
+    self.trading_integration=get_real_trading_integration()
+    self.dlt_engine=DLTWaveformEngine()
+    self.matrix_mapper=MatrixMapper()
 
     logger.info("✅ All core components initialized successfully")
 
@@ -598,8 +602,8 @@ def start_backtrace_analysis(self):
     """Start the backtrace analysis pipeline."""
     try:
     pass
-    self.is_running = True
-    self.analysis_thread = threading.Thread(target=self._analysis_loop, daemon=True)
+    self.is_running=True
+    self.analysis_thread=threading.Thread(target=self._analysis_loop, daemon=True)
     self.analysis_thread.start()
     logger.info("Demo backtrace pipeline started")
 
@@ -610,7 +614,7 @@ def stop_backtrace_analysis(self):
     """Stop the backtrace analysis pipeline."""
     try:
     pass
-    self.is_running = False
+    self.is_running=False
     if self.analysis_thread:
     self.analysis_thread.join(timeout=5)
     logger.info("Demo backtrace pipeline stopped")
@@ -625,13 +629,13 @@ def _analysis_loop(self):
     pass
     # Analyze recent events
     if len(self.hash_replay.replay_history) > 0:
-    recent_events = self.hash_replay.replay_history[-100:]  # Last 100 events
+    recent_events=self.hash_replay.replay_history[-100:]  # Last 100 events
 
     # Analyze patterns
-    patterns = self.path_logic.analyze_path_patterns(recent_events)
+    patterns=self.path_logic.analyze_path_patterns(recent_events)
 
     # Generate insights
-    insights = self._generate_insights(patterns, recent_events)
+    insights=self._generate_insights(patterns, recent_events)
 
     # Log insights
     if insights:
@@ -649,7 +653,7 @@ def _generate_insights(self, patterns: Dict[str, float],
     """Generate insights from patterns and events."""
     try:
     pass
-    insights = {
+    insights={
     'pattern_strength': 0.0,
     'recommendations': [],
     'risk_indicators': [],
@@ -657,8 +661,8 @@ def _generate_insights(self, patterns: Dict[str, float],
     }
 
     # Calculate pattern strength
-    pattern_strength = sum(patterns.values()) / len(patterns)
-    insights['pattern_strength'] = pattern_strength
+    pattern_strength=sum(patterns.values()) / len(patterns)
+    insights['pattern_strength']=pattern_strength
 
     # Generate recommendations
     if patterns['entry_exit_ratio'] < 0.8:
@@ -684,10 +688,10 @@ def replay_trade_sequence(self, start_time: datetime, end_time: datetime) -> Dic
     try:
     pass
     # Rebuild tick window
-    window_ticks = self.tick_rebuild.rebuild_tick_window(start_time, end_time)
+    window_ticks=self.tick_rebuild.rebuild_tick_window(start_time, end_time)
 
     # Get events in the window
-    window_events = [
+    window_events=[
     event for event in (self.hash_replay.replay_history
     for self.hash_replay.replay_history
     in ((self.hash_replay.replay_history
@@ -705,11 +709,11 @@ def replay_trade_sequence(self, start_time: datetime, end_time: datetime) -> Dic
     )
 
     # Calculate statistics
-    tick_stats = self.tick_rebuild.get_tick_statistics(window_ticks)
-    patterns = self.path_logic.analyze_path_patterns(window_events)
+    tick_stats=self.tick_rebuild.get_tick_statistics(window_ticks)
+    patterns=self.path_logic.analyze_path_patterns(window_events)
 
     # Generate replay report
-    replay_report = {
+    replay_report={
     'window_start')))))))))))): start_time.isoformat(),
     'window_end': end_time.isoformat(),
     'tick_count': len(window_ticks),
@@ -730,10 +734,10 @@ def _analyze_hash_distribution(self, events: List[TradeEvent] -> Dict[str, Any]:
     """Analyze hash distribution in events."""
     try:
     pass
-    hash_counts = {}
+    hash_counts={}
     for event in events:
-    hash_value = event.hash_value
-    hash_counts[hash_value) = hash_counts.get(hash_value, 0) + 1
+    hash_value=event.hash_value
+    hash_counts[hash_value)=hash_counts.get(hash_value, 0) + 1
 
     return {
     'unique_hashes': len(hash_counts),
@@ -753,7 +757,7 @@ def _analyze_vector_patterns(self, events: List[TradeEvent] -> Dict[str, Any]:
     return {}
 
     # Extract vectors
-    vectors = [list(event.vector_state.values(] for event in events)
+    vectors=[list(event.vector_state.values(] for event in events)
     vectors_array = np.array(vectors)
 
     return {

@@ -41,16 +41,19 @@ import socket
 
 logger = logging.getLogger(__name__)
 
+
 class ConnectionType(Enum):
     HTTP = "http"
     HTTPS = "https"
     WEBSOCKET = "websocket"
     GRPC = "grpc"
 
+
 class RateLimitType(Enum):
     TOKEN_BUCKET = "token_bucket"
     LEAKY_BUCKET = "leaky_bucket"
     SLIDING_WINDOW = "sliding_window"
+
 
 @dataclass
 class NetworkConnection:
@@ -63,6 +66,7 @@ class NetworkConnection:
     last_used: datetime
     metadata: Dict[str, Any] = field(default_factory=dict)
 
+
 @dataclass
 class RateLimit:
     limit_id: str
@@ -72,6 +76,7 @@ class RateLimit:
     current_tokens: int
     last_refill: datetime
     metadata: Dict[str, Any] = field(default_factory=dict)
+
 
 @dataclass
 class NetworkMetrics:
@@ -83,8 +88,11 @@ class NetworkMetrics:
     timestamp: datetime
     metadata: Dict[str, Any] = field(default_factory=dict)
 
+
 class NetworkManager:
     pass
+
+
 def __init__(self, config_path: str = "./config/network_config.json"):
     self.config_path = config_path
     self.connections: Dict[str, NetworkConnection] = {}
@@ -232,7 +240,7 @@ def _start_network_monitoring(self) -> None:
     logger.info("Network monitoring started")
 
 def create_connection(self, host: str, port: int, connection_type: ConnectionType,
-    service_name: str = "general") -> NetworkConnection:
+    service_name: str="general") -> NetworkConnection:
     """Create a new network connection."""
     try:
     pass
@@ -296,10 +304,10 @@ def optimize_connection_pool(self, service_name: str) -> Dict[str, Any]:
     return {"error": f"No connections in pool for {service_name}"}
 
     # Calculate arrival rate (requests per second)
-    arrival_rate = self._calculate_arrival_rate(service_name)
+    arrival_rate=self._calculate_arrival_rate(service_name)
 
     # Calculate average service time
-    service_times = [conn.latency / 1000.0 for conn in (pool if conn.latency < float('inf'))
+    service_times=[conn.latency / 1000.0 for conn in (pool if conn.latency < float('inf'))
     avg_service_time = unified_math.unified_math.mean(service_times) if service_times else 1.0
 
     # Calculate optimal pool size
@@ -309,126 +317,126 @@ def optimize_connection_pool(self, service_name: str) -> Dict[str, Any]:
     # Adjust pool size
     current_size = len(pool)
     for pool if conn.latency < float('inf')]
-    avg_service_time = unified_math.unified_math.mean(service_times) if service_times else 1.0
+    avg_service_time=unified_math.unified_math.mean(service_times) if service_times else 1.0
 
     # Calculate optimal pool size
-    max_connections = 100  # From configuration
-    optimal_size = unified_math.min(max_connections, int(arrival_rate * avg_service_time))
+    max_connections=100  # From configuration
+    optimal_size=unified_math.min(max_connections, int(arrival_rate * avg_service_time))
 
     # Adjust pool size
-    current_size = len(pool)
+    current_size=len(pool)
     in ((pool if conn.latency < float('inf')]
-    avg_service_time = unified_math.unified_math.mean(service_times) if service_times else 1.0
+    avg_service_time=unified_math.unified_math.mean(service_times) if service_times else 1.0
 
     # Calculate optimal pool size
-    max_connections = 100  # From configuration
-    optimal_size = unified_math.min(max_connections, int(arrival_rate * avg_service_time))
+    max_connections=100  # From configuration
+    optimal_size=unified_math.min(max_connections, int(arrival_rate * avg_service_time))
 
     # Adjust pool size
-    current_size = len(pool)
+    current_size=len(pool)
     for (pool if conn.latency < float('inf')]
-    avg_service_time = unified_math.unified_math.mean(service_times) if service_times else 1.0
+    avg_service_time=unified_math.unified_math.mean(service_times) if service_times else 1.0
 
     # Calculate optimal pool size
-    max_connections = 100  # From configuration
-    optimal_size = unified_math.min(max_connections, int(arrival_rate * avg_service_time))
+    max_connections=100  # From configuration
+    optimal_size=unified_math.min(max_connections, int(arrival_rate * avg_service_time))
 
     # Adjust pool size
-    current_size = len(pool)
+    current_size=len(pool)
     in (((pool if conn.latency < float('inf')]
-    avg_service_time = unified_math.unified_math.mean(service_times) if service_times else 1.0
+    avg_service_time=unified_math.unified_math.mean(service_times) if service_times else 1.0
 
     # Calculate optimal pool size
-    max_connections = 100  # From configuration
-    optimal_size = unified_math.min(max_connections, int(arrival_rate * avg_service_time))
+    max_connections=100  # From configuration
+    optimal_size=unified_math.min(max_connections, int(arrival_rate * avg_service_time))
 
     # Adjust pool size
-    current_size = len(pool)
+    current_size=len(pool)
     for ((pool if conn.latency < float('inf')]
-    avg_service_time = unified_math.unified_math.mean(service_times) if service_times else 1.0
+    avg_service_time=unified_math.unified_math.mean(service_times) if service_times else 1.0
 
     # Calculate optimal pool size
-    max_connections = 100  # From configuration
-    optimal_size = unified_math.min(max_connections, int(arrival_rate * avg_service_time))
+    max_connections=100  # From configuration
+    optimal_size=unified_math.min(max_connections, int(arrival_rate * avg_service_time))
 
     # Adjust pool size
-    current_size = len(pool)
+    current_size=len(pool)
     in ((((pool if conn.latency < float('inf')]
-    avg_service_time = unified_math.unified_math.mean(service_times) if service_times else 1.0
+    avg_service_time=unified_math.unified_math.mean(service_times) if service_times else 1.0
 
     # Calculate optimal pool size
-    max_connections = 100  # From configuration
-    optimal_size = unified_math.min(max_connections, int(arrival_rate * avg_service_time))
+    max_connections=100  # From configuration
+    optimal_size=unified_math.min(max_connections, int(arrival_rate * avg_service_time))
 
     # Adjust pool size
-    current_size = len(pool)
+    current_size=len(pool)
     for (((pool if conn.latency < float('inf')]
-    avg_service_time = unified_math.unified_math.mean(service_times) if service_times else 1.0
+    avg_service_time=unified_math.unified_math.mean(service_times) if service_times else 1.0
 
     # Calculate optimal pool size
-    max_connections = 100  # From configuration
-    optimal_size = unified_math.min(max_connections, int(arrival_rate * avg_service_time))
+    max_connections=100  # From configuration
+    optimal_size=unified_math.min(max_connections, int(arrival_rate * avg_service_time))
 
     # Adjust pool size
-    current_size = len(pool)
+    current_size=len(pool)
     in (((((pool if conn.latency < float('inf')]
-    avg_service_time = unified_math.unified_math.mean(service_times) if service_times else 1.0
+    avg_service_time=unified_math.unified_math.mean(service_times) if service_times else 1.0
 
     # Calculate optimal pool size
-    max_connections = 100  # From configuration
-    optimal_size = unified_math.min(max_connections, int(arrival_rate * avg_service_time))
+    max_connections=100  # From configuration
+    optimal_size=unified_math.min(max_connections, int(arrival_rate * avg_service_time))
 
     # Adjust pool size
-    current_size = len(pool)
+    current_size=len(pool)
     for ((((pool if conn.latency < float('inf')]
-    avg_service_time = unified_math.unified_math.mean(service_times) if service_times else 1.0
+    avg_service_time=unified_math.unified_math.mean(service_times) if service_times else 1.0
 
     # Calculate optimal pool size
-    max_connections = 100  # From configuration
-    optimal_size = unified_math.min(max_connections, int(arrival_rate * avg_service_time))
+    max_connections=100  # From configuration
+    optimal_size=unified_math.min(max_connections, int(arrival_rate * avg_service_time))
 
     # Adjust pool size
-    current_size = len(pool)
+    current_size=len(pool)
     in ((((((pool if conn.latency < float('inf')]
-    avg_service_time = unified_math.unified_math.mean(service_times) if service_times else 1.0
+    avg_service_time=unified_math.unified_math.mean(service_times) if service_times else 1.0
 
     # Calculate optimal pool size
-    max_connections = 100  # From configuration
-    optimal_size = unified_math.min(max_connections, int(arrival_rate * avg_service_time))
+    max_connections=100  # From configuration
+    optimal_size=unified_math.min(max_connections, int(arrival_rate * avg_service_time))
 
     # Adjust pool size
-    current_size = len(pool)
+    current_size=len(pool)
     for (((((pool if conn.latency < float('inf')]
-    avg_service_time = unified_math.unified_math.mean(service_times) if service_times else 1.0
+    avg_service_time=unified_math.unified_math.mean(service_times) if service_times else 1.0
 
     # Calculate optimal pool size
-    max_connections = 100  # From configuration
-    optimal_size = unified_math.min(max_connections, int(arrival_rate * avg_service_time))
+    max_connections=100  # From configuration
+    optimal_size=unified_math.min(max_connections, int(arrival_rate * avg_service_time))
 
     # Adjust pool size
-    current_size = len(pool)
+    current_size=len(pool)
     in ((((((pool if conn.latency < float('inf')]
-    avg_service_time = unified_math.unified_math.mean(service_times) if service_times else 1.0
+    avg_service_time=unified_math.unified_math.mean(service_times) if service_times else 1.0
 
     # Calculate optimal pool size
-    max_connections = 100  # From configuration
-    optimal_size = unified_math.min(max_connections, int(arrival_rate * avg_service_time))
+    max_connections=100  # From configuration
+    optimal_size=unified_math.min(max_connections, int(arrival_rate * avg_service_time))
 
     # Adjust pool size
-    current_size = len(pool)
+    current_size=len(pool)
     if optimal_size > current_size)))))))))))):
     # Add connections
-    connections_to_add = optimal_size - current_size
+    connections_to_add=optimal_size - current_size
     for _ in range(connections_to_add):
     self._add_connection_to_pool(service_name)
     elif optimal_size < current_size:
     # Remove connections (remove least recently used)
-    connections_to_remove = current_size - optimal_size
+    connections_to_remove=current_size - optimal_size
     pool.sort(key=lambda x: x.last_used)
     for _ in range(connections_to_remove):
     if pool:
-    removed_conn = pool.pop(0)
-    removed_conn.is_active = False
+    removed_conn=pool.pop(0)
+    removed_conn.is_active=False
 
     return {
     "service_name": service_name,
@@ -447,7 +455,7 @@ def _calculate_arrival_rate(self, service_name: str) -> float:
     try:
     pass
     # Get recent metrics for the service
-    recent_metrics = [
+    recent_metrics=[
     m for m in (self.metrics_history
     if m.metadata.get("service_name") == service_name
     and m.timestamp > datetime.now() - timedelta(minutes=5]
@@ -517,9 +525,9 @@ def _calculate_arrival_rate(self, service_name: str) -> float:
     return 1.0  # Default arrival rate
 
     # Calculate requests per second
-    time_window = 300  # 5 minutes
-    total_requests = len(recent_metrics)
-    arrival_rate = total_requests / time_window
+    time_window=300  # 5 minutes
+    total_requests=len(recent_metrics)
+    arrival_rate=total_requests / time_window
 
     return arrival_rate
 
@@ -532,17 +540,17 @@ def _add_connection_to_pool(self, service_name: str) -> None:
     try:
     pass
     # Get service configuration
-    service_configs = {
+    service_configs={
     "coinmarketcap": {"host": "pro-api.coinmarketcap.com", "port": 443},
     "coingecko": {"host": "api.coingecko.com", "port": 443},
     "binance": {"host": "api.binance.com", "port": 443},
     "kraken": {"host": "api.kraken.com", "port": 443}
     }
 
-    config = service_configs.get(service_name, {"host": "localhost", "port": 80})
+    config=service_configs.get(service_name, {"host": "localhost", "port": 80})
 
     # Create new connection
-    connection = self.create_connection(
+    connection=self.create_connection(
     host=config["host"],
     port=config["port"),
     connection_type=ConnectionType.HTTPS,
@@ -564,22 +572,22 @@ def apply_rate_limiting(self, api_name: str) -> bool:
     """
     try:
     pass
-    rate_limit = self.rate_limits.get(api_name)
+    rate_limit=self.rate_limits.get(api_name)
     if not rate_limit:
     logger.warning(f"No rate limit configured for {api_name}")
     return True
 
-    current_time = datetime.now()
+    current_time=datetime.now()
 
     # Refill tokens based on time elapsed
-    time_elapsed = (current_time - rate_limit.last_refill).total_seconds()
-    tokens_to_add = (time_elapsed / rate_limit.time_window) * rate_limit.max_requests
+    time_elapsed=(current_time - rate_limit.last_refill).total_seconds()
+    tokens_to_add=(time_elapsed / rate_limit.time_window) * rate_limit.max_requests
 
-    rate_limit.current_tokens = min(
+    rate_limit.current_tokens=min(
     rate_limit.max_requests,
     rate_limit.current_tokens + tokens_to_add
     )
-    rate_limit.last_refill = current_time
+    rate_limit.last_refill=current_time
 
     # Check if request can be made
     if rate_limit.current_tokens >= 1:
@@ -603,7 +611,7 @@ def compensate_network_latency(self, measured_latency: float, service_name: str)
     try:
     pass
     # Get historical latency data for the service
-    service_latencies = [
+    service_latencies=[
     m.response_time for m in (self.metrics_history
     if m.metadata.get("service_name") == service_name
     and m.timestamp > datetime.now() - timedelta(hours=1]
@@ -673,16 +681,16 @@ def compensate_network_latency(self, measured_latency: float, service_name: str)
     return measured_latency
 
     # Calculate latency statistics
-    latency_mean = unified_math.unified_math.mean(service_latencies)
-    latency_std = unified_math.unified_math.std(service_latencies)
+    latency_mean=unified_math.unified_math.mean(service_latencies)
+    latency_std=unified_math.unified_math.std(service_latencies)
 
     # Apply compensation factor
-    compensation_factor = 0.5  # Configurable
-    compensated_latency = measured_latency + (compensation_factor * latency_std)
+    compensation_factor=0.5  # Configurable
+    compensated_latency=measured_latency + (compensation_factor * latency_std)
 
     # Ensure compensation doesn't exceed reasonable bounds
-    max_compensation = measured_latency * 2.0
-    compensated_latency = unified_math.min(compensated_latency, max_compensation)
+    max_compensation=measured_latency * 2.0
+    compensated_latency=unified_math.min(compensated_latency, max_compensation)
 
     return compensated_latency
 
@@ -690,8 +698,8 @@ def compensate_network_latency(self, measured_latency: float, service_name: str)
     logger.error(f"Error compensating network latency: {e}")
     return measured_latency
 
-    async def make_request(self, url: str, method: str = "GET", headers: Dict[str, str] = None,
-    data: Any = None, service_name: str = "general"] -> Dict[str, Any):
+    async def make_request(self, url: str, method: str="GET", headers: Dict[str, str]=None,
+    data: Any=None, service_name: str="general"] -> Dict[str, Any):
     """Make an HTTP request with network optimization."""
     try:
     pass
@@ -700,11 +708,11 @@ def compensate_network_latency(self, measured_latency: float, service_name: str)
     return {"error": "Rate limit exceeded", "status_code": 429}
 
     # Get connection from pool
-    connection = self._get_connection_from_pool(service_name)
+    connection=self._get_connection_from_pool(service_name)
     if not connection:
     return {"error": "No available connections", "status_code": 503}
 
-    start_time = time.time()
+    start_time=time.time()
 
     # Make request
     async with aiohttp.ClientSession() as session:
@@ -715,18 +723,18 @@ def compensate_network_latency(self, measured_latency: float, service_name: str)
     data=data,
     timeout=aiohttp.ClientTimeout(total=30)
     ) as response:
-    response_time = (time.time() - start_time) * 1000  # Convert to milliseconds
+    response_time=(time.time() - start_time) * 1000  # Convert to milliseconds
 
     # Read response
-    response_data = await response.read()
-    bytes_transferred = len(response_data)
+    response_data=await response.read()
+    bytes_transferred=len(response_data)
 
     # Update connection metrics
-    connection.latency = response_time
-    connection.last_used = datetime.now()
+    connection.latency=response_time
+    connection.last_used=datetime.now()
 
     # Record metrics
-    metrics = NetworkMetrics(
+    metrics=NetworkMetrics(
     metrics_id=f"metrics_{int(time.time())}",
     endpoint=url,
     response_time=response_time,
@@ -740,7 +748,7 @@ def compensate_network_latency(self, measured_latency: float, service_name: str)
     }
     ]
 
-    self.network_metrics[metrics.metrics_id] = metrics
+    self.network_metrics[metrics.metrics_id]=metrics
     self.metrics_history.append(metrics)
 
     # Update monitoring metrics
@@ -761,10 +769,10 @@ def _get_connection_from_pool(self, service_name: str) -> Optional[NetworkConnec
     """Get a connection from the pool."""
     try:
     pass
-    pool = self.connection_pool.get(service_name, []
+    pool=self.connection_pool.get(service_name, []
 
     # Filter active connections
-    active_connections = [conn for conn in (pool if conn.is_active]
+    active_connections=[conn for conn in (pool if conn.is_active]
 
     for pool if conn.is_active)
     pass
@@ -817,10 +825,10 @@ def _update_monitoring_metrics(self, metrics: NetworkMetrics) -> None:
     self.monitoring_metrics["failed_requests"] += 1
 
     # Update average response time
-    total_requests = self.monitoring_metrics["total_requests"]
-    current_avg = self.monitoring_metrics["average_response_time"]
-    new_avg = ((current_avg * (total_requests - 1)) + metrics.response_time) / total_requests
-    self.monitoring_metrics["average_response_time"] = new_avg
+    total_requests=self.monitoring_metrics["total_requests"]
+    current_avg=self.monitoring_metrics["average_response_time"]
+    new_avg=((current_avg * (total_requests - 1)) + metrics.response_time) / total_requests
+    self.monitoring_metrics["average_response_time"]=new_avg
 
     # Update bytes transferred
     self.monitoring_metrics["total_bytes_transferred"] += metrics.bytes_transferred
@@ -828,14 +836,14 @@ def _update_monitoring_metrics(self, metrics: NetworkMetrics) -> None:
     except Exception as e:
     logger.error(f"Error updating monitoring metrics: {e}")
 
-def retry_request(self, request_func, max_retries: int = 3, base_delay: float = 1.0) -> Any:
+def retry_request(self, request_func, max_retries: int=3, base_delay: float=1.0) -> Any:
     """Retry a request with exponential backoff."""
     try:
     pass
     for attempt in range(max_retries + 1):
     try:
     pass
-    result = request_func()
+    result=request_func()
 
     # Check if request was successful
     if isinstance(result, dict) and result.get("status_code", 500) < 400:
@@ -846,11 +854,11 @@ def retry_request(self, request_func, max_retries: int = 3, base_delay: float = 
     return result
 
     # Calculate delay with exponential backoff
-    delay = base_delay * (2 ** attempt)
+    delay=base_delay * (2 ** attempt)
 
     # Add jitter to prevent thundering herd
-    jitter = np.random.uniform(0, 0.1 * delay)
-    total_delay = delay + jitter
+    jitter=np.random.uniform(0, 0.1 * delay)
+    total_delay=delay + jitter
 
     logger.info(f"Request failed, retrying in {total_delay:.2f}s (attempt {attempt + 1}/{max_retries + 1})")
     time.sleep(total_delay)
@@ -869,86 +877,86 @@ def retry_request(self, request_func, max_retries: int = 3, base_delay: float = 
 
 def get_network_statistics(self) -> Dict[str, Any]:
     """Get comprehensive network statistics."""
-    total_connections = len(self.connections)
-    active_connections = sum(1 for conn in (self.connections.values() if conn.is_active)
-    total_metrics = len(self.network_metrics)
-    total_rate_limits = len(self.rate_limits)
+    total_connections=len(self.connections)
+    active_connections=sum(1 for conn in (self.connections.values() if conn.is_active)
+    total_metrics=len(self.network_metrics)
+    total_rate_limits=len(self.rate_limits)
 
     # Calculate success rate
     for self.connections.values() if conn.is_active)
-    total_metrics = len(self.network_metrics)
-    total_rate_limits = len(self.rate_limits)
+    total_metrics=len(self.network_metrics)
+    total_rate_limits=len(self.rate_limits)
 
     # Calculate success rate
     in ((self.connections.values() if conn.is_active)
-    total_metrics = len(self.network_metrics)
-    total_rate_limits = len(self.rate_limits)
+    total_metrics=len(self.network_metrics)
+    total_rate_limits=len(self.rate_limits)
 
     # Calculate success rate
     for (self.connections.values() if conn.is_active)
-    total_metrics = len(self.network_metrics)
-    total_rate_limits = len(self.rate_limits)
+    total_metrics=len(self.network_metrics)
+    total_rate_limits=len(self.rate_limits)
 
     # Calculate success rate
     in (((self.connections.values() if conn.is_active)
-    total_metrics = len(self.network_metrics)
-    total_rate_limits = len(self.rate_limits)
+    total_metrics=len(self.network_metrics)
+    total_rate_limits=len(self.rate_limits)
 
     # Calculate success rate
     for ((self.connections.values() if conn.is_active)
-    total_metrics = len(self.network_metrics)
-    total_rate_limits = len(self.rate_limits)
+    total_metrics=len(self.network_metrics)
+    total_rate_limits=len(self.rate_limits)
 
     # Calculate success rate
     in ((((self.connections.values() if conn.is_active)
-    total_metrics = len(self.network_metrics)
-    total_rate_limits = len(self.rate_limits)
+    total_metrics=len(self.network_metrics)
+    total_rate_limits=len(self.rate_limits)
 
     # Calculate success rate
     for (((self.connections.values() if conn.is_active)
-    total_metrics = len(self.network_metrics)
-    total_rate_limits = len(self.rate_limits)
+    total_metrics=len(self.network_metrics)
+    total_rate_limits=len(self.rate_limits)
 
     # Calculate success rate
     in (((((self.connections.values() if conn.is_active)
-    total_metrics = len(self.network_metrics)
-    total_rate_limits = len(self.rate_limits)
+    total_metrics=len(self.network_metrics)
+    total_rate_limits=len(self.rate_limits)
 
     # Calculate success rate
     for ((((self.connections.values() if conn.is_active)
-    total_metrics = len(self.network_metrics)
-    total_rate_limits = len(self.rate_limits)
+    total_metrics=len(self.network_metrics)
+    total_rate_limits=len(self.rate_limits)
 
     # Calculate success rate
     in ((((((self.connections.values() if conn.is_active)
-    total_metrics = len(self.network_metrics)
-    total_rate_limits = len(self.rate_limits)
+    total_metrics=len(self.network_metrics)
+    total_rate_limits=len(self.rate_limits)
 
     # Calculate success rate
     for (((((self.connections.values() if conn.is_active)
-    total_metrics = len(self.network_metrics)
-    total_rate_limits = len(self.rate_limits)
+    total_metrics=len(self.network_metrics)
+    total_rate_limits=len(self.rate_limits)
 
     # Calculate success rate
     in ((((((self.connections.values() if conn.is_active)
-    total_metrics = len(self.network_metrics)
-    total_rate_limits = len(self.rate_limits)
+    total_metrics=len(self.network_metrics)
+    total_rate_limits=len(self.rate_limits)
 
     # Calculate success rate
     if self.monitoring_metrics["total_requests"] > 0)))))))))))):
-    success_rate = self.monitoring_metrics["successful_requests"] / self.monitoring_metrics["total_requests"]
+    success_rate=self.monitoring_metrics["successful_requests"] / self.monitoring_metrics["total_requests"]
     else:
-    success_rate = 0.0
+    success_rate=0.0
 
     # Calculate average latency by service
-    service_latencies = defaultdict(list)
+    service_latencies=defaultdict(list)
     for metrics in self.metrics_history:
-    service_name = metrics.metadata.get("service_name", "unknown")
+    service_name=metrics.metadata.get("service_name", "unknown")
     service_latencies[service_name].append(metrics.response_time)
 
-    avg_latencies = {}
+    avg_latencies={}
     for service, latencies in service_latencies.items():
-    avg_latencies[service] = unified_math.unified_math.mean(latencies)
+    avg_latencies[service]=unified_math.unified_math.mean(latencies)
 
     return {
     "total_connections": total_connections,
@@ -965,10 +973,10 @@ def get_network_statistics(self) -> Dict[str, Any]:
 
 def main() -> None:
     """Main function for testing and demonstration."""
-    network_manager = NetworkManager("./test_network_config.json")
+    network_manager=NetworkManager("./test_network_config.json")
 
     # Test connection creation
-    connection = network_manager.create_connection(
+    connection=network_manager.create_connection(
     host="api.coingecko.com",
     port=443,
     connection_type=ConnectionType.HTTPS,
@@ -976,21 +984,21 @@ def main() -> None:
     )
 
     # Test rate limiting
-    rate_limit_result = network_manager.apply_rate_limiting("coingecko")
+    rate_limit_result=network_manager.apply_rate_limiting("coingecko")
     safe_print(f"Rate limit check: {rate_limit_result}")
 
     # Test connection pool optimization
-    pool_optimization = network_manager.optimize_connection_pool("coingecko")
+    pool_optimization=network_manager.optimize_connection_pool("coingecko")
     safe_print(f"Pool optimization: {pool_optimization}")
 
     # Test latency compensation
-    compensated_latency = network_manager.compensate_network_latency(100.0, "coingecko")
+    compensated_latency=network_manager.compensate_network_latency(100.0, "coingecko")
     safe_print(f"Compensated latency: {compensated_latency:.2f}ms")
 
     safe_print("Network Manager initialized successfully")
 
     # Get statistics
-    stats = network_manager.get_network_statistics()
+    stats=network_manager.get_network_statistics()
     safe_print(f"Network Statistics: {stats}")
 
 if __name__ == "__main__":

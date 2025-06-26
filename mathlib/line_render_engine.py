@@ -17,20 +17,20 @@ logger = logging.getLogger(__name__)
 
 class LineRenderEngine:
     """Engine for rendering mathematical lines and trading visualizations."""
-    
+
     def __init__(self):
         """Initialize the line render engine."""
         self.precision = np.float64
         self.max_points = 10000
-        
+
     def render_price_line(self, prices: List[float], timestamps: Optional[List[float]] = None) -> Dict[str, Any]:
         """
         Render price line data for visualization.
-        
+
         Args:
             prices: List of price points
             timestamps: Optional timestamps
-            
+
         Returns:
             Dictionary with line data
         """
@@ -38,20 +38,20 @@ class LineRenderEngine:
     pass
             if not prices:
                 return {"points": [], "error": "No price data"}
-                
+
             # Limit points for performance
             if len(prices) > self.max_points:
                 step = len(prices) // self.max_points
                 prices = prices[::step]
                 if timestamps:
                     timestamps = timestamps[::step]
-            
+
             # Create line points
             if timestamps is None:
                 timestamps = list(range(len(prices)))
-                
+
             points = [(float(t), float(p)) for t, p in zip(timestamps, prices)]
-            
+
             return {
                 "points": points,
                 "count": len(points),
@@ -59,7 +59,7 @@ class LineRenderEngine:
                 "max_price": unified_math.max(prices),
                 "type": "price_line"
             }
-            
+
         except Exception as e:
             logger.error(f"Price line rendering failed: {e}")
             return {"points": [], "error": str(e)}

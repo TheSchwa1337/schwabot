@@ -53,6 +53,7 @@ import joblib
 
 logger = logging.getLogger(__name__)
 
+
 class ModelType(Enum):
     LINEAR_REGRESSION = "linear_regression"
     LOGISTIC_REGRESSION = "logistic_regression"
@@ -62,6 +63,7 @@ class ModelType(Enum):
     ENSEMBLE = "ensemble"
     CUSTOM = "custom"
 
+
 class PredictionType(Enum):
     PRICE = "price"
     DIRECTION = "direction"
@@ -70,12 +72,14 @@ class PredictionType(Enum):
     TREND = "trend"
     SIGNAL = "signal"
 
+
 class ModelStatus(Enum):
     TRAINING = "training"
     TRAINED = "trained"
     PREDICTING = "predicting"
     ERROR = "error"
     RETRAINING = "retraining"
+
 
 @dataclass
 class Feature:
@@ -84,6 +88,7 @@ class Feature:
     feature_type: str  # technical, fundamental, market, custom
     importance: float = 0.0
     metadata: Dict[str, Any] = field(default_factory=dict)
+
 
 @dataclass
 class Prediction:
@@ -99,6 +104,7 @@ class Prediction:
     error: Optional[float] = None
     metadata: Dict[str, Any] = field(default_factory=dict)
 
+
 @dataclass
 class ModelPerformance:
     model_name: str
@@ -110,6 +116,7 @@ class ModelPerformance:
     mae: float
     timestamp: datetime
     metadata: Dict[str, Any] = field(default_factory=dict)
+
 
 @dataclass
 class ModelConfig:
@@ -123,13 +130,16 @@ class ModelConfig:
     validation_split: float = 0.2
     metadata: Dict[str, Any] = field(default_factory=dict)
 
+
 class FeatureEngineer:
     """Feature engineering and selection."""
+
 
 def __init__(self):
     self.feature_scalers: Dict[str, StandardScaler] = {}
     self.feature_importance: Dict[str, float] = {}
     self.selected_features: List[str] = []
+
 
 def create_technical_features(self, prices: np.ndarray, volumes: np.ndarray = None) -> Dict[str, np.ndarray]:
     """Create technical analysis features."""
@@ -190,6 +200,7 @@ def create_technical_features(self, prices: np.ndarray, volumes: np.ndarray = No
     logger.error(f"Error creating technical features: {e}")
     return {'price': prices}
 
+
 def create_market_features(self, prices: np.ndarray, market_data: Dict[str, np.ndarray] -> Dict[str, np.ndarray]:
     """Create market-related features."""
     try:
@@ -203,19 +214,19 @@ def create_market_features(self, prices: np.ndarray, market_data: Dict[str, np.n
 
     # Correlation with major indices
     if 'sp500' in market_data:
-    features['sp500_correlation'] = self._calculate_rolling_correlation(prices, market_data['sp500'], 20]
+    features['sp500_correlation']=self._calculate_rolling_correlation(prices, market_data['sp500'], 20]
 
     if 'nasdaq' in market_data:
-    features['nasdaq_correlation'] = self._calculate_rolling_correlation(prices, market_data['nasdaq'], 20]
+    features['nasdaq_correlation']=self._calculate_rolling_correlation(prices, market_data['nasdaq'], 20]
 
     # Volatility index
     if 'vix' in market_data:
-    features['vix'] = market_data['vix']
-    features['vix_change'] = np.diff(market_data['vix'], prepend=market_data['vix'][0]]
+    features['vix']=market_data['vix']
+    features['vix_change']=np.diff(market_data['vix'], prepend=market_data['vix'][0]]
 
     # Remove NaN values
     for key in features:
-    features[key] = np.nan_to_num(features[key], nan=0.0)
+    features[key]=np.nan_to_num(features[key], nan=0.0)
 
     return features
 
@@ -224,7 +235,7 @@ def create_market_features(self, prices: np.ndarray, market_data: Dict[str, np.n
     return {}
 
 def select_features(self, features: Dict[str, np.ndarray], target: np.ndarray,
-    method: str = "correlation", threshold: float = 0.1] -> List[str):
+    method: str="correlation", threshold: float=0.1] -> List[str):
     """Select most important features."""
     try:
     pass
@@ -241,18 +252,19 @@ def select_features(self, features: Dict[str, np.ndarray], target: np.ndarray,
     logger.error(f"Error selecting features: {e}")
     return list(features.keys()]
 
-def scale_features(self, features: Dict[str, np.ndarray], fit: bool = True] -> Dict[str, np.ndarray):
+def scale_features(self, features: Dict[str, np.ndarray], fit: bool=True] -> Dict[str, np.ndarray):
     """Scale features using standardization."""
     try:
     pass
-    scaled_features = {}
+    scaled_features={}
 
     for feature_name, feature_values in features.items(]:
     if fit or feature_name not in self.feature_scalers:
-    self.feature_scalers[feature_name] = StandardScaler()
-    scaled_features[feature_name] = self.feature_scalers[feature_name].fit_transform(feature_values.reshape(-1, 1)).flatten()
+    self.feature_scalers[feature_name]=StandardScaler()
+    scaled_features[feature_name]=self.feature_scalers[feature_name].fit_transform(
+        feature_values.reshape(-1, 1)).flatten()
     else:
-    scaled_features[feature_name] = self.feature_scalers[feature_name].transform(feature_values.reshape(-1, 1)).flatten()
+    scaled_features[feature_name]=self.feature_scalers[feature_name].transform(feature_values.reshape(-1, 1)).flatten()
 
     return scaled_features
 
@@ -267,10 +279,10 @@ def _calculate_sma(self, data: np.ndarray, window: int) -> np.ndarray:
     if len(data) < window:
     return np.full_like(data, np.nan)
 
-    sma = np.convolve(data, np.ones(window)/window, mode='valid')
+    sma=np.convolve(data, np.ones(window)/window, mode='valid')
     # Pad with NaN values
-    padded_sma = np.full(len(data), np.nan)
-    padded_sma[window-1:] = sma
+    padded_sma=np.full(len(data), np.nan)
+    padded_sma[window-1:]=sma
 
     return padded_sma
 
@@ -284,12 +296,12 @@ def _calculate_ema(self, data: np.ndarray, window: int) -> np.ndarray:
     if len(data) < window:
     return np.full_like(data, np.nan)
 
-    alpha = 2 / (window + 1)
-    ema = np.zeros_like(data)
-    ema[0] = data[0]
+    alpha=2 / (window + 1)
+    ema=np.zeros_like(data)
+    ema[0]=data[0]
 
     for i in range(1, len(data)):
-    ema[i] = alpha * data[i] + (1 - alpha) * ema[i-1]
+    ema[i]=alpha * data[i] + (1 - alpha) * ema[i-1]
 
     return ema
 
@@ -303,11 +315,11 @@ def _calculate_volatility(self, data: np.ndarray, window: int) -> np.ndarray:
     if len(data) < window:
     return np.full_like(data, np.nan)
 
-    returns = np.diff(data, prepend=data[0]) / data
-    volatility = np.zeros_like(data)
+    returns=np.diff(data, prepend=data[0]) / data
+    volatility=np.zeros_like(data)
 
     for i in range(window-1, len(data)]:
-    volatility[i] = unified_math.unified_math.std(returns[i-window+1:i+1])
+    volatility[i]=unified_math.unified_math.std(returns[i-window+1:i+1])
 
     return volatility
 
@@ -321,26 +333,26 @@ def _calculate_rsi(self, data: np.ndarray, window: int) -> np.ndarray:
     if len(data) < window + 1:
     return np.full_like(data, 50.0)
 
-    deltas = np.diff(data)
-    gains = np.where(deltas > 0, deltas, 0)
-    losses = np.where(deltas < 0, -deltas, 0)
+    deltas=np.diff(data)
+    gains=np.where(deltas > 0, deltas, 0)
+    losses=np.where(deltas < 0, -deltas, 0)
 
-    rsi = np.zeros_like(data)
-    rsi[0] = 50.0  # Neutral value for first point
+    rsi=np.zeros_like(data)
+    rsi[0]=50.0  # Neutral value for first point
 
     for i in range(1, len(data)):
     if i < window:
-    avg_gain = unified_math.unified_math.mean(gains[:i]]
-    avg_loss = unified_math.unified_math.mean(losses[:i]]
+    avg_gain=unified_math.unified_math.mean(gains[:i]]
+    avg_loss=unified_math.unified_math.mean(losses[:i]]
     else:
-    avg_gain = unified_math.unified_math.mean(gains[i-window:i]]
-    avg_loss = unified_math.unified_math.mean(losses[i-window:i]]
+    avg_gain=unified_math.unified_math.mean(gains[i-window:i]]
+    avg_loss=unified_math.unified_math.mean(losses[i-window:i]]
 
     if avg_loss == 0:
-    rsi[i] = 100.0
+    rsi[i]=100.0
     else:
-    rs = avg_gain / avg_loss
-    rsi[i) = 100 - (100 / (1 + rs))
+    rs=avg_gain / avg_loss
+    rsi[i)=100 - (100 / (1 + rs))
 
     return rsi
 
@@ -354,33 +366,33 @@ def _calculate_bollinger_bands(self, data: np.ndarray, window: int, std_dev: flo
     if len(data) < window:
     return data, data, data
 
-    sma = self._calculate_sma(data, window)
-    std = np.zeros_like(data)
+    sma=self._calculate_sma(data, window)
+    std=np.zeros_like(data)
 
     for i in range(window-1, len(data)):
-    std[i] = unified_math.unified_math.std(data[i-window+1:i+1])
+    std[i]=unified_math.unified_math.std(data[i-window+1:i+1])
 
-    upper_band = sma + (std_dev * std)
-    lower_band = sma - (std_dev * std)
+    upper_band=sma + (std_dev * std)
+    lower_band=sma - (std_dev * std)
 
     return upper_band, sma, lower_band
 
     except Exception:
     return data, data, data
 
-def _calculate_price_volume_correlation(self, prices: np.ndarray, volumes: np.ndarray, window: int = 20) -> np.ndarray:
+def _calculate_price_volume_correlation(self, prices: np.ndarray, volumes: np.ndarray, window: int=20) -> np.ndarray:
     """Calculate rolling price-volume correlation."""
     try:
     pass
     if len(prices) < window:
     return np.full_like(prices, 0.0)
 
-    correlation = np.zeros_like(prices)
+    correlation=np.zeros_like(prices)
 
     for i in range(window-1, len(prices)]:
-    price_window = prices[i-window+1:i+1]
-    volume_window = volumes[i-window+1:i+1]
-    correlation[i] = unified_math.unified_math.correlation(price_window, volume_window)[0, 1]
+    price_window=prices[i-window+1:i+1]
+    volume_window=volumes[i-window+1:i+1]
+    correlation[i]=unified_math.unified_math.correlation(price_window, volume_window)[0, 1]
 
     return np.nan_to_num(correlation, nan=0.0)
 
@@ -394,11 +406,11 @@ def _calculate_rolling_correlation(self, data1: np.ndarray, data2: np.ndarray, w
     if len(data1) != len(data2) or len(data1) < window:
     return np.full_like(data1, 0.0)
 
-    correlation = np.zeros_like(data1)
+    correlation=np.zeros_like(data1)
 
     for i in range(window-1, len(data1)):
-    corr = unified_math.unified_math.correlation(data1[i-window+1:i+1], data2[i-window+1:i+1]][0, 1]
-    correlation[i) = corr if not np.isnan(corr) else 0.0
+    corr=unified_math.unified_math.correlation(data1[i-window+1:i+1], data2[i-window+1:i+1]][0, 1]
+    correlation[i)=corr if not np.isnan(corr) else 0.0
 
     return correlation
 
@@ -409,14 +421,14 @@ def _select_by_correlation(self, features: Dict[str, np.ndarray], target: np.nda
     """Select features based on correlation with target."""
     try:
     pass
-    selected_features = [)
+    selected_features=[)
 
     for feature_name, feature_values in features.items():
     if len(feature_values) == len(target):
-    correlation = unified_math.unified_math.correlation(feature_values, target)[0, 1]
+    correlation=unified_math.unified_math.correlation(feature_values, target)[0, 1]
     if not np.isnan(correlation) and unified_math.abs(correlation) > threshold:
     selected_features.append(feature_name)
-    self.feature_importance[feature_name] = unified_math.abs(correlation)
+    self.feature_importance[feature_name]=unified_math.abs(correlation)
 
     return selected_features
 
@@ -429,15 +441,15 @@ def _select_by_mutual_info(self, features: Dict[str, np.ndarray], target: np.nda
     try:
     pass
     # Simplified mutual information calculation
-    selected_features = [)
+    selected_features=[)
 
     for feature_name, feature_values in features.items():
     if len(feature_values) == len(target):
     # Use correlation as a proxy for mutual information
-    correlation = unified_math.unified_math.correlation(feature_values, target)[0, 1]
+    correlation=unified_math.unified_math.correlation(feature_values, target)[0, 1]
     if not np.isnan(correlation) and unified_math.abs(correlation) > threshold:
     selected_features.append(feature_name)
-    self.feature_importance[feature_name] = unified_math.abs(correlation)
+    self.feature_importance[feature_name]=unified_math.abs(correlation)
 
     return selected_features
 
@@ -450,18 +462,18 @@ def _select_by_random_forest(self, features: Dict[str, np.ndarray], target: np.n
     try:
     pass
     # Prepare data
-    feature_matrix = np.column_stack([features[name] for name in features.keys(]))
+    feature_matrix=np.column_stack([features[name] for name in features.keys(]))
 
     # Train Random Forest
-    rf = RandomForestRegressor(n_estimators=100, random_state=42)
+    rf=RandomForestRegressor(n_estimators=100, random_state=42)
     rf.fit(feature_matrix, target)
 
     # Get feature importance
-    selected_features = []
+    selected_features=[]
     for i, (feature_name, importance) in enumerate(zip(features.keys(), rf.feature_importances_)):
     if importance > threshold:
     selected_features.append(feature_name)
-    self.feature_importance[feature_name] = importance
+    self.feature_importance[feature_name]=importance
 
     return selected_features
 
@@ -473,39 +485,39 @@ class ModelTrainer:
     """Model training and validation."""
 
 def __init__(self):
-    self.models: Dict[str, Any] = {}
-    self.model_performance: Dict[str, ModelPerformance] = {}
-    self.scalers: Dict[str, StandardScaler] = {}
+    self.models: Dict[str, Any]={}
+    self.model_performance: Dict[str, ModelPerformance]={}
+    self.scalers: Dict[str, StandardScaler]={}
 
 def train_linear_regression(self, X: np.ndarray, y: np.ndarray, model_name: str) -> bool:
     """Train linear regression model."""
     try:
     pass
     # Split data
-    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+    X_train, X_test, y_train, y_test=train_test_split(X, y, test_size=0.2, random_state=42)
 
     # Scale features
-    scaler = StandardScaler()
-    X_train_scaled = scaler.fit_transform(X_train)
-    X_test_scaled = scaler.transform(X_test)
+    scaler=StandardScaler()
+    X_train_scaled=scaler.fit_transform(X_train)
+    X_test_scaled=scaler.transform(X_test)
 
     # Train model
-    model = LinearRegression()
+    model=LinearRegression()
     model.fit(X_train_scaled, y_train)
 
     # Make predictions
-    y_pred = model.predict(X_test_scaled)
+    y_pred=model.predict(X_test_scaled)
 
     # Calculate performance metrics
-    mse = mean_squared_error(y_test, y_pred)
-    mae = unified_math.unified_math.mean(unified_math.unified_math.abs(y_test - y_pred))
+    mse=mean_squared_error(y_test, y_pred)
+    mae=unified_math.unified_math.mean(unified_math.unified_math.abs(y_test - y_pred))
 
     # Store model and scaler
-    self.models[model_name] = model
-    self.scalers[model_name] = scaler
+    self.models[model_name]=model
+    self.scalers[model_name]=scaler
 
     # Store performance
-    self.model_performance[model_name] = ModelPerformance(
+    self.model_performance[model_name]=ModelPerformance(
     model_name=model_name,
     accuracy=0.0,  # Not applicable for regression
     precision=0.0,
@@ -528,30 +540,30 @@ def train_logistic_regression(self, X: np.ndarray, y: np.ndarray, model_name: st
     try:
     pass
     # Split data
-    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+    X_train, X_test, y_train, y_test=train_test_split(X, y, test_size=0.2, random_state=42)
 
     # Scale features
-    scaler = StandardScaler()
-    X_train_scaled = scaler.fit_transform(X_train)
-    X_test_scaled = scaler.transform(X_test)
+    scaler=StandardScaler()
+    X_train_scaled=scaler.fit_transform(X_train)
+    X_test_scaled=scaler.transform(X_test)
 
     # Train model
-    model = LogisticRegression(random_state=42)
+    model=LogisticRegression(random_state=42)
     model.fit(X_train_scaled, y_train)
 
     # Make predictions
-    y_pred = model.predict(X_test_scaled)
+    y_pred=model.predict(X_test_scaled)
 
     # Calculate performance metrics
-    accuracy = accuracy_score(y_test, y_pred)
-    report = classification_report(y_test, y_pred, output_dict=True)
+    accuracy=accuracy_score(y_test, y_pred)
+    report=classification_report(y_test, y_pred, output_dict=True)
 
     # Store model and scaler
-    self.models[model_name] = model
-    self.scalers[model_name] = scaler
+    self.models[model_name]=model
+    self.scalers[model_name]=scaler
 
     # Store performance
-    self.model_performance[model_name] = ModelPerformance(
+    self.model_performance[model_name]=ModelPerformance(
     model_name=model_name,
     accuracy=accuracy,
     precision=report['weighted avg']['precision'],
@@ -570,49 +582,49 @@ def train_logistic_regression(self, X: np.ndarray, y: np.ndarray, model_name: st
     return False
 
 def train_random_forest(self, X: np.ndarray, y: np.ndarray, model_name: str,
-    is_classification: bool = False) -> bool:
+    is_classification: bool=False) -> bool:
     """Train random forest model."""
     try:
     pass
     # Split data
-    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+    X_train, X_test, y_train, y_test=train_test_split(X, y, test_size=0.2, random_state=42)
 
     # Scale features
-    scaler = StandardScaler()
-    X_train_scaled = scaler.fit_transform(X_train)
-    X_test_scaled = scaler.transform(X_test)
+    scaler=StandardScaler()
+    X_train_scaled=scaler.fit_transform(X_train)
+    X_test_scaled=scaler.transform(X_test)
 
     # Train model
     if is_classification:
-    model = RandomForestClassifier(n_estimators=100, random_state=42)
+    model=RandomForestClassifier(n_estimators=100, random_state=42)
     else:
-    model = RandomForestRegressor(n_estimators=100, random_state=42)
+    model=RandomForestRegressor(n_estimators=100, random_state=42)
 
     model.fit(X_train_scaled, y_train)
 
     # Make predictions
-    y_pred = model.predict(X_test_scaled)
+    y_pred=model.predict(X_test_scaled)
 
     # Calculate performance metrics
     if is_classification:
-    accuracy = accuracy_score(y_test, y_pred)
-    report = classification_report(y_test, y_pred, output_dict=True)
-    mse = 0.0
-    mae = 0.0
+    accuracy=accuracy_score(y_test, y_pred)
+    report=classification_report(y_test, y_pred, output_dict=True)
+    mse=0.0
+    mae=0.0
     else:
-    accuracy = 0.0
-    precision = 0.0
-    recall = 0.0
-    f1_score = 0.0
-    mse = mean_squared_error(y_test, y_pred)
-    mae = unified_math.unified_math.mean(unified_math.unified_math.abs(y_test - y_pred)]
+    accuracy=0.0
+    precision=0.0
+    recall=0.0
+    f1_score=0.0
+    mse=mean_squared_error(y_test, y_pred)
+    mae=unified_math.unified_math.mean(unified_math.unified_math.abs(y_test - y_pred)]
 
     # Store model and scaler
-    self.models[model_name] = model
-    self.scalers[model_name] = scaler
+    self.models[model_name]=model
+    self.scalers[model_name]=scaler
 
     # Store performance
-    self.model_performance[model_name] = ModelPerformance(
+    self.model_performance[model_name]=ModelPerformance(
     model_name=model_name,
     accuracy=accuracy,
     precision=precision if is_classification else 0.0,
@@ -638,20 +650,20 @@ def predict(self, model_name: str, X: np.ndarray) -> Tuple[np.ndarray, float]:
     logger.error(f"Model {model_name} not found")
     return np.array(), 0.0
 
-    model = self.models[model_name]
-    scaler = self.scalers[model_name]
+    model=self.models[model_name]
+    scaler=self.scalers[model_name]
 
     # Scale features
-    X_scaled = scaler.transform(X)
+    X_scaled=scaler.transform(X)
 
     # Make prediction
-    prediction = model.predict(X_scaled)
+    prediction=model.predict(X_scaled)
 
     # Calculate confidence (simplified)
     if hasattr(model, 'predict_proba'):
-    confidence = unified_math.unified_math.max(model.predict_proba(X_scaled), axis=1)
+    confidence=unified_math.unified_math.max(model.predict_proba(X_scaled), axis=1)
     else:
-    confidence = np.ones(len(prediction)) * 0.8  # Default confidence
+    confidence=np.ones(len(prediction)) * 0.8  # Default confidence
 
     return prediction, confidence
 
@@ -667,7 +679,7 @@ def save_model(self, model_name: str, filepath: str) -> bool:
     logger.error(f"Model {model_name} not found")
     return False
 
-    model_data = {
+    model_data={
     'model': self.models[model_name],
     'scaler': self.scalers[model_name],
     'performance': self.model_performance[model_name]
@@ -685,11 +697,11 @@ def load_model(self, model_name: str, filepath: str) -> bool:
     """Load trained model from file."""
     try:
     pass
-    model_data = joblib.load(filepath)
+    model_data=joblib.load(filepath)
 
-    self.models[model_name] = model_data['model']
-    self.scalers[model_name] = model_data['scaler']
-    self.model_performance[model_name] = model_data['performance']
+    self.models[model_name]=model_data['model']
+    self.scalers[model_name]=model_data['scaler']
+    self.model_performance[model_name]=model_data['performance']
 
     logger.info(f"Model {model_name} loaded from {filepath}")
     return True
@@ -702,18 +714,18 @@ class ModelPredictor:
     """Main model predictor."""
 
 def __init__(self):
-    self.feature_engineer = FeatureEngineer()
-    self.model_trainer = ModelTrainer()
-    self.predictions: deque = deque(maxlen=10000)
-    self.model_configs: Dict[str, ModelConfig] = {}
-    self.is_predicting = False
-    self.prediction_thread = None
+    self.feature_engineer=FeatureEngineer()
+    self.model_trainer=ModelTrainer()
+    self.predictions: deque=deque(maxlen=10000)
+    self.model_configs: Dict[str, ModelConfig]={}
+    self.is_predicting=False
+    self.prediction_thread=None
 
 def add_model_config(self, config: ModelConfig) -> bool:
     """Add model configuration."""
     try:
     pass
-    self.model_configs[config.model_name] = config
+    self.model_configs[config.model_name]=config
     logger.info(f"Model config added: {config.model_name}")
     return True
 
@@ -721,52 +733,52 @@ def add_model_config(self, config: ModelConfig) -> bool:
     logger.error(f"Error adding model config: {e}")
     return False
 
-def train_model(self, config: ModelConfig, prices: np.ndarray, volumes: np.ndarray = None,
-    market_data: Dict[str, np.ndarray) = None) -> bool:
+def train_model(self, config: ModelConfig, prices: np.ndarray, volumes: np.ndarray=None,
+    market_data: Dict[str, np.ndarray)=None) -> bool:
     """Train a model based on configuration."""
     try:
     pass
     logger.info(f"Training model: {config.model_name}")
 
     # Create features
-    technical_features = self.feature_engineer.create_technical_features(prices, volumes)
-    market_features = self.feature_engineer.create_market_features(prices, market_data or {})
+    technical_features=self.feature_engineer.create_technical_features(prices, volumes)
+    market_features=self.feature_engineer.create_market_features(prices, market_data or {})
 
     # Combine features
-    all_features = {**technical_features, **market_features}
+    all_features={**technical_features, **market_features}
 
     # Select features
     if config.features:
-    selected_features = {k: v for k, v in (all_features.items() for all_features.items() in ((all_features.items() for (all_features.items() in (((all_features.items() for ((all_features.items() in ((((all_features.items() for (((all_features.items() in (((((all_features.items() for ((((all_features.items() in ((((((all_features.items() for (((((all_features.items() in ((((((all_features.items() if k in config.features}
+    selected_features={k: v for k, v in (all_features.items() for all_features.items() in ((all_features.items() for (all_features.items() in (((all_features.items() for ((all_features.items() in ((((all_features.items() for (((all_features.items() in (((((all_features.items() for ((((all_features.items() in ((((((all_features.items() for (((((all_features.items() in ((((((all_features.items() if k in config.features}
     else)))))))))))]:
-    selected_features = all_features
+    selected_features=all_features
 
     # Prepare target variable
     if config.target == 'price':
-    target = prices
+    target=prices
     elif config.target == 'price_change':
-    target = np.diff(prices, prepend=prices[0])
+    target=np.diff(prices, prepend=prices[0])
     elif config.target == 'price_direction':
-    target = np.where(np.diff(prices, prepend=prices[0)] > 0, 1, 0]
+    target=np.where(np.diff(prices, prepend=prices[0)] > 0, 1, 0]
     else:
-    target = prices  # Default
+    target=prices  # Default
 
     # Align features and target
-    min_length = unified_math.min(len(target), unified_math.min(len(v) for v in selected_features.values())]
-    aligned_features = {k: v[-min_length:] for k, v in selected_features.items()}
-    aligned_target = target[-min_length:]
+    min_length=unified_math.min(len(target), unified_math.min(len(v) for v in selected_features.values())]
+    aligned_features={k: v[-min_length:] for k, v in selected_features.items()}
+    aligned_target=target[-min_length:]
 
     # Convert to feature matrix
-    feature_matrix = np.column_stack(list(aligned_features.values()))
+    feature_matrix=np.column_stack(list(aligned_features.values()))
 
     # Train model based on type
     if config.model_type == ModelType.LINEAR_REGRESSION:
-    success = self.model_trainer.train_linear_regression(feature_matrix, aligned_target, config.model_name)
+    success=self.model_trainer.train_linear_regression(feature_matrix, aligned_target, config.model_name)
     elif config.model_type == ModelType.LOGISTIC_REGRESSION:
-    success = self.model_trainer.train_logistic_regression(feature_matrix, aligned_target, config.model_name)
+    success=self.model_trainer.train_logistic_regression(feature_matrix, aligned_target, config.model_name)
     elif config.model_type == ModelType.RANDOM_FOREST:
-    is_classification = config.target == 'price_direction'
-    success = self.model_trainer.train_random_forest(feature_matrix, aligned_target, config.model_name, is_classification)
+    is_classification=config.target == 'price_direction'
+    success=self.model_trainer.train_random_forest(feature_matrix, aligned_target, config.model_name, is_classification)
     else:
     logger.error(f"Model type {config.model_type.value} not implemented")
     return False
@@ -777,12 +789,12 @@ def train_model(self, config: ModelConfig, prices: np.ndarray, volumes: np.ndarr
     logger.error(f"Error training model {config.model_name}: {e}")
     return False
 
-def predict(self, symbol: str, prices: np.ndarray, volumes: np.ndarray = None,
-    market_data: Dict[str, np.ndarray] = None] -> List[Prediction]:
+def predict(self, symbol: str, prices: np.ndarray, volumes: np.ndarray=None,
+    market_data: Dict[str, np.ndarray]=None] -> List[Prediction]:
     """Generate predictions for all configured models."""
     try:
     pass
-    predictions = [)
+    predictions=[)
 
     for model_name, config in self.model_configs.items():
     if model_name not in self.model_trainer.models:
@@ -790,19 +802,19 @@ def predict(self, symbol: str, prices: np.ndarray, volumes: np.ndarray = None,
     continue
 
     # Create features
-    technical_features = self.feature_engineer.create_technical_features(prices, volumes)
-    market_features = self.feature_engineer.create_market_features(prices, market_data or {})
-    all_features = {**technical_features, **market_features}
+    technical_features=self.feature_engineer.create_technical_features(prices, volumes)
+    market_features=self.feature_engineer.create_market_features(prices, market_data or {})
+    all_features={**technical_features, **market_features}
 
     # Select features
     if config.features:
-    selected_features = {k: v for k, v in (all_features.items() for all_features.items() in ((all_features.items() for (all_features.items() in (((all_features.items() for ((all_features.items() in ((((all_features.items() for (((all_features.items() in (((((all_features.items() for ((((all_features.items() in ((((((all_features.items() for (((((all_features.items() in ((((((all_features.items() if k in config.features}
+    selected_features={k: v for k, v in (all_features.items() for all_features.items() in ((all_features.items() for (all_features.items() in (((all_features.items() for ((all_features.items() in ((((all_features.items() for (((all_features.items() in (((((all_features.items() for ((((all_features.items() in ((((((all_features.items() for (((((all_features.items() in ((((((all_features.items() if k in config.features}
     else)))))))))))):
-    selected_features = all_features
+    selected_features=all_features
 
     # Prepare feature matrix for prediction
-    feature_values = []
-    feature_names = []
+    feature_values=[]
+    feature_names=[]
 
     for name, values in selected_features.items():
     if len(values) > 0:
@@ -812,16 +824,16 @@ def predict(self, symbol: str, prices: np.ndarray, volumes: np.ndarray = None,
     if not feature_values:
     continue
 
-    X = np.array([feature_values])
+    X=np.array([feature_values])
 
     # Make prediction
-    predicted_value, confidence = self.model_trainer.predict(model_name, X)
+    predicted_value, confidence=self.model_trainer.predict(model_name, X)
 
     if len(predicted_value) == 0:
     continue
 
     # Create feature objects
-    features = [
+    features=[
     Feature(name=name, value=value, feature_type="technical")
     for name, value in (zip(feature_names, feature_values]
     )
@@ -847,7 +859,7 @@ def predict(self, symbol: str, prices: np.ndarray, volumes: np.ndarray = None,
     )
 
     # Create prediction object
-    prediction = Prediction(
+    prediction=Prediction(
     prediction_id=f"pred_{int(time.time())}_{model_name}",
     timestamp=datetime.now(),
     symbol=symbol,
@@ -857,7 +869,7 @@ def predict(self, symbol: str, prices: np.ndarray, volumes: np.ndarray = None,
     )
 
     # Create prediction object
-    prediction = Prediction(
+    prediction=Prediction(
     prediction_id=f"pred_{int(time.time())}_{model_name}",
     timestamp=datetime.now(),
     symbol=symbol,
@@ -867,7 +879,7 @@ def predict(self, symbol: str, prices: np.ndarray, volumes: np.ndarray = None,
     )
 
     # Create prediction object
-    prediction = Prediction(
+    prediction=Prediction(
     prediction_id=f"pred_{int(time.time())}_{model_name}",
     timestamp=datetime.now(),
     symbol=symbol,
@@ -877,7 +889,7 @@ def predict(self, symbol: str, prices: np.ndarray, volumes: np.ndarray = None,
     )
 
     # Create prediction object
-    prediction = Prediction(
+    prediction=Prediction(
     prediction_id=f"pred_{int(time.time())}_{model_name}",
     timestamp=datetime.now(),
     symbol=symbol,
@@ -887,7 +899,7 @@ def predict(self, symbol: str, prices: np.ndarray, volumes: np.ndarray = None,
     )
 
     # Create prediction object
-    prediction = Prediction(
+    prediction=Prediction(
     prediction_id=f"pred_{int(time.time())}_{model_name}",
     timestamp=datetime.now(),
     symbol=symbol,
@@ -897,7 +909,7 @@ def predict(self, symbol: str, prices: np.ndarray, volumes: np.ndarray = None,
     )
 
     # Create prediction object
-    prediction = Prediction(
+    prediction=Prediction(
     prediction_id=f"pred_{int(time.time())}_{model_name}",
     timestamp=datetime.now(),
     symbol=symbol,
@@ -907,7 +919,7 @@ def predict(self, symbol: str, prices: np.ndarray, volumes: np.ndarray = None,
     )
 
     # Create prediction object
-    prediction = Prediction(
+    prediction=Prediction(
     prediction_id=f"pred_{int(time.time())}_{model_name}",
     timestamp=datetime.now(),
     symbol=symbol,
@@ -917,7 +929,7 @@ def predict(self, symbol: str, prices: np.ndarray, volumes: np.ndarray = None,
     )
 
     # Create prediction object
-    prediction = Prediction(
+    prediction=Prediction(
     prediction_id=f"pred_{int(time.time())}_{model_name}",
     timestamp=datetime.now(),
     symbol=symbol,
@@ -927,7 +939,7 @@ def predict(self, symbol: str, prices: np.ndarray, volumes: np.ndarray = None,
     )
 
     # Create prediction object
-    prediction = Prediction(
+    prediction=Prediction(
     prediction_id=f"pred_{int(time.time())}_{model_name}",
     timestamp=datetime.now(),
     symbol=symbol,
@@ -937,7 +949,7 @@ def predict(self, symbol: str, prices: np.ndarray, volumes: np.ndarray = None,
     )
 
     # Create prediction object
-    prediction = Prediction(
+    prediction=Prediction(
     prediction_id=f"pred_{int(time.time())}_{model_name}",
     timestamp=datetime.now(),
     symbol=symbol,
@@ -947,7 +959,7 @@ def predict(self, symbol: str, prices: np.ndarray, volumes: np.ndarray = None,
     )
 
     # Create prediction object
-    prediction = Prediction(
+    prediction=Prediction(
     prediction_id=f"pred_{int(time.time())}_{model_name}",
     timestamp=datetime.now(),
     symbol=symbol,
@@ -976,14 +988,14 @@ def get_prediction_summary(self) -> Dict[str, Any]:
     if not self.predictions:
     return {'total_predictions': 0}
 
-    recent_predictions = list(self.predictions)[-100:]  # Last 100 predictions
+    recent_predictions=list(self.predictions)[-100:]  # Last 100 predictions
 
     # Group by model
-    model_predictions = defaultdict(list)
+    model_predictions=defaultdict(list)
     for pred in recent_predictions:
     model_predictions[pred.model_name].append(pred)
 
-    summary = {
+    summary={
     'total_predictions': len(self.predictions),
     'recent_predictions': len(recent_predictions),
     'models': {}
@@ -991,10 +1003,10 @@ def get_prediction_summary(self) -> Dict[str, Any]:
 
     for model_name, preds in model_predictions.items():
     if preds:
-    avg_confidence = unified_math.mean([p.confidence for p in preds]]
-    avg_prediction = unified_math.mean([p.predicted_value for p in preds]]
+    avg_confidence=unified_math.mean([p.confidence for p in preds]]
+    avg_prediction=unified_math.mean([p.predicted_value for p in preds]]
 
-    summary['models'][model_name) = {
+    summary['models'][model_name)={
     'predictions_count': len(preds),
     'avg_confidence': avg_confidence,
     'avg_prediction': avg_prediction,
@@ -1016,16 +1028,16 @@ def main():
     try:
     pass
     # Create model predictor
-    predictor = ModelPredictor()
+    predictor=ModelPredictor()
 
     # Create sample data
     np.random.seed(42)
-    n_points = 1000
-    prices = 100 + np.cumsum(np.random.normal(0, 1, n_points))
-    volumes = np.random.uniform(1000, 10000, n_points)
+    n_points=1000
+    prices=100 + np.cumsum(np.random.normal(0, 1, n_points))
+    volumes=np.random.uniform(1000, 10000, n_points)
 
     # Create model configs
-    configs = [
+    configs=[
     ModelConfig(
     model_type=ModelType.LINEAR_REGRESSION,
     model_name="price_predictor",
@@ -1055,24 +1067,24 @@ def main():
 
     # Train models
     for config in configs:
-    success = predictor.train_model(config, prices, volumes)
+    success=predictor.train_model(config, prices, volumes)
     safe_print(f"Training {config.model_name}: {'Success' if success else 'Failed'}")
 
     # Generate predictions
-    predictions = predictor.predict("BTC/USD", prices[-100:), volumes[-100:]]
+    predictions=predictor.predict("BTC/USD", prices[-100:), volumes[-100:]]
 
     safe_print(f"\nGenerated {len(predictions)} predictions:")
     for pred in predictions:
     safe_print(f"  {pred.model_name}: {pred.predicted_value:.4f} (confidence: {pred.confidence:.2f})")
 
     # Get prediction summary
-    summary = predictor.get_prediction_summary()
+    summary=predictor.get_prediction_summary()
     safe_print(f"\nPrediction Summary:")
     print(json.dumps(summary, indent=2, default=str))
 
     # Get model performance
     for config in configs:
-    performance = predictor.get_model_performance(config.model_name)
+    performance=predictor.get_model_performance(config.model_name)
     if performance:
     safe_print(f"\n{config.model_name} Performance:")
     safe_print(f"  MSE: {performance.mse:.4f}")

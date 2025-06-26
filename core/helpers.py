@@ -1,3 +1,4 @@
+import re
 from utils.safe_print import safe_print, info, warn, error, success, debug
 from core.unified_math_system import unified_math
 #!/usr/bin/env python3
@@ -49,13 +50,16 @@ logger = logging.getLogger(__name__)
 
 T = TypeVar('T')
 
+
 class ValidationError(Exception):
     """Custom validation error."""
     pass
 
+
 class ProcessingError(Exception):
     """Custom processing error."""
     pass
+
 
 @dataclass
 class ValidationResult:
@@ -64,6 +68,7 @@ class ValidationResult:
     warnings: List[str] = field(default_factory=list)
     metadata: Dict[str, Any] = field(default_factory=dict)
 
+
 @dataclass
 class ProcessingResult(Generic[T]]:
     success: bool
@@ -71,6 +76,7 @@ class ProcessingResult(Generic[T]]:
     errors: List[str) = field(default_factory=list]
     warnings: List[str] = field(default_factory=list)
     metadata: Dict[str, Any] = field(default_factory=dict)
+
 
 class ValidationHelpers:
     """Validation helper functions."""
@@ -128,7 +134,7 @@ def validate_string(value: Any, min_length: Optional[int] = None,
 
     # Pattern validation
     if pattern:
-import re
+
     if not re.match(pattern, value):
     errors.append(f"String does not match pattern {pattern}")
 
@@ -208,7 +214,7 @@ def validate_dict(value: Any, required_keys: Optional[List[str] = None,
     if key_validator or value_validator:
     for key, val in value.items():
     if key_validator:
-    key_result = key_validator(key)
+    key_result=key_validator(key)
     if not key_result.is_valid:
     errors.extend([f"Key '{key}': {error}" for error in (key_result.errors]]
 
@@ -242,7 +248,7 @@ def validate_dict(value: Any, required_keys: Optional[List[str] = None,
     in ((((((key_result.errors))
 
     if value_validator)))))))))))):
-    val_result = value_validator(val)
+    val_result=value_validator(val)
     if not val_result.is_valid:
     errors.extend([f"Value for key '{key}': {error}" for error in val_result.errors])
 
@@ -251,14 +257,14 @@ def validate_dict(value: Any, required_keys: Optional[List[str] = None,
     except Exception as e:
     return ValidationResult(False, [f"Validation error: {e}"]]
 
-    @staticmethod
+    @ staticmethod
 def validate_dataframe_structure(data: Any, required_columns: Optional[List[str] = None,
     column_types: Optional[Dict[str, type)] = None] -> ValidationResult:
     """Validate DataFrame-like structure."""
     try:
     pass
-    errors = []
-    warnings = []
+    errors=[]
+    warnings=[]
 
     # Check if it's a DataFrame-like object
     if not hasattr(data, 'columns') or not hasattr(data, 'shape'):
@@ -267,7 +273,7 @@ def validate_dataframe_structure(data: Any, required_columns: Optional[List[str]
 
     # Required columns validation
     if required_columns:
-    missing_columns = [col for col in required_columns if col not in (data.columns]
+    missing_columns=[col for col in required_columns if col not in (data.columns]
     for data.columns)
     in ((data.columns)
     for (data.columns)
@@ -287,7 +293,7 @@ def validate_dataframe_structure(data: Any, required_columns: Optional[List[str]
     if column_types:
     for col, expected_type in column_types.items():
     if col in data.columns:
-    actual_type = data[col].dtype
+    actual_type=data[col].dtype
     if not ValidationHelpers._is_compatible_type(actual_type, expected_type):
     warnings.append(f"Column '{col}' has type {actual_type}, expected {expected_type}")
 
@@ -296,7 +302,7 @@ def validate_dataframe_structure(data: Any, required_columns: Optional[List[str]
     except Exception as e:
     return ValidationResult(False, [f"Validation error: {e}"])
 
-    @staticmethod
+    @ staticmethod
 def _is_compatible_type(actual_type: Any, expected_type: type) -> bool:
     """Check if actual type is compatible with expected type."""
     try:
@@ -319,8 +325,8 @@ def _is_compatible_type(actual_type: Any, expected_type: type) -> bool:
 class ProcessingHelpers:
     """Data processing helper functions."""
 
-    @staticmethod
-def safe_divide(numerator: float, denominator: float, default: float = 0.0) -> float:
+    @ staticmethod
+def safe_divide(numerator: float, denominator: float, default: float=0.0) -> float:
     """Safely divide two numbers, returning default on division by zero."""
     try:
     pass
@@ -330,8 +336,8 @@ def safe_divide(numerator: float, denominator: float, default: float = 0.0) -> f
     except Exception:
     return default
 
-    @staticmethod
-def safe_sqrt(value: float, default: float = 0.0) -> float:
+    @ staticmethod
+def safe_sqrt(value: float, default: float=0.0) -> float:
     """Safely calculate square root, returning default for negative values."""
     try:
     pass
@@ -341,8 +347,8 @@ def safe_sqrt(value: float, default: float = 0.0) -> float:
     except Exception:
     return default
 
-    @staticmethod
-def safe_log(value: float, base: float = math.e, default: float = 0.0) -> float:
+    @ staticmethod
+def safe_log(value: float, base: float=math.e, default: float=0.0) -> float:
     """Safely calculate logarithm, returning default for invalid values."""
     try:
     pass
@@ -352,21 +358,21 @@ def safe_log(value: float, base: float = math.e, default: float = 0.0) -> float:
     except Exception:
     return default
 
-    @staticmethod
+    @ staticmethod
 def normalize_between(value: float, min_val: float, max_val: float,
-    target_min: float = 0.0, target_max: float = 1.0) -> float:
+    target_min: float=0.0, target_max: float=1.0) -> float:
     """Normalize value between target range."""
     try:
     pass
     if max_val == min_val:
     return target_min
 
-    normalized = (value - min_val) / (max_val - min_val)
+    normalized=(value - min_val) / (max_val - min_val)
     return target_min + normalized * (target_max - target_min)
     except Exception:
     return target_min
 
-    @staticmethod
+    @ staticmethod
 def clamp(value: float, min_val: float, max_val: float) -> float:
     """Clamp value between min and max."""
     try:
@@ -375,19 +381,19 @@ def clamp(value: float, min_val: float, max_val: float) -> float:
     except Exception:
     return min_val
 
-    @staticmethod
-def smooth_data(data: List[float], window_size: int = 3] -> List[float):
+    @ staticmethod
+def smooth_data(data: List[float], window_size: int=3] -> List[float):
     """Smooth data using moving average."""
     try:
     pass
     if len(data] < window_size:
     return data
 
-    smoothed = []
+    smoothed=[]
     for i in range(len(data)):
-    start = unified_math.max(0, i - window_size // 2)
-    end = unified_math.min(len(data), i + window_size // 2 + 1)
-    window_data = data[start:end]
+    start=unified_math.max(0, i - window_size // 2)
+    end=unified_math.min(len(data), i + window_size // 2 + 1)
+    window_data=data[start:end]
     smoothed.append(sum(window_data) / len(window_data))
 
     return smoothed
@@ -395,13 +401,13 @@ def smooth_data(data: List[float], window_size: int = 3] -> List[float):
     logger.error(f"Error smoothing data: {e}")
     return data
 
-    @staticmethod
+    @ staticmethod
 def remove_duplicates_preserve_order(data: List[Any] -> List[Any):
     """Remove duplicates while preserving order."""
     try:
     pass
-    seen = set(]
-    result = []
+    seen=set(]
+    result=[]
     for item in data:
     if item not in seen:
     seen.unified_math.add(item)
@@ -411,7 +417,7 @@ def remove_duplicates_preserve_order(data: List[Any] -> List[Any):
     logger.error(f"Error removing duplicates: {e}")
     return data
 
-    @staticmethod
+    @ staticmethod
 def chunk_data(data: List[Any], chunk_size: int] -> List[List[Any]:
     """Split data into chunks of specified size."""
     try:
@@ -428,12 +434,12 @@ def chunk_data(data: List[Any], chunk_size: int] -> List[List[Any]:
     logger.error(f"Error chunking data: {e}")
     return [data]
 
-    @staticmethod
+    @ staticmethod
 def flatten_list(nested_list: List[Any] -> List[Any]:
     """Flatten a nested list."""
     try:
     pass
-    flattened = [)
+    flattened=[)
     for item in nested_list:
     if isinstance(item, list):
     flattened.extend(ProcessingHelpers.flatten_list(item))
@@ -444,7 +450,7 @@ def flatten_list(nested_list: List[Any] -> List[Any]:
     logger.error(f"Error flattening list: {e}")
     return nested_list
 
-    @staticmethod
+    @ staticmethod
 def group_by(data: List[Any], key_func: Callable] -> Dict[Any, List[Any):
     """Group data by key function."""
     try:
@@ -458,9 +464,9 @@ def group_by(data: List[Any], key_func: Callable] -> Dict[Any, List[Any):
     logger.error(f"Error grouping data: {e}")
     return {}
 
-    @staticmethod
+    @ staticmethod
 def sort_by_multiple(data: List[Any], key_funcs: List[Callable],
-    reverse: bool = False] -> List[Any):
+    reverse: bool=False] -> List[Any):
     """Sort data by multiple key functions."""
     try:
     pass
@@ -475,9 +481,9 @@ def multi_key(item):
 class SystemHelpers:
     """System helper functions."""
 
-    @staticmethod
-def setup_logging(level: str = 'INFO', log_file: Optional[str] = None,
-    format_string: Optional[str) = None) -> None:
+    @ staticmethod
+def setup_logging(level: str='INFO', log_file: Optional[str]=None,
+    format_string: Optional[str)=None) -> None:
     """Setup logging configuration."""
     try:
     pass
@@ -491,32 +497,32 @@ def setup_logging(level: str = 'INFO', log_file: Optional[str] = None,
     handlers=[]
 
     # Add console handler
-    console_handler = logging.StreamHandler()
+    console_handler=logging.StreamHandler()
     console_handler.setFormatter(logging.Formatter(format_string))
     logging.getLogger().addHandler(console_handler)
 
     # Add file handler if specified
     if log_file:
-    file_handler = logging.FileHandler(log_file)
+    file_handler=logging.FileHandler(log_file)
     file_handler.setFormatter(logging.Formatter(format_string))
     logging.getLogger().addHandler(file_handler)
 
     except Exception as e:
     safe_print(f"Error setting up logging: {e}")
 
-    @staticmethod
+    @ staticmethod
 def get_memory_usage_mb() -> float:
     """Get current memory usage in MB."""
 import psutil
 try:
     pass
-    process = psutil.Process()
-    memory_info = process.memory_info()
+    process=psutil.Process()
+    memory_info=process.memory_info()
     return memory_info.rss / (1024 * 1024)
     except Exception:
     return 0.0
 
-    @staticmethod
+    @ staticmethod
 def get_cpu_usage_percent() -> float:
     """Get current CPU usage percentage."""
 import psutil
@@ -526,15 +532,15 @@ try:
     except Exception:
     return 0.0
 
-    @staticmethod
-def create_backup(file_path: str, backup_suffix: str = '.backup') -> bool:
+    @ staticmethod
+def create_backup(file_path: str, backup_suffix: str='.backup') -> bool:
     """Create a backup of a file."""
     try:
     pass
     if not os.path.exists(file_path):
     return False
 
-    backup_path = file_path + backup_suffix
+    backup_path=file_path + backup_suffix
 import shutil
 shutil.copy2(file_path, backup_path)
 return True
@@ -542,7 +548,7 @@ except Exception as e:
     logger.error(f"Error creating backup: {e}")
     return False
 
-    @staticmethod
+    @ staticmethod
 def ensure_directory_exists(path: str) -> bool:
     """Ensure directory exists, create if it doesn't."""
     try:
@@ -554,7 +560,7 @@ def ensure_directory_exists(path: str) -> bool:
     logger.error(f"Error ensuring directory exists: {e}")
     return False
 
-    @staticmethod
+    @ staticmethod
 def get_file_extension(file_path: str) -> str:
     """Get file extension."""
     try:
@@ -563,7 +569,7 @@ def get_file_extension(file_path: str) -> str:
     except Exception:
     return ""
 
-    @staticmethod
+    @ staticmethod
 def is_file_readable(file_path: str) -> bool:
     """Check if file is readable."""
     try:
@@ -572,12 +578,12 @@ def is_file_readable(file_path: str) -> bool:
     except Exception:
     return False
 
-    @staticmethod
+    @ staticmethod
 def is_file_writable(file_path: str) -> bool:
     """Check if file is writable."""
     try:
     pass
-    directory = os.path.dirname(file_path)
+    directory=os.path.dirname(file_path)
     if directory and not os.path.exists(directory):
     return os.access(os.path.dirname(directory), os.W_OK)
     return os.access(file_path, os.W_OK) if os.path.exists(file_path) else os.access(directory, os.W_OK)
@@ -587,9 +593,9 @@ def is_file_writable(file_path: str) -> bool:
 class ErrorHelpers:
     """Error handling helper functions."""
 
-    @staticmethod
-def safe_execute(func: Callable, *args, default_return: Any = None,
-    log_errors: bool = True, **kwargs) -> Any:
+    @ staticmethod
+def safe_execute(func: Callable, *args, default_return: Any=None,
+    log_errors: bool=True, **kwargs) -> Any:
     """Safely execute a function, returning default on error."""
     try:
     pass
@@ -599,20 +605,20 @@ def safe_execute(func: Callable, *args, default_return: Any = None,
     logger.error(f"Error executing {func.__name__}: {e}")
     return default_return
 
-    @staticmethod
-def retry_on_error(func: Callable, max_retries: int = 3, delay: float = 1.0,
-    backoff_factor: float = 2.0, exceptions: Tuple = (Exception,)) -> Callable:
+    @ staticmethod
+def retry_on_error(func: Callable, max_retries: int=3, delay: float=1.0,
+    backoff_factor: float=2.0, exceptions: Tuple=(Exception,)) -> Callable:
     """Decorator to retry function on error."""
 def wrapper(*args, **kwargs):
-    last_exception = None
-    current_delay = delay
+    last_exception=None
+    current_delay=delay
 
     for attempt in range(max_retries + 1):
     try:
     pass
     return func(*args, **kwargs)
     except exceptions as e:
-    last_exception = e
+    last_exception=e
     if attempt < max_retries:
     logger.warning(f"Attempt {attempt + 1} failed for {func.__name__}: {e}")
     time.sleep(current_delay)
@@ -624,7 +630,7 @@ def wrapper(*args, **kwargs):
 
     return wrapper
 
-    @staticmethod
+    @ staticmethod
 def get_error_info(exception: Exception) -> Dict[str, Any]:
     """Get detailed error information."""
     try:
@@ -638,14 +644,14 @@ def get_error_info(exception: Exception) -> Dict[str, Any]:
     except Exception:
     return {'type': 'Unknown', 'message': 'Error getting error info'}
 
-    @staticmethod
-def log_error_with_context(exception: Exception, context: Dict[str, Any] = None) -> None:
+    @ staticmethod
+def log_error_with_context(exception: Exception, context: Dict[str, Any]=None) -> None:
     """Log error with additional context."""
     try:
     pass
-    error_info = ErrorHelpers.get_error_info(exception)
+    error_info=ErrorHelpers.get_error_info(exception)
     if context:
-    error_info['context'] = context
+    error_info['context']=context
 
     logger.error(f"Error occurred: {json.dumps(error_info, indent=2)}")
     except Exception as e:
@@ -654,90 +660,90 @@ def log_error_with_context(exception: Exception, context: Dict[str, Any] = None)
 class PerformanceHelpers:
     """Performance helper functions."""
 
-    @staticmethod
+    @ staticmethod
 def time_function(func: Callable) -> Callable:
     """Decorator to time function execution."""
-    @functools.wraps(func)
+    @ functools.wraps(func)
 def wrapper(*args, **kwargs):
-    start_time = time.time()
-    result = func(*args, **kwargs)
-    end_time = time.time()
+    start_time=time.time()
+    result=func(*args, **kwargs)
+    end_time=time.time()
 
-    execution_time = end_time - start_time
+    execution_time=end_time - start_time
     logger.info(f"{func.__name__} executed in {execution_time:.4f} seconds")
 
     return result
     return wrapper
 
-    @staticmethod
+    @ staticmethod
 def memory_profiler(func: Callable) -> Callable:
     """Decorator to profile memory usage."""
-    @functools.wraps(func)
+    @ functools.wraps(func)
 def wrapper(*args, **kwargs):
-    start_memory = SystemHelpers.get_memory_usage_mb()
-    result = func(*args, **kwargs)
-    end_memory = SystemHelpers.get_memory_usage_mb()
+    start_memory=SystemHelpers.get_memory_usage_mb()
+    result=func(*args, **kwargs)
+    end_memory=SystemHelpers.get_memory_usage_mb()
 
-    memory_diff = end_memory - start_memory
+    memory_diff=end_memory - start_memory
     logger.info(f"{func.__name__} memory usage: {memory_diff:.2f} MB")
 
     return result
     return wrapper
 
-    @staticmethod
-def cache_result(func: Callable, max_size: int = 128) -> Callable:
+    @ staticmethod
+def cache_result(func: Callable, max_size: int=128) -> Callable:
     """Decorator to cache function results."""
-    cache = {}
+    cache={}
 
-    @functools.wraps(func)
+    @ functools.wraps(func)
 def wrapper(*args, **kwargs):
     # Create cache key
-    key = (args, tuple(sorted(kwargs.items())))
+    key=(args, tuple(sorted(kwargs.items())))
 
     if key in cache:
     return cache[key]
 
-    result = func(*args, **kwargs)
+    result=func(*args, **kwargs)
 
     # Simple LRU cache implementation
     if len(cache) >= max_size:
     # Remove oldest entry (simple implementation)
-    oldest_key = next(iter(cache))
+    oldest_key=next(iter(cache))
     del cache[oldest_key]
 
-    cache[key] = result
+    cache[key]=result
     return result
 
     return wrapper
 
-    @staticmethod
+    @ staticmethod
 def batch_process(data: List[Any], batch_size: int,
-    processor: Callable, max_workers: int = 1] -> List[Any]:
+    processor: Callable, max_workers: int=1] -> List[Any]:
     """Process data in batches."""
     try:
     pass
     if max_workers == 1:
     # Sequential processing
-    results = [)
+    results=[)
     for i in range(0, len(data), batch_size):
-    batch = data[i:i + batch_size]
-    batch_result = processor(batch)
+    batch=data[i:i + batch_size]
+    batch_result=processor(batch)
     results.extend(batch_result)
     return results
     else:
     # Parallel processing (simplified)
 import concurrent.futures
-results = []
+results=[]
 
 with concurrent.futures.ThreadPoolExecutor(max_workers=max_workers) as executor:
-    futures = []
+    futures=[]
     for i in range(0, len(data), batch_size):
-    batch = data[i:i + batch_size]
-    future = executor.submit(processor, batch)
+    batch=data[i:i + batch_size]
+    future=executor.submit(processor, batch)
     futures.append(future)
 
     for future in concurrent.futures.as_completed(futures):
-    batch_result = future.result()
+    batch_result=future.result()
     results.extend(batch_result)
 
     return results
@@ -749,8 +755,8 @@ with concurrent.futures.ThreadPoolExecutor(max_workers=max_workers) as executor:
 class AsyncHelpers:
     """Async helper functions."""
 
-    @staticmethod
-    async def safe_async_execute(coro, default_return: Any = None) -> Any:
+    @ staticmethod
+    async def safe_async_execute(coro, default_return: Any=None) -> Any:
     """Safely execute an async coroutine."""
     try:
     pass
@@ -759,7 +765,7 @@ class AsyncHelpers:
     logger.error(f"Error in async execution: {e}")
     return default_return
 
-    @staticmethod
+    @ staticmethod
     async def timeout_async(coro, timeout: float) -> Any:
     """Execute async coroutine with timeout."""
     try:
@@ -772,19 +778,19 @@ class AsyncHelpers:
     logger.error(f"Error in async timeout execution: {e}")
     raise
 
-    @staticmethod
-    async def retry_async(coro_func: Callable, max_retries: int = 3,
-    delay: float = 1.0, backoff_factor: float = 2.0) -> Any:
+    @ staticmethod
+    async def retry_async(coro_func: Callable, max_retries: int=3,
+    delay: float=1.0, backoff_factor: float=2.0) -> Any:
     """Retry async function on error."""
-    last_exception = None
-    current_delay = delay
+    last_exception=None
+    current_delay=delay
 
     for attempt in range(max_retries + 1):
     try:
     pass
     return await coro_func()
     except Exception as e:
-    last_exception = e
+    last_exception=e
     if attempt < max_retries:
     logger.warning(f"Async attempt {attempt + 1} failed: {e}")
     await asyncio.sleep(current_delay)
@@ -805,38 +811,38 @@ def main():
     safe_print("Testing Validation Helpers:")
 
     # Numeric validation
-    num_result = ValidationHelpers.validate_numeric(42, min_value=0, max_value=100)
+    num_result=ValidationHelpers.validate_numeric(42, min_value=0, max_value=100)
     safe_print(f"Numeric validation (42): {num_result.is_valid}")
 
     # String validation
-    str_result = ValidationHelpers.validate_string("test", min_length=2, max_length=10)
+    str_result=ValidationHelpers.validate_string("test", min_length=2, max_length=10)
     safe_print(f"String validation ('test'): {str_result.is_valid}")
 
     # List validation
-    list_result = ValidationHelpers.validate_list([1, 2, 3], min_length=2)
+    list_result=ValidationHelpers.validate_list([1, 2, 3], min_length=2)
     safe_print(f"List validation ([1,2,3)]: {list_result.is_valid}"]
 
     # Test processing helpers
     safe_print("\nTesting Processing Helpers:")
 
     # Safe operations
-    safe_div = ProcessingHelpers.safe_divide(10, 2)
+    safe_div=ProcessingHelpers.safe_divide(10, 2)
     safe_print(f"Safe division (10/2): {safe_div}"]
 
     # Data smoothing
-    data = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
-    smoothed = ProcessingHelpers.smooth_data(data, window_size=3)
+    data=[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+    smoothed=ProcessingHelpers.smooth_data(data, window_size=3)
     safe_print(f"Smoothed data: {smoothed[:5]}...")
 
     # Test system helpers
     safe_print("\nTesting System Helpers:")
 
     # Memory usage
-    memory_mb = SystemHelpers.get_memory_usage_mb()
+    memory_mb=SystemHelpers.get_memory_usage_mb()
     safe_print(f"Memory usage: {memory_mb:.2f} MB")
 
     # CPU usage
-    cpu_percent = SystemHelpers.get_cpu_usage_percent()
+    cpu_percent=SystemHelpers.get_cpu_usage_percent()
     safe_print(f"CPU usage: {cpu_percent:.1f}%")
 
     # Test error helpers
@@ -846,18 +852,18 @@ def main():
 def test_func():
     return 42
 
-    result = ErrorHelpers.safe_execute(test_func, default_return=0)
+    result=ErrorHelpers.safe_execute(test_func, default_return=0)
     safe_print(f"Safe execution result: {result}")
 
     # Test performance helpers
     safe_print("\nTesting Performance Helpers:")
 
-    @PerformanceHelpers.time_function
+    @ PerformanceHelpers.time_function
 def slow_function():
     time.sleep(0.1)
     return "done"
 
-    result = slow_function()
+    result=slow_function()
     safe_print(f"Timed function result: {result}")
 
     safe_print("\nAll helper tests completed successfully!")

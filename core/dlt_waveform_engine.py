@@ -36,12 +36,14 @@ import os
 
 logger = logging.getLogger(__name__)
 
+
 class WaveformType(Enum):
     SINE = "sine"
     SQUARE = "square"
     SAW = "saw"
     TRIANGLE = "triangle"
     COMPLEX = "complex"
+
 
 class CompressionMode(Enum):
     ZPE = "zpe"
@@ -88,8 +90,11 @@ class DLTCascade:
     timestamp: datetime
     metadata: Dict[str, Any] = field(default_factory=dict)
 
+
 class DLTWaveformEngine:
     pass
+
+
 def __init__(self, config_path: str = "./config/dlt_waveform_config.json"):
     self.config_path = config_path
     self.waveforms: Dict[str, WaveformData] = {}
@@ -103,6 +108,7 @@ def __init__(self, config_path: str = "./config/dlt_waveform_config.json"):
     self._initialize_engine()
     self._start_waveform_processing()
     logger.info("DLT Waveform Engine initialized")
+
 
 def _load_configuration(self) -> None:
     """Load DLT waveform engine configuration."""
@@ -120,6 +126,7 @@ def _load_configuration(self) -> None:
     except Exception as e:
     logger.error(f"Error loading configuration: {e}")
     self._create_default_configuration()
+
 
 def _create_default_configuration(self) -> None:
     """Create default DLT waveform configuration."""
@@ -155,6 +162,7 @@ def _create_default_configuration(self) -> None:
     except Exception as e:
     logger.error(f"Error saving configuration: {e}")
 
+
 def _initialize_engine(self) -> None:
     """Initialize the DLT waveform engine."""
     # Initialize waveform processors
@@ -164,6 +172,7 @@ def _initialize_engine(self) -> None:
     self._initialize_mathematical_components()
 
     logger.info("DLT waveform engine initialized successfully")
+
 
 def _initialize_waveform_processors(self) -> None:
     """Initialize waveform processing components."""
@@ -183,6 +192,7 @@ def _initialize_waveform_processors(self) -> None:
     except Exception as e:
     logger.error(f"Error initializing waveform processors: {e}")
 
+
 def _initialize_mathematical_components(self) -> None:
     """Initialize mathematical processing components."""
     try:
@@ -201,10 +211,12 @@ def _initialize_mathematical_components(self) -> None:
     except Exception as e:
     logger.error(f"Error initializing mathematical components: {e}")
 
+
 def _start_waveform_processing(self) -> None:
     """Start the waveform processing system."""
     # This would start background processing tasks
     logger.info("Waveform processing started")
+
 
 def calculate_zpe_compression(self, pressure_gradient: float, tick_frequency: float,
     phase_drift: float, time_delta: float) -> ZPECompression:
@@ -255,6 +267,7 @@ def calculate_zpe_compression(self, pressure_gradient: float, tick_frequency: fl
     logger.error(f"Error calculating ZPE compression: {e}")
     return None
 
+
 def calculate_recursive_feedback(self, alpha: float, previous_feedback: float,
     current_pulse: float) -> RecursiveFeedback:
     """
@@ -301,6 +314,7 @@ def calculate_recursive_feedback(self, alpha: float, previous_feedback: float,
     except Exception as e:
     logger.error(f"Error calculating recursive feedback: {e}")
     return None
+
 
 def calculate_dlt_cascade(self, profit_delta: np.ndarray, theta_phase: float) -> DLTCascade:
     """
@@ -356,6 +370,7 @@ def calculate_dlt_cascade(self, profit_delta: np.ndarray, theta_phase: float) ->
     logger.error(f"Error calculating DLT cascade: {e}")
     return None
 
+
 def process_waveform(self, waveform_type: WaveformType, frequency: float,
     amplitude: float, phase: float, duration: float) -> WaveformData:
     """Process a waveform and generate compression data."""
@@ -406,16 +421,19 @@ def process_waveform(self, waveform_type: WaveformType, frequency: float,
     logger.error(f"Error processing waveform: {e}")
     return None
 
+
 def _process_sine_waveform(self, time_array: np.ndarray, frequency: float,
     amplitude: float, phase: float) -> np.ndarray:
     """Process sine waveform."""
     return amplitude * np.unified_math.sin(2 * np.pi * frequency * time_array + phase)
+
 
 def _process_square_waveform(self, time_array: np.ndarray, frequency: float,
     amplitude: float, phase: float) -> np.ndarray:
     """Process square waveform."""
     sine_wave = np.unified_math.sin(2 * np.pi * frequency * time_array + phase)
     return amplitude * np.sign(sine_wave)
+
 
 def _process_saw_waveform(self, time_array: np.ndarray, frequency: float,
     amplitude: float, phase: float) -> np.ndarray:
@@ -424,12 +442,14 @@ def _process_saw_waveform(self, time_array: np.ndarray, frequency: float,
     saw_wave = (2 * np.pi * frequency * time_array + phase) % (2 * np.pi)
     return amplitude * (saw_wave / np.pi - 1)
 
+
 def _process_triangle_waveform(self, time_array: np.ndarray, frequency: float,
     amplitude: float, phase: float) -> np.ndarray:
     """Process triangle waveform."""
     # Triangle wave using arcsin of sine wave
     sine_wave = np.unified_math.sin(2 * np.pi * frequency * time_array + phase)
     return amplitude * (2 / np.pi) * np.arcsin(sine_wave)
+
 
 def _process_complex_waveform(self, time_array: np.ndarray, frequency: float,
     amplitude: float, phase: float) -> np.ndarray:
@@ -439,6 +459,7 @@ def _process_complex_waveform(self, time_array: np.ndarray, frequency: float,
     harmonic1 = 0.5 * amplitude * np.unified_math.sin(4 * np.pi * frequency * time_array + 2 * phase)
     harmonic2 = 0.25 * amplitude * np.unified_math.sin(6 * np.pi * frequency * time_array + 3 * phase)
     return fundamental + harmonic1 + harmonic2
+
 
 def _calculate_waveform_compression(self, waveform_values: np.ndarray, frequency: float) -> Dict[str, Any]:
     """Calculate compression metrics for waveform."""
@@ -469,6 +490,7 @@ def _calculate_waveform_compression(self, waveform_values: np.ndarray, frequency
     except Exception as e:
     logger.error(f"Error calculating waveform compression: {e}")
     return {}
+
 
 def analyze_tick_frequency(self, tick_data: List[float] -> Dict[str, Any):
     """Analyze tick frequency patterns."""
@@ -517,7 +539,8 @@ def _detect_frequency_patterns(self, tick_intervals: np.ndarray] -> Dict[str, An
     peaks.append(i)
 
     # Calculate pattern strength
-    pattern_strength = unified_math.unified_math.max(autocorr) / unified_math.unified_math.mean(autocorr) if unified_math.unified_math.mean(autocorr) > 0 else 0
+    pattern_strength = unified_math.unified_math.max(
+        autocorr) / unified_math.unified_math.mean(autocorr) if unified_math.unified_math.mean(autocorr) > 0 else 0
 
     return {
     "autocorrelation": autocorr.tolist(),

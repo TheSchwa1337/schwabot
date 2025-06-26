@@ -1,3 +1,5 @@
+import socket
+import psutil
 from utils.safe_print import safe_print, info, warn, error, success, debug
 from core.unified_math_system import unified_math
 #!/usr/bin/env python3
@@ -36,6 +38,7 @@ import traceback
 
 logger = logging.getLogger(__name__)
 
+
 class StartupPhase(Enum):
     INITIALIZATION = "initialization"
     CONFIGURATION = "configuration"
@@ -46,12 +49,14 @@ class StartupPhase(Enum):
     READY = "ready"
     ERROR = "error"
 
+
 class StartupStatus(Enum):
     PENDING = "pending"
     IN_PROGRESS = "in_progress"
     COMPLETED = "completed"
     FAILED = "failed"
     SKIPPED = "skipped"
+
 
 @dataclass
 class StartupStep:
@@ -66,6 +71,7 @@ class StartupStep:
     error: Optional[str] = None
     dependencies: List[str] = field(default_factory=list)
     metadata: Dict[str, Any] = field(default_factory=dict)
+
 
 @dataclass
 class StartupConfig:
@@ -82,13 +88,16 @@ class StartupConfig:
     environment: str = "production"
     metadata: Dict[str, Any] = field(default_factory=dict)
 
+
 class EnvironmentValidator:
     """Environment validation and setup."""
+
 
 def __init__(self):
     self.validation_results: Dict[str, bool] = {}
     self.errors: List[str] = []
     self.warnings: List[str] = []
+
 
 def validate_python_version(self) -> bool:
     """Validate Python version."""
@@ -96,7 +105,8 @@ def validate_python_version(self) -> bool:
     pass
     version = sys.version_info
     if version.major < 3 or (version.major == 3 and version.minor < 8):
-    self.errors.append(f"Python 3.8+ required, got {version.major}.{version.minor}")
+    self.errors.append(
+        f"Python 3.8+ required, got {version.major}.{version.minor}")
     return False
 
     self.validation_results['python_version'] = True
@@ -105,6 +115,7 @@ def validate_python_version(self) -> bool:
     except Exception as e:
     self.errors.append(f"Error validating Python version: {e}")
     return False
+
 
 def validate_dependencies(self) -> bool:
     """Validate required dependencies."""
@@ -134,6 +145,7 @@ def validate_dependencies(self) -> bool:
     self.errors.append(f"Error validating dependencies: {e}")
     return False
 
+
 def validate_file_permissions(self) -> bool:
     """Validate file permissions."""
     try:
@@ -160,9 +172,11 @@ def validate_file_permissions(self) -> bool:
     self.errors.append(f"Error validating file permissions: {e}")
     return False
 
+
 def validate_system_resources(self) -> bool:
     """Validate system resources."""
-import psutil
+
+
 try:
     pass
 
@@ -183,9 +197,11 @@ try:
     self.errors.append(f"Error validating system resources: {e}")
     return False
 
+
 def validate_network_connectivity(self) -> bool:
     """Validate network connectivity."""
-import socket
+
+
 try:
     pass
 
@@ -198,6 +214,7 @@ try:
     self.warnings.append(f"Network connectivity issue: {e}")
     self.validation_results['network_connectivity'] = False
     return True  # Not critical for startup
+
 
 def run_all_validations(self) -> bool:
     """Run all environment validations."""
@@ -216,6 +233,7 @@ def run_all_validations(self) -> bool:
 
     return all_passed
 
+
 def get_validation_summary(self) -> Dict[str, Any]:
     """Get validation summary."""
     return {
@@ -225,13 +243,16 @@ def get_validation_summary(self) -> Dict[str, Any]:
     'warnings': self.warnings.copy()
     }
 
+
 class ConfigurationLoader:
     """Configuration loading and validation."""
+
 
 def __init__(self, config_file: str):
     self.config_file = config_file
     self.config_data: Dict[str, Any] = {}
     self.loaded = False
+
 
 def load_configuration(self) -> bool:
     """Load configuration from file."""
@@ -258,6 +279,7 @@ def load_configuration(self) -> bool:
     logger.error(f"Error loading configuration: {e}")
     return False
 
+
 def _get_default_config(self) -> Dict[str, Any]:
     """Get default configuration."""
     return {
@@ -282,6 +304,7 @@ def _get_default_config(self) -> Dict[str, Any]:
     }
     }
 
+
 def _validate_configuration(self) -> bool:
     """Validate configuration structure."""
     try:
@@ -299,6 +322,7 @@ def _validate_configuration(self) -> bool:
     logger.error(f"Error validating configuration: {e}")
     return False
 
+
 def get_config(self, section: str, key: str, default: Any = None) -> Any:
     """Get configuration value."""
     try:
@@ -306,6 +330,7 @@ def get_config(self, section: str, key: str, default: Any = None) -> Any:
     return self.config_data.get(section, {}).get(key, default)
     except Exception:
     return default
+
 
 def get_section(self, section: str) -> Dict[str, Any]:
     """Get configuration section."""
@@ -315,28 +340,30 @@ def get_section(self, section: str) -> Dict[str, Any]:
     except Exception:
     return {}
 
+
 class ComponentLoader:
     """Component loading and initialization."""
+
 
 def __init__(self):
     self.components: Dict[str, Any] = {}
     self.loaded_components: List[str] = []
     self.failed_components: List[str] = []
-    self.component_dependencies: Dict[str, List[str] = {}
+    self.component_dependencies: Dict[str, List[str]= {}
 
 def register_component(self, component_id: str, component_class: type,
-    dependencies: List[str] = None] -> bool:
+    dependencies: List[str]=None] -> bool:
     """Register a component for loading."""
     try:
     pass
-    self.components[component_id] = {
+    self.components[component_id]= {
     'class': component_class,
     'instance': None,
     'dependencies': dependencies or [],
     'loaded': False
     }
 
-    self.component_dependencies[component_id] = dependencies or [)
+    self.component_dependencies[component_id]= dependencies or [)
     logger.info(f"Component {component_id} registered")
     return True
 
@@ -352,17 +379,18 @@ def load_component(self, component_id: str) -> bool:
     logger.error(f"Component {component_id} not registered")
     return False
 
-    component_info = self.components[component_id]
+    component_info= self.components[component_id]
 
     # Check dependencies
     for dep in component_info['dependencies']:
     if dep not in self.loaded_components:
-    logger.error(f"Component {component_id} depends on {dep} which is not loaded")
+    logger.error(
+        f"Component {component_id} depends on {dep} which is not loaded")
     return False
 
     # Instantiate component
-    component_class = component_info['class']
-    component_instance = component_class()
+    component_class= component_info['class']
+    component_instance= component_class()
 
     # Initialize component if it has initialize method
     if hasattr(component_instance, 'initialize'):
@@ -371,8 +399,8 @@ def load_component(self, component_id: str) -> bool:
     return False
 
     # Store instance
-    component_info['instance'] = component_instance
-    component_info['loaded'] = True
+    component_info['instance']= component_instance
+    component_info['loaded']= True
     self.loaded_components.append(component_id)
 
     logger.info(f"Component {component_id} loaded successfully")
@@ -388,14 +416,15 @@ def load_all_components(self) -> bool:
     try:
     pass
     # Topological sort for dependency resolution
-    sorted_components = self._topological_sort()
+    sorted_components= self._topological_sort()
 
     for component_id in sorted_components:
     if not self.load_component(component_id):
     logger.error(f"Failed to load component {component_id}")
     return False
 
-    logger.info(f"All components loaded successfully: {self.loaded_components}")
+    logger.info(
+        f"All components loaded successfully: {self.loaded_components}")
     return True
 
     except Exception as e:
@@ -407,7 +436,7 @@ def _topological_sort(self) -> List[str]:
     try:
     pass
     # Kahn's algorithm
-    in_degree = {comp: 0 for comp in self.components}
+    in_degree= {comp: 0 for comp in self.components}
 
     # Calculate in-degrees
     for comp, deps in self.component_dependencies.items():
@@ -416,11 +445,11 @@ def _topological_sort(self) -> List[str]:
     in_degree[dep] += 1
 
     # Find components with no dependencies
-    queue = [comp for comp, degree in (in_degree.items() for in_degree.items() in ((in_degree.items() for (in_degree.items() in (((in_degree.items() for ((in_degree.items() in ((((in_degree.items() for (((in_degree.items(] in (((((in_degree.items(] for ((((in_degree.items(] in (((((in_degree.items(] if degree == 0]
-    result = [)
+    queue= [comp for comp, degree in (in_degree.items() for in_degree.items() in ((in_degree.items() for (in_degree.items() in (((in_degree.items() for ((in_degree.items() in ((((in_degree.items() for (((in_degree.items(] in (((((in_degree.items(] for ((((in_degree.items(] in (((((in_degree.items(] if degree == 0]
+    result=[)
 
     while queue)))))))))):
-    comp = queue.pop(0)
+    comp=queue.pop(0)
     result.append(comp)
 
     # Reduce in-degree of dependent components
@@ -459,21 +488,21 @@ class StartupManager:
     """Main startup manager."""
 
 def __init__(self, config: StartupConfig):
-    self.config = config
-    self.validator = EnvironmentValidator()
-    self.config_loader = ConfigurationLoader(config.config_file)
-    self.component_loader = ComponentLoader()
-    self.startup_steps: List[StartupStep] = []
-    self.current_phase = StartupPhase.INITIALIZATION
-    self.start_time = None
-    self.end_time = None
-    self.success = False
+    self.config=config
+    self.validator=EnvironmentValidator()
+    self.config_loader=ConfigurationLoader(config.config_file)
+    self.component_loader=ComponentLoader()
+    self.startup_steps: List[StartupStep]=[]
+    self.current_phase=StartupPhase.INITIALIZATION
+    self.start_time=None
+    self.end_time=None
+    self.success=False
 
     self._initialize_startup_steps()
 
 def _initialize_startup_steps(self):
     """Initialize startup steps."""
-    self.startup_steps = [
+    self.startup_steps=[
     StartupStep(
     step_id="env_validation",
     name="Environment Validation",
@@ -552,7 +581,7 @@ def setup_logging(self):
     """Main startup sequence."""
     try:
     pass
-    self.start_time = datetime.now()
+    self.start_time= datetime.now()
     logger.info("Starting Schwabot system startup sequence")
 
     # Setup logging first
@@ -562,70 +591,71 @@ def setup_logging(self):
     for step in self.startup_steps:
     if not await self._execute_step(step):
     logger.error(f"Startup failed at step: {step.name}")
-    self.success = False
+    self.success= False
     return False
 
-    self.current_phase = StartupPhase.READY
-    self.success = True
-    self.end_time = datetime.now()
+    self.current_phase= StartupPhase.READY
+    self.success= True
+    self.end_time= datetime.now()
 
-    duration = (self.end_time - self.start_time).total_seconds()
-    logger.info(f"System startup completed successfully in {duration:.2f} seconds")
+    duration= (self.end_time - self.start_time).total_seconds()
+    logger.info(
+        f"System startup completed successfully in {duration:.2f} seconds")
 
     return True
 
     except Exception as e:
     logger.error(f"Startup failed with error: {e}")
-    self.success = False
-    self.end_time = datetime.now()
+    self.success= False
+    self.end_time= datetime.now()
     return False
 
     async def _execute_step(self, step: StartupStep) -> bool:
     """Execute a startup step."""
     try:
     pass
-    step.start_time = datetime.now()
-    step.status = StartupStatus.IN_PROGRESS
+    step.start_time= datetime.now()
+    step.status= StartupStatus.IN_PROGRESS
 
     logger.info(f"Executing startup step: {step.name}")
 
     # Execute step based on step_id
     if step.step_id == "env_validation":
-    success = self.validator.run_all_validations()
+    success= self.validator.run_all_validations()
     elif step.step_id == "config_loading":
-    success = self.config_loader.load_configuration()
+    success= self.config_loader.load_configuration()
     elif step.step_id == "component_registration":
-    success = self._register_core_components()
+    success= self._register_core_components()
     elif step.step_id == "dependency_resolution":
-    success = True  # Already handled in component registration
+    success= True  # Already handled in component registration
     elif step.step_id == "component_loading":
-    success = self.component_loader.load_all_components()
+    success= self.component_loader.load_all_components()
     elif step.step_id == "system_validation":
-    success = self._validate_system()
+    success= self._validate_system()
     elif step.step_id == "system_bootstrap":
-    success = await self._bootstrap_system()
+    success= await self._bootstrap_system()
     else:
     logger.warning(f"Unknown startup step: {step.step_id}")
-    success = True
+    success= True
 
-    step.end_time = datetime.now()
-    step.duration = (step.end_time - step.start_time).total_seconds()
+    step.end_time= datetime.now()
+    step.duration= (step.end_time - step.start_time).total_seconds()
 
     if success:
-    step.status = StartupStatus.COMPLETED
+    step.status= StartupStatus.COMPLETED
     logger.info(f"Startup step completed: {step.name} ({step.duration:.2f}s)")
     else:
-    step.status = StartupStatus.FAILED
-    step.error = f"Step {step.name} failed"
+    step.status= StartupStatus.FAILED
+    step.error= f"Step {step.name} failed"
     logger.error(f"Startup step failed: {step.name}")
 
     return success
 
     except Exception as e:
-    step.status = StartupStatus.FAILED
-    step.error = str(e)
-    step.end_time = datetime.now()
-    step.duration = (step.end_time - step.start_time).total_seconds()
+    step.status= StartupStatus.FAILED
+    step.error= str(e)
+    step.end_time= datetime.now()
+    step.duration= (step.end_time - step.start_time).total_seconds()
     logger.error(f"Error executing startup step {step.name}: {e}")
     return False
 
@@ -660,7 +690,8 @@ def initialize(self): return True
     self.component_loader.register_component("config_manager", ConfigManager)
     self.component_loader.register_component("database_manager", DatabaseManager, ["config_manager"]]
     self.component_loader.register_component("network_manager", NetworkManager, ["config_manager"]]
-    self.component_loader.register_component("cache_manager", CacheManager, ["config_manager"])
+    self.component_loader.register_component(
+        "cache_manager", CacheManager, ["config_manager"])
 
     logger.info("Core components registered successfully")
     return True
@@ -674,7 +705,7 @@ def _validate_system(self) -> bool:
     try:
     pass
     # Check if all components are loaded
-    summary = self.component_loader.get_loading_summary()
+    summary= self.component_loader.get_loading_summary()
     if summary['success_rate'] < 1.0:
     logger.error(f"Not all components loaded successfully: {summary}")
     return False
@@ -685,7 +716,7 @@ def _validate_system(self) -> bool:
     return False
 
     # Check environment validation
-    env_summary = self.validator.get_validation_summary()
+    env_summary= self.validator.get_validation_summary()
     if not env_summary['all_passed']:
     logger.error(f"Environment validation failed: {env_summary['errors']}")
     return False
@@ -740,7 +771,7 @@ def main():
     try:
     pass
     # Create startup configuration
-    config = StartupConfig(
+    config= StartupConfig(
     config_file="config/schwabot.json",
     log_level="INFO",
     log_file="logs/startup.log",
@@ -749,14 +780,14 @@ def main():
     )
 
     # Create startup manager
-    startup_manager = StartupManager(config)
+    startup_manager= StartupManager(config)
 
     # Run startup
 import asyncio
-success = asyncio.run(startup_manager.startup())
+success= asyncio.run(startup_manager.startup())
 
 # Print summary
-summary = startup_manager.get_startup_summary()
+summary= startup_manager.get_startup_summary()
 safe_print("Startup Summary:")
 print(json.dumps(summary, indent=2, default=str))
 

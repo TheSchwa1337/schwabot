@@ -47,6 +47,7 @@ import pandas as pd
 
 logger = logging.getLogger(__name__)
 
+
 class MetricType(Enum):
     RETURN = "return"
     RISK = "risk"
@@ -55,12 +56,14 @@ class MetricType(Enum):
     ATTRIBUTION = "attribution"
     BENCHMARK = "benchmark"
 
+
 class PerformanceStatus(Enum):
     EXCELLENT = "excellent"
     GOOD = "good"
     AVERAGE = "average"
     POOR = "poor"
     CRITICAL = "critical"
+
 
 @dataclass
 class Trade:
@@ -74,6 +77,7 @@ class Trade:
     slippage: float = 0.0
     metadata: Dict[str, Any] = field(default_factory=dict)
 
+
 @dataclass
 class Position:
     symbol: str
@@ -85,6 +89,7 @@ class Position:
     timestamp: datetime
     metadata: Dict[str, Any] = field(default_factory=dict)
 
+
 @dataclass
 class PerformanceMetric:
     metric_name: str
@@ -94,6 +99,7 @@ class PerformanceMetric:
     status: PerformanceStatus
     benchmark_value: Optional[float] = None
     metadata: Dict[str, Any] = field(default_factory=dict)
+
 
 @dataclass
 class PerformanceSnapshot:
@@ -108,6 +114,7 @@ class PerformanceSnapshot:
     metrics: List[PerformanceMetric]
     positions: List[Position]
     metadata: Dict[str, Any] = field(default_factory=dict)
+
 
 @dataclass
 class PerformanceReport:
@@ -131,12 +138,15 @@ class PerformanceReport:
     metrics: List[PerformanceMetric]
     metadata: Dict[str, Any] = field(default_factory=dict)
 
+
 class RiskMetrics:
     """Risk metrics calculation."""
+
 
 def __init__(self, risk_free_rate: float = 0.02):
     self.risk_free_rate = risk_free_rate
     self.confidence_level = 0.95
+
 
 def calculate_sharpe_ratio(self, returns: np.ndarray, periods_per_year: int = 252) -> float:
     """Calculate Sharpe ratio."""
@@ -152,13 +162,15 @@ def calculate_sharpe_ratio(self, returns: np.ndarray, periods_per_year: int = 25
     if unified_math.unified_math.std(excess_returns) == 0:
     return 0.0
 
-    sharpe_ratio = unified_math.unified_math.mean(excess_returns) / unified_math.unified_math.std(excess_returns) * unified_math.unified_math.sqrt(periods_per_year)
+    sharpe_ratio = unified_math.unified_math.mean(
+        excess_returns) / unified_math.unified_math.std(excess_returns) * unified_math.unified_math.sqrt(periods_per_year)
 
     return sharpe_ratio
 
     except Exception as e:
     logger.error(f"Error calculating Sharpe ratio: {e}")
     return 0.0
+
 
 def calculate_sortino_ratio(self, returns: np.ndarray, periods_per_year: int = 252) -> float:
     """Calculate Sortino ratio."""
@@ -181,13 +193,15 @@ def calculate_sortino_ratio(self, returns: np.ndarray, periods_per_year: int = 2
     if downside_deviation == 0:
     return 0.0
 
-    sortino_ratio = unified_math.unified_math.mean(excess_returns) / downside_deviation * unified_math.unified_math.sqrt(periods_per_year)
+    sortino_ratio = unified_math.unified_math.mean(
+        excess_returns) / downside_deviation * unified_math.unified_math.sqrt(periods_per_year)
 
     return sortino_ratio
 
     except Exception as e:
     logger.error(f"Error calculating Sortino ratio: {e}")
     return 0.0
+
 
 def calculate_max_drawdown(self, equity_curve: np.ndarray) -> Tuple[float, int, int]:
     """Calculate maximum drawdown and its duration."""
@@ -218,6 +232,7 @@ def calculate_max_drawdown(self, equity_curve: np.ndarray) -> Tuple[float, int, 
     logger.error(f"Error calculating maximum drawdown: {e}")
     return 0.0, 0, 0
 
+
 def calculate_var(self, returns: np.ndarray, confidence_level: float = None) -> float:
     """Calculate Value at Risk."""
     try:
@@ -237,6 +252,7 @@ def calculate_var(self, returns: np.ndarray, confidence_level: float = None) -> 
     except Exception as e:
     logger.error(f"Error calculating VaR: {e}")
     return 0.0
+
 
 def calculate_cvar(self, returns: np.ndarray, confidence_level: float = None) -> float:
     """Calculate Conditional Value at Risk (Expected Shortfall)."""
@@ -265,6 +281,7 @@ def calculate_cvar(self, returns: np.ndarray, confidence_level: float = None) ->
     logger.error(f"Error calculating CVaR: {e}")
     return 0.0
 
+
 def calculate_beta(self, portfolio_returns: np.ndarray, market_returns: np.ndarray) -> float:
     """Calculate beta relative to market."""
     try:
@@ -286,6 +303,7 @@ def calculate_beta(self, portfolio_returns: np.ndarray, market_returns: np.ndarr
     except Exception as e:
     logger.error(f"Error calculating beta: {e}")
     return 1.0
+
 
 def calculate_treynor_ratio(self, portfolio_returns: np.ndarray, market_returns: np.ndarray,
     periods_per_year: int = 252) -> float:
@@ -313,11 +331,14 @@ def calculate_treynor_ratio(self, portfolio_returns: np.ndarray, market_returns:
     logger.error(f"Error calculating Treynor ratio: {e}")
     return 0.0
 
+
 class PerformanceMetrics:
     """Performance metrics calculation."""
 
+
 def __init__(self):
     self.risk_metrics = RiskMetrics()
+
 
 def calculate_total_return(self, initial_value: float, final_value: float) -> float:
     """Calculate total return."""
@@ -331,6 +352,7 @@ def calculate_total_return(self, initial_value: float, final_value: float) -> fl
     except Exception as e:
     logger.error(f"Error calculating total return: {e}")
     return 0.0
+
 
 def calculate_annualized_return(self, total_return: float, days: int) -> float:
     """Calculate annualized return."""
@@ -348,6 +370,7 @@ def calculate_annualized_return(self, total_return: float, days: int) -> float:
     logger.error(f"Error calculating annualized return: {e}")
     return 0.0
 
+
 def calculate_volatility(self, returns: np.ndarray, periods_per_year: int = 252) -> float:
     """Calculate annualized volatility."""
     try:
@@ -362,6 +385,7 @@ def calculate_volatility(self, returns: np.ndarray, periods_per_year: int = 252)
     except Exception as e:
     logger.error(f"Error calculating volatility: {e}")
     return 0.0
+
 
 def calculate_win_rate(self, trades: List[Trade]) -> float:
     """Calculate win rate from trades."""
@@ -384,6 +408,7 @@ def calculate_win_rate(self, trades: List[Trade]) -> float:
     except Exception as e:
     logger.error(f"Error calculating win rate: {e}")
     return 0.0
+
 
 def calculate_profit_factor(self, trades: List[Trade]) -> float:
     """Calculate profit factor."""
@@ -408,6 +433,7 @@ def calculate_profit_factor(self, trades: List[Trade]) -> float:
     logger.error(f"Error calculating profit factor: {e}")
     return 0.0
 
+
 def calculate_avg_win_loss(self, trades: List[Trade] -> Tuple[float, float]:
     """Calculate average win and loss."""
     try:
@@ -415,8 +441,8 @@ def calculate_avg_win_loss(self, trades: List[Trade] -> Tuple[float, float]:
     if not trades:
     return 0.0, 0.0
 
-    wins = []
-    losses = [)
+    wins=[]
+    losses=[)
 
     for trade in trades:
     pnl = trade.metadata.get('pnl', 0.0)
@@ -485,36 +511,36 @@ def calculate_brinson_attribution(self, portfolio_weights: Dict[str, float],
     """Calculate Brinson attribution."""
     try:
     pass
-    attribution = {}
+    attribution={}
 
     # Asset allocation effect
-    allocation_effect = 0.0
+    allocation_effect=0.0
     for asset in portfolio_weights:
     if asset in benchmark_weights:
-    weight_diff = portfolio_weights[asset] - benchmark_weights[asset)
-    benchmark_return = benchmark_returns.get(asset, 0.0)
+    weight_diff=portfolio_weights[asset] - benchmark_weights[asset)
+    benchmark_return=benchmark_returns.get(asset, 0.0)
     allocation_effect += weight_diff * benchmark_return
 
     # Stock selection effect
-    selection_effect = 0.0
+    selection_effect=0.0
     for asset in portfolio_weights:
     if asset in benchmark_weights and asset in portfolio_returns:
-    weight = benchmark_weights[asset]
-    return_diff = portfolio_returns[asset] - benchmark_returns.get(asset, 0.0)
+    weight=benchmark_weights[asset]
+    return_diff=portfolio_returns[asset] - benchmark_returns.get(asset, 0.0)
     selection_effect += weight * return_diff
 
     # Interaction effect
-    interaction_effect = 0.0
+    interaction_effect=0.0
     for asset in portfolio_weights:
     if asset in benchmark_weights and asset in portfolio_returns:
-    weight_diff = portfolio_weights[asset] - benchmark_weights[asset]
-    return_diff = portfolio_returns[asset] - benchmark_returns.get(asset, 0.0)
+    weight_diff=portfolio_weights[asset] - benchmark_weights[asset]
+    return_diff=portfolio_returns[asset] - benchmark_returns.get(asset, 0.0)
     interaction_effect += weight_diff * return_diff
 
-    attribution['asset_allocation'] = allocation_effect
-    attribution['stock_selection'] = selection_effect
-    attribution['interaction'] = interaction_effect
-    attribution['total'] = allocation_effect + selection_effect + interaction_effect
+    attribution['asset_allocation']=allocation_effect
+    attribution['stock_selection']=selection_effect
+    attribution['interaction']=interaction_effect
+    attribution['total']=allocation_effect + selection_effect + interaction_effect
 
     return attribution
 
@@ -526,17 +552,17 @@ class PerformanceMonitor:
     """Main performance monitor."""
 
 def __init__(self):
-    self.performance_metrics = PerformanceMetrics()
-    self.performance_attribution = PerformanceAttribution()
-    self.performance_history: deque = deque(maxlen=10000)
-    self.snapshots: deque = deque(maxlen=1000)
-    self.trades: deque = deque(maxlen=10000)
-    self.positions: Dict[str, Position] = {}
-    self.benchmark_data: Dict[str, np.ndarray] = {}
-    self.is_monitoring = False
-    self.monitor_thread = None
-    self.initial_value = 100000.0  # Default initial portfolio value
-    self.current_value = 100000.0
+    self.performance_metrics=PerformanceMetrics()
+    self.performance_attribution=PerformanceAttribution()
+    self.performance_history: deque=deque(maxlen=10000)
+    self.snapshots: deque=deque(maxlen=1000)
+    self.trades: deque=deque(maxlen=10000)
+    self.positions: Dict[str, Position]={}
+    self.benchmark_data: Dict[str, np.ndarray]={}
+    self.is_monitoring=False
+    self.monitor_thread=None
+    self.initial_value=100000.0  # Default initial portfolio value
+    self.current_value=100000.0
 
 def add_trade(self, trade: Trade) -> None:
     """Add a trade to the monitor."""
@@ -559,7 +585,7 @@ def add_position(self, position: Position) -> None:
     """Add or update a position."""
     try:
     pass
-    self.positions[position.symbol] = position
+    self.positions[position.symbol]=position
     logger.info(f"Position updated: {position.symbol} {position.quantity} @ {position.avg_price}")
 
     except Exception as e:
@@ -570,19 +596,19 @@ def take_snapshot(self) -> PerformanceSnapshot:
     try:
     pass
     # Calculate current portfolio value
-    positions_value = sum(pos.quantity * pos.current_price for pos in self.positions.values())
-    total_value = self.current_value + positions_value
+    positions_value=sum(pos.quantity * pos.current_price for pos in self.positions.values())
+    total_value=self.current_value + positions_value
 
     # Calculate P&L
-    unrealized_pnl = sum(pos.unrealized_pnl for pos in self.positions.values())
-    realized_pnl = sum(pos.realized_pnl for pos in self.positions.values())
-    total_pnl = unrealized_pnl + realized_pnl
+    unrealized_pnl=sum(pos.unrealized_pnl for pos in self.positions.values())
+    realized_pnl=sum(pos.realized_pnl for pos in self.positions.values())
+    total_pnl=unrealized_pnl + realized_pnl
 
     # Calculate metrics
-    metrics = self._calculate_current_metrics()
+    metrics=self._calculate_current_metrics()
 
     # Create snapshot
-    snapshot = PerformanceSnapshot(
+    snapshot=PerformanceSnapshot(
     snapshot_id=f"snapshot_{int(time.time())}",
     timestamp=datetime.now(),
     total_value=total_value,
@@ -615,7 +641,7 @@ def generate_performance_report(self, start_date: datetime, end_date: datetime) 
     try:
     pass
     # Filter snapshots by date range
-    relevant_snapshots = [
+    relevant_snapshots=[
     s for s in (self.snapshots
     if start_date <= s.timestamp <= end_date
     ]
@@ -672,64 +698,68 @@ def generate_performance_report(self, start_date: datetime, end_date: datetime) 
     return self._create_empty_report(start_date, end_date)
 
     # Calculate basic metrics
-    initial_value = relevant_snapshots[0].total_value
-    final_value = relevant_snapshots[-1].total_value
-    total_return = self.performance_metrics.calculate_total_return(initial_value, final_value)
+    initial_value=relevant_snapshots[0].total_value
+    final_value=relevant_snapshots[-1].total_value
+    total_return=self.performance_metrics.calculate_total_return(initial_value, final_value)
 
-    days = (end_date - start_date).days
-    annualized_return = self.performance_metrics.calculate_annualized_return(total_return, days)
+    days=(end_date - start_date).days
+    annualized_return=self.performance_metrics.calculate_annualized_return(total_return, days)
 
     # Calculate returns series
-    returns = []
+    returns=[]
     for i in range(1, len(relevant_snapshots)):
-    prev_value = relevant_snapshots[i-1].total_value
-    curr_value = relevant_snapshots[i].total_value
-    daily_return = (curr_value - prev_value) / prev_value
+    prev_value=relevant_snapshots[i-1].total_value
+    curr_value=relevant_snapshots[i].total_value
+    daily_return=(curr_value - prev_value) / prev_value
     returns.append(daily_return)
 
-    returns_array = np.array(returns)
+    returns_array=np.array(returns)
 
     # Calculate risk metrics
-    volatility = self.performance_metrics.calculate_volatility(returns_array)
-    sharpe_ratio = self.risk_metrics.calculate_sharpe_ratio(returns_array)
-    sortino_ratio = self.risk_metrics.calculate_sortino_ratio(returns_array)
+    volatility=self.performance_metrics.calculate_volatility(returns_array)
+    sharpe_ratio=self.risk_metrics.calculate_sharpe_ratio(returns_array)
+    sortino_ratio=self.risk_metrics.calculate_sortino_ratio(returns_array)
 
     # Calculate drawdown
-    equity_curve = np.array([s.total_value for s in relevant_snapshots])
-    max_drawdown, _, _ = self.risk_metrics.calculate_max_drawdown(equity_curve)
+    equity_curve=np.array([s.total_value for s in relevant_snapshots])
+    max_drawdown, _, _=self.risk_metrics.calculate_max_drawdown(equity_curve)
 
     # Calculate trade metrics
-    relevant_trades = [
+    relevant_trades=[
     t for t in self.trades
     if start_date <= t.timestamp <= end_date
     ]
 
-    win_rate = self.performance_metrics.calculate_win_rate(relevant_trades)
-    profit_factor = self.performance_metrics.calculate_profit_factor(relevant_trades)
-    avg_win, avg_loss = self.performance_metrics.calculate_avg_win_loss(relevant_trades)
+    win_rate=self.performance_metrics.calculate_win_rate(relevant_trades)
+    profit_factor=self.performance_metrics.calculate_profit_factor(relevant_trades)
+    avg_win, avg_loss=self.performance_metrics.calculate_avg_win_loss(relevant_trades)
 
     # Count trades
-    winning_trades = len([t for t in relevant_trades if t.metadata.get('pnl', 0) > 0))
-    losing_trades = len([t for t in (relevant_trades for relevant_trades in ((relevant_trades for (relevant_trades in (((relevant_trades for ((relevant_trades in ((((relevant_trades for (((relevant_trades in (((((relevant_trades for ((((relevant_trades in ((((((relevant_trades for (((((relevant_trades in ((((((relevant_trades if t.metadata.get('pnl', 0) < 0))
+    winning_trades=len([t for t in relevant_trades if t.metadata.get('pnl', 0) > 0))
+    losing_trades=len([t for t in (relevant_trades for relevant_trades in ((relevant_trades for (relevant_trades in (((relevant_trades for ((relevant_trades in ((((relevant_trades for (((relevant_trades in (((((relevant_trades for ((((relevant_trades in ((((((relevant_trades for (((((relevant_trades in ((((((relevant_trades if t.metadata.get('pnl', 0) < 0))
 
     # Calculate additional metrics
-    calmar_ratio = self.performance_metrics.calculate_calmar_ratio(annualized_return, max_drawdown)
+    calmar_ratio=self.performance_metrics.calculate_calmar_ratio(annualized_return, max_drawdown)
 
     # Create performance metrics list
-    metrics = [
+    metrics=[
     PerformanceMetric("Total Return", total_return, datetime.now(), MetricType.RETURN, self._get_status(total_return)),
-    PerformanceMetric("Annualized Return", annualized_return, datetime.now(), MetricType.RETURN, self._get_status(annualized_return)),
-    PerformanceMetric("Volatility", volatility, datetime.now(), MetricType.RISK, self._get_status(volatility, is_risk=True)),
+    PerformanceMetric("Annualized Return", annualized_return, datetime.now(),
+                      MetricType.RETURN, self._get_status(annualized_return)),
+    PerformanceMetric("Volatility", volatility, datetime.now(), MetricType.RISK,
+                      self._get_status(volatility, is_risk=True)),
     PerformanceMetric("Sharpe Ratio", sharpe_ratio, datetime.now(), MetricType.RATIO, self._get_status(sharpe_ratio)),
-    PerformanceMetric("Sortino Ratio", sortino_ratio, datetime.now(), MetricType.RATIO, self._get_status(sortino_ratio)),
-    PerformanceMetric("Max Drawdown", max_drawdown, datetime.now(), MetricType.DRAWDOWN, self._get_status(max_drawdown, is_risk=True)),
+    PerformanceMetric("Sortino Ratio", sortino_ratio, datetime.now(),
+                      MetricType.RATIO, self._get_status(sortino_ratio)),
+    PerformanceMetric("Max Drawdown", max_drawdown, datetime.now(), MetricType.DRAWDOWN,
+                      self._get_status(max_drawdown, is_risk=True)),
     PerformanceMetric("Calmar Ratio", calmar_ratio, datetime.now(), MetricType.RATIO, self._get_status(calmar_ratio)),
     PerformanceMetric("Win Rate", win_rate, datetime.now(), MetricType.RATIO, self._get_status(win_rate)),
     PerformanceMetric("Profit Factor", profit_factor, datetime.now(), MetricType.RATIO, self._get_status(profit_factor]]
     )
 
     # Create report
-    report = PerformanceReport(
+    report=PerformanceReport(
     report_id=f"report_{int(time.time())}",
     start_date=start_date,
     end_date=end_date,
@@ -767,10 +797,10 @@ def _update_positions(self, trade: Trade) -> None:
     """Update positions based on trade."""
     try:
     pass
-    symbol = trade.symbol
+    symbol=trade.symbol
 
     if symbol not in self.positions:
-    self.positions[symbol] = Position(
+    self.positions[symbol]=Position(
     symbol=symbol,
     quantity=0.0,
     avg_price=0.0,
@@ -780,32 +810,32 @@ def _update_positions(self, trade: Trade) -> None:
     timestamp=trade.timestamp
     )
 
-    position = self.positions[symbol]
+    position=self.positions[symbol]
 
     if trade.side == 'buy':
     # Update average price
-    total_cost = position.quantity * position.avg_price + trade.quantity * trade.price
+    total_cost=position.quantity * position.avg_price + trade.quantity * trade.price
     position.quantity += trade.quantity
-    position.avg_price = total_cost / position.quantity if position.quantity > 0 else 0.0
+    position.avg_price=total_cost / position.quantity if position.quantity > 0 else 0.0
     else:  # sell
     # Calculate realized P&L
     if position.quantity > 0:
-    realized_pnl = (trade.price - position.avg_price) * unified_math.min(trade.quantity, position.quantity)
+    realized_pnl=(trade.price - position.avg_price) * unified_math.min(trade.quantity, position.quantity)
     position.realized_pnl += realized_pnl
 
     position.quantity -= trade.quantity
     if position.quantity <= 0:
-    position.quantity = 0.0
-    position.avg_price = 0.0
+    position.quantity=0.0
+    position.avg_price=0.0
 
     # Update current price
-    position.current_price = trade.price
+    position.current_price=trade.price
 
     # Calculate unrealized P&L
-    position.unrealized_pnl = (position.current_price - position.avg_price) * position.quantity
+    position.unrealized_pnl=(position.current_price - position.avg_price) * position.quantity
 
     # Update timestamp
-    position.timestamp = trade.timestamp
+    position.timestamp=trade.timestamp
 
     except Exception as e:
     logger.error(f"Error updating positions: {e}")
@@ -817,9 +847,9 @@ def _calculate_trade_pnl(self, trade: Trade) -> None:
     # This is a simplified calculation
     # In a real system, you'd need to match trades to positions
     if trade.side == 'sell' and trade.symbol in self.positions:
-    position = self.positions[trade.symbol]
-    pnl = (trade.price - position.avg_price) * trade.quantity
-    trade.metadata['pnl'] = pnl
+    position=self.positions[trade.symbol]
+    pnl=(trade.price - position.avg_price) * trade.quantity
+    trade.metadata['pnl']=pnl
 
     except Exception as e:
     logger.error(f"Error calculating trade P&L: {e}")
@@ -828,11 +858,11 @@ def _calculate_current_metrics(self) -> List[PerformanceMetric]:
     """Calculate current performance metrics."""
     try:
     pass
-    metrics = []
-    timestamp = datetime.now()
+    metrics=[]
+    timestamp=datetime.now()
 
     # Calculate basic metrics
-    total_return = (self.current_value - self.initial_value) / self.initial_value
+    total_return=(self.current_value - self.initial_value) / self.initial_value
 
     metrics.append(PerformanceMetric(
     "Total Return",
@@ -856,8 +886,8 @@ def _calculate_daily_return(self) -> float:
     if len(self.snapshots) < 2:
     return 0.0
 
-    prev_value = self.snapshots[-2].total_value
-    curr_value = self.snapshots[-1].total_value
+    prev_value=self.snapshots[-2].total_value
+    curr_value=self.snapshots[-1].total_value
 
     return (curr_value - prev_value) / prev_value
 
@@ -865,7 +895,7 @@ def _calculate_daily_return(self) -> float:
     logger.error(f"Error calculating daily return: {e}")
     return 0.0
 
-def _get_status(self, value: float, is_risk: bool = False) -> PerformanceStatus:
+def _get_status(self, value: float, is_risk: bool=False) -> PerformanceStatus:
     """Get performance status based on value."""
     try:
     pass
@@ -944,7 +974,7 @@ def get_performance_summary(self) -> Dict[str, Any]:
     if not self.snapshots:
     return {'total_snapshots': 0}
 
-    latest_snapshot = self.snapshots[-1]
+    latest_snapshot=self.snapshots[-1]
 
     return {
     'total_snapshots': len(self.snapshots),
@@ -965,10 +995,10 @@ def main():
     try:
     pass
     # Create performance monitor
-    monitor = PerformanceMonitor()
+    monitor=PerformanceMonitor()
 
     # Simulate some trades
-    trades = [
+    trades=[
     Trade("1", "BTC/USD", "buy", 1.0, 50000.0, datetime.now() - timedelta(days=10)),
     Trade("2", "BTC/USD", "sell", 0.5, 52000.0, datetime.now() - timedelta(days=5)),
     Trade("3", "ETH/USD", "buy", 10.0, 3000.0, datetime.now() - timedelta(days=3)),
@@ -981,14 +1011,14 @@ def main():
 
     # Take snapshots
     for i in range(5):
-    snapshot = monitor.take_snapshot()
+    snapshot=monitor.take_snapshot()
     safe_print(f"Snapshot {i+1}: Value: ${snapshot.total_value:,.2f}, P&L: ${snapshot.total_pnl:,.2f}")
     time.sleep(0.1)
 
     # Generate performance report
-    start_date = datetime.now() - timedelta(days=30)
-    end_date = datetime.now()
-    report = monitor.generate_performance_report(start_date, end_date)
+    start_date=datetime.now() - timedelta(days=30)
+    end_date=datetime.now()
+    report=monitor.generate_performance_report(start_date, end_date)
 
     safe_print(f"\nPerformance Report:")
     safe_print(f"Total Return: {report.total_return:.2%}")
@@ -999,7 +1029,7 @@ def main():
     safe_print(f"Total Trades: {report.total_trades}")
 
     # Get performance summary
-    summary = monitor.get_performance_summary()
+    summary=monitor.get_performance_summary()
     safe_print(f"\nPerformance Summary:")
     print(json.dumps(summary, indent=2, default=str))
 

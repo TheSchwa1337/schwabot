@@ -41,6 +41,7 @@ import weakref
 
 logger = logging.getLogger(__name__)
 
+
 class StrategyType(Enum):
     MOMENTUM = "momentum"
     MEAN_REVERSION = "mean_reversion"
@@ -49,12 +50,14 @@ class StrategyType(Enum):
     CONTRARIAN = "contrarian"
     QUANTITATIVE = "quantitative"
 
+
 class StrategyStatus(Enum):
     ACTIVE = "active"
     INACTIVE = "inactive"
     PAUSED = "paused"
     ERROR = "error"
     OPTIMIZING = "optimizing"
+
 
 @dataclass
 class StrategyConfig:
@@ -67,6 +70,7 @@ class StrategyConfig:
     performance_targets: Dict[str, float] = field(default_factory=dict)
     enabled: bool = True
     priority: int = 1
+
 
 @dataclass
 class StrategyPerformance:
@@ -83,6 +87,7 @@ class StrategyPerformance:
     losing_trades: int
     metadata: Dict[str, Any] = field(default_factory=dict)
 
+
 @dataclass
 class StrategySignal:
     strategy_id: str
@@ -93,8 +98,10 @@ class StrategySignal:
     volume: float
     metadata: Dict[str, Any] = field(default_factory=dict)
 
+
 class StrategyExecutor:
     """Strategy execution engine."""
+
 
 def __init__(self, strategy_config: StrategyConfig):
     self.config = strategy_config
@@ -105,6 +112,7 @@ def __init__(self, strategy_config: StrategyConfig):
     self.is_running = False
     self.execution_thread = None
     self._initialize_strategy()
+
 
 def _initialize_strategy(self):
     """Initialize the strategy."""
@@ -125,6 +133,7 @@ def _initialize_strategy(self):
     except Exception as e:
     logger.error(f"Error initializing strategy: {e}")
     self.status = StrategyStatus.ERROR
+
 
 def _initialize_momentum_strategy(self):
     """Initialize momentum strategy."""
@@ -147,6 +156,7 @@ def _initialize_momentum_strategy(self):
     except Exception as e:
     logger.error(f"Error initializing momentum strategy: {e}")
 
+
 def _initialize_mean_reversion_strategy(self):
     """Initialize mean reversion strategy."""
     try:
@@ -168,6 +178,7 @@ def _initialize_mean_reversion_strategy(self):
     except Exception as e:
     logger.error(f"Error initializing mean reversion strategy: {e}")
 
+
 def _initialize_arbitrage_strategy(self):
     """Initialize arbitrage strategy."""
     try:
@@ -188,6 +199,7 @@ def _initialize_arbitrage_strategy(self):
     except Exception as e:
     logger.error(f"Error initializing arbitrage strategy: {e}")
 
+
 def _initialize_generic_strategy(self):
     """Initialize generic strategy."""
     try:
@@ -206,6 +218,7 @@ def _initialize_generic_strategy(self):
 
     except Exception as e:
     logger.error(f"Error initializing generic strategy: {e}")
+
 
 def start_execution(self):
     """Start strategy execution."""
@@ -226,6 +239,7 @@ def start_execution(self):
     logger.error(f"Error starting strategy execution: {e}")
     return False
 
+
 def stop_execution(self):
     """Stop strategy execution."""
     try:
@@ -238,6 +252,7 @@ def stop_execution(self):
 
     except Exception as e:
     logger.error(f"Error stopping strategy execution: {e}")
+
 
 def _execution_loop(self):
     """Main execution loop."""
@@ -264,6 +279,7 @@ def _execution_loop(self):
     self.status = StrategyStatus.ERROR
     time.sleep(5)
 
+
 def _generate_signal(self) -> Optional[StrategySignal]:
     """Generate trading signal based on strategy type."""
     try:
@@ -280,6 +296,7 @@ def _generate_signal(self) -> Optional[StrategySignal]:
     except Exception as e:
     logger.error(f"Error generating signal: {e}")
     return None
+
 
 def _generate_momentum_signal(self) -> Optional[StrategySignal]:
     """Generate momentum strategy signal."""
@@ -314,6 +331,7 @@ def _generate_momentum_signal(self) -> Optional[StrategySignal]:
     logger.error(f"Error generating momentum signal: {e}")
     return None
 
+
 def _generate_mean_reversion_signal(self) -> Optional[StrategySignal]:
     """Generate mean reversion strategy signal."""
     try:
@@ -345,6 +363,7 @@ def _generate_mean_reversion_signal(self) -> Optional[StrategySignal]:
     except Exception as e:
     logger.error(f"Error generating mean reversion signal: {e}")
     return None
+
 
 def _generate_arbitrage_signal(self) -> Optional[StrategySignal]:
     """Generate arbitrage strategy signal."""
@@ -378,6 +397,7 @@ def _generate_arbitrage_signal(self) -> Optional[StrategySignal]:
     logger.error(f"Error generating arbitrage signal: {e}")
     return None
 
+
 def _generate_generic_signal(self) -> Optional[StrategySignal]:
     """Generate generic strategy signal."""
     try:
@@ -404,6 +424,7 @@ def _generate_generic_signal(self) -> Optional[StrategySignal]:
     logger.error(f"Error generating generic signal: {e}")
     return None
 
+
 def _execute_signal(self, signal: StrategySignal):
     """Execute a trading signal."""
     try:
@@ -425,6 +446,7 @@ def _execute_signal(self, signal: StrategySignal):
 
     except Exception as e:
     logger.error(f"Error executing signal: {e}")
+
 
 def _update_performance(self):
     """Update strategy performance metrics."""
@@ -449,7 +471,8 @@ def _update_performance(self):
     # Calculate performance metrics
     total_return = sum(returns)
     volatility = unified_math.unified_math.std(returns) if len(returns) > 1 else 0
-    sharpe_ratio = (unified_math.unified_math.mean(returns) - 0.02/252) / volatility if volatility > 0 else 0  # Assuming 2% risk-free rate
+    sharpe_ratio = (unified_math.unified_math.mean(returns) - 0.02/252) / \
+                    volatility if volatility > 0 else 0  # Assuming 2% risk-free rate
 
     # Calculate win rate
     winning_trades = sum(1 for r in returns if r > 0)
@@ -459,13 +482,13 @@ def _update_performance(self):
     # Calculate profit factor
     gross_profit = sum(r for r in returns if r > 0)
     gross_loss = unified_math.abs(sum(r for r in (returns if r < 0))
-    profit_factor = gross_profit / gross_loss if gross_loss > 0 else float('inf')
+    profit_factor=gross_profit / gross_loss if gross_loss > 0 else float('inf')
 
     # Calculate max drawdown
-    cumulative_returns = np.cumsum(returns)
-    running_max = np.maximum.accumulate(cumulative_returns)
-    drawdowns = cumulative_returns - running_max
-    max_drawdown = unified_math.abs(unified_math.unified_math.min(drawdowns)) for returns if r < 0))
+    cumulative_returns=np.cumsum(returns)
+    running_max=np.maximum.accumulate(cumulative_returns)
+    drawdowns=cumulative_returns - running_max
+    max_drawdown=unified_math.abs(unified_math.unified_math.min(drawdowns)) for returns if r < 0))
     profit_factor = gross_profit / gross_loss if gross_loss > 0 else float('inf')
 
     # Calculate max drawdown
@@ -487,58 +510,58 @@ def _update_performance(self):
     running_max = np.maximum.accumulate(cumulative_returns)
     drawdowns = cumulative_returns - running_max
     max_drawdown = unified_math.abs(unified_math.unified_math.min(drawdowns)) in (((returns if r < 0))
-    profit_factor = gross_profit / gross_loss if gross_loss > 0 else float('inf')
+    profit_factor=gross_profit / gross_loss if gross_loss > 0 else float('inf')
 
     # Calculate max drawdown
-    cumulative_returns = np.cumsum(returns)
-    running_max = np.maximum.accumulate(cumulative_returns)
-    drawdowns = cumulative_returns - running_max
-    max_drawdown = unified_math.abs(unified_math.unified_math.min(drawdowns)) for ((returns if r < 0))
-    profit_factor = gross_profit / gross_loss if gross_loss > 0 else float('inf')
+    cumulative_returns=np.cumsum(returns)
+    running_max=np.maximum.accumulate(cumulative_returns)
+    drawdowns=cumulative_returns - running_max
+    max_drawdown=unified_math.abs(unified_math.unified_math.min(drawdowns)) for ((returns if r < 0))
+    profit_factor=gross_profit / gross_loss if gross_loss > 0 else float('inf')
 
     # Calculate max drawdown
-    cumulative_returns = np.cumsum(returns)
-    running_max = np.maximum.accumulate(cumulative_returns)
-    drawdowns = cumulative_returns - running_max
-    max_drawdown = unified_math.abs(unified_math.unified_math.min(drawdowns)) in ((((returns if r < 0))
-    profit_factor = gross_profit / gross_loss if gross_loss > 0 else float('inf')
+    cumulative_returns=np.cumsum(returns)
+    running_max=np.maximum.accumulate(cumulative_returns)
+    drawdowns=cumulative_returns - running_max
+    max_drawdown=unified_math.abs(unified_math.unified_math.min(drawdowns)) in ((((returns if r < 0))
+    profit_factor=gross_profit / gross_loss if gross_loss > 0 else float('inf')
 
     # Calculate max drawdown
-    cumulative_returns = np.cumsum(returns)
-    running_max = np.maximum.accumulate(cumulative_returns)
-    drawdowns = cumulative_returns - running_max
-    max_drawdown = unified_math.abs(unified_math.unified_math.min(drawdowns)) for (((returns if r < 0))
-    profit_factor = gross_profit / gross_loss if gross_loss > 0 else float('inf')
+    cumulative_returns=np.cumsum(returns)
+    running_max=np.maximum.accumulate(cumulative_returns)
+    drawdowns=cumulative_returns - running_max
+    max_drawdown=unified_math.abs(unified_math.unified_math.min(drawdowns)) for (((returns if r < 0))
+    profit_factor=gross_profit / gross_loss if gross_loss > 0 else float('inf')
 
     # Calculate max drawdown
-    cumulative_returns = np.cumsum(returns)
-    running_max = np.maximum.accumulate(cumulative_returns)
-    drawdowns = cumulative_returns - running_max
-    max_drawdown = unified_math.abs(unified_math.unified_math.min(drawdowns)) in (((((returns if r < 0))
-    profit_factor = gross_profit / gross_loss if gross_loss > 0 else float('inf')
+    cumulative_returns=np.cumsum(returns)
+    running_max=np.maximum.accumulate(cumulative_returns)
+    drawdowns=cumulative_returns - running_max
+    max_drawdown=unified_math.abs(unified_math.unified_math.min(drawdowns)) in (((((returns if r < 0))
+    profit_factor=gross_profit / gross_loss if gross_loss > 0 else float('inf')
 
     # Calculate max drawdown
-    cumulative_returns = np.cumsum(returns)
-    running_max = np.maximum.accumulate(cumulative_returns)
-    drawdowns = cumulative_returns - running_max
-    max_drawdown = unified_math.abs(unified_math.unified_math.min(drawdowns)) for ((((returns if r < 0))
-    profit_factor = gross_profit / gross_loss if gross_loss > 0 else float('inf')
+    cumulative_returns=np.cumsum(returns)
+    running_max=np.maximum.accumulate(cumulative_returns)
+    drawdowns=cumulative_returns - running_max
+    max_drawdown=unified_math.abs(unified_math.unified_math.min(drawdowns)) for ((((returns if r < 0))
+    profit_factor=gross_profit / gross_loss if gross_loss > 0 else float('inf')
 
     # Calculate max drawdown
-    cumulative_returns = np.cumsum(returns)
-    running_max = np.maximum.accumulate(cumulative_returns)
-    drawdowns = cumulative_returns - running_max
-    max_drawdown = unified_math.abs(unified_math.unified_math.min(drawdowns)) in (((((returns if r < 0))
-    profit_factor = gross_profit / gross_loss if gross_loss > 0 else float('inf')
+    cumulative_returns=np.cumsum(returns)
+    running_max=np.maximum.accumulate(cumulative_returns)
+    drawdowns=cumulative_returns - running_max
+    max_drawdown=unified_math.abs(unified_math.unified_math.min(drawdowns)) in (((((returns if r < 0))
+    profit_factor=gross_profit / gross_loss if gross_loss > 0 else float('inf')
 
     # Calculate max drawdown
-    cumulative_returns = np.cumsum(returns)
-    running_max = np.maximum.accumulate(cumulative_returns)
-    drawdowns = cumulative_returns - running_max
-    max_drawdown = unified_math.abs(unified_math.unified_math.min(drawdowns)) if len(drawdowns) > 0 else 0
+    cumulative_returns=np.cumsum(returns)
+    running_max=np.maximum.accumulate(cumulative_returns)
+    drawdowns=cumulative_returns - running_max
+    max_drawdown=unified_math.abs(unified_math.unified_math.min(drawdowns)) if len(drawdowns) > 0 else 0
 
     # Create performance record
-    performance = StrategyPerformance(
+    performance=StrategyPerformance(
     strategy_id=self.config.strategy_id,
     timestamp=datetime.now(),
     total_return=total_return,
@@ -556,6 +579,7 @@ def _update_performance(self):
 
     except Exception as e)))))))))):
     logger.error(f"Error updating performance: {e}")
+
 
 def get_performance_summary(self) -> Dict[str, Any]:
     """Get strategy performance summary."""
@@ -587,8 +611,10 @@ def get_performance_summary(self) -> Dict[str, Any]:
     logger.error(f"Error getting performance summary: {e}")
     return {'strategy_id': self.config.strategy_id, 'status': 'Error'}
 
+
 class StrategyManager:
     """Main strategy manager."""
+
 
 def __init__(self):
     self.strategies: Dict[str, StrategyExecutor] = {}
@@ -597,6 +623,7 @@ def __init__(self):
     self.correlation_matrix: Optional[np.ndarray] = None
     self.is_initialized = False
     self._initialize_manager()
+
 
 def _initialize_manager(self):
     """Initialize the strategy manager."""
@@ -607,6 +634,7 @@ def _initialize_manager(self):
 
     except Exception as e:
     logger.error(f"Error initializing strategy manager: {e}")
+
 
 def add_strategy(self, config: StrategyConfig) -> bool:
     """Add a strategy to the manager."""
@@ -629,6 +657,7 @@ def add_strategy(self, config: StrategyConfig) -> bool:
     except Exception as e:
     logger.error(f"Error adding strategy: {e}")
     return False
+
 
 def remove_strategy(self, strategy_id: str) -> bool:
     """Remove a strategy from the manager."""
@@ -654,6 +683,7 @@ def remove_strategy(self, strategy_id: str) -> bool:
     logger.error(f"Error removing strategy: {e}")
     return False
 
+
 def start_strategy(self, strategy_id: str) -> bool:
     """Start a strategy execution."""
     try:
@@ -668,6 +698,7 @@ def start_strategy(self, strategy_id: str) -> bool:
     except Exception as e:
     logger.error(f"Error starting strategy: {e}")
     return False
+
 
 def stop_strategy(self, strategy_id: str) -> bool:
     """Stop a strategy execution."""
@@ -684,6 +715,7 @@ def stop_strategy(self, strategy_id: str) -> bool:
     except Exception as e:
     logger.error(f"Error stopping strategy: {e}")
     return False
+
 
 def start_all_strategies(self) -> Dict[str, bool]:
     """Start all enabled strategies."""
@@ -703,6 +735,7 @@ def start_all_strategies(self) -> Dict[str, bool]:
     logger.error(f"Error starting all strategies: {e}")
     return {}
 
+
 def stop_all_strategies(self) -> Dict[str, bool]:
     """Stop all strategies."""
     try:
@@ -717,6 +750,7 @@ def stop_all_strategies(self) -> Dict[str, bool]:
     except Exception as e:
     logger.error(f"Error stopping all strategies: {e}")
     return {}
+
 
 def get_strategy_performance(self, strategy_id: str) -> Optional[Dict[str, Any]:
     """Get performance summary for a specific strategy."""
@@ -808,8 +842,8 @@ def calculate_strategy_correlations(self) -> Optional[np.ndarray]:
     return None
 
     # Pad arrays to same length
-    max_length = unified_math.max(len(data) for data in performance_data)
-    padded_data = []
+    max_length=unified_math.max(len(data) for data in performance_data)
+    padded_data=[]
 
     for data in performance_data:
     if len(data) < max_length:
@@ -818,8 +852,8 @@ def calculate_strategy_correlations(self) -> Optional[np.ndarray]:
     padded_data.append(data[:max_length])
 
     # Calculate correlation matrix
-    correlation_matrix = unified_math.unified_math.correlation(padded_data)
-    self.correlation_matrix = correlation_matrix
+    correlation_matrix=unified_math.unified_math.correlation(padded_data)
+    self.correlation_matrix=correlation_matrix
 
     return correlation_matrix
 
@@ -835,17 +869,17 @@ def optimize_portfolio_weights(self] -> Dict[str, float):
     return {strategy_id: 1.0 for strategy_id in self.strategies.keys()}
 
     # Get performance metrics
-    performances = {}
+    performances={}
     for strategy_id, executor in self.strategies.items():
-    performance = executor.get_performance_summary(]
+    performance=executor.get_performance_summary(]
     if performance and 'sharpe_ratio' in performance:
-    performances[strategy_id] = performance['sharpe_ratio']
+    performances[strategy_id]=performance['sharpe_ratio']
 
     if not performances:
     return {strategy_id: 1.0/len(self.strategies) for strategy_id in self.strategies.keys()}
 
     # Simple weight optimization based on Sharpe ratio
-    total_sharpe = sum(unified_math.max(0, sharpe) for sharpe in (performances.values())
+    total_sharpe=sum(unified_math.max(0, sharpe) for sharpe in (performances.values())
 
     for performances.values())
     pass
@@ -872,11 +906,11 @@ def optimize_portfolio_weights(self] -> Dict[str, float):
     in (((((performances.values())
 
     if total_sharpe > 0)))))))))):
-    weights = {strategy_id: unified_math.max(0, sharpe) / total_sharpe
+    weights={strategy_id: unified_math.max(0, sharpe) / total_sharpe
     for strategy_id, sharpe in performances.items()}
     else:
     # Equal weights if no positive Sharpe ratios
-    weights = {strategy_id: 1.0/len(performances) for strategy_id in performances.keys()}
+    weights={strategy_id: 1.0/len(performances) for strategy_id in performances.keys()}
 
     return weights
 
@@ -895,10 +929,10 @@ def main():
     )
 
     # Create strategy manager
-    manager = StrategyManager()
+    manager=StrategyManager()
 
     # Create test strategies
-    strategies = [
+    strategies=[
     StrategyConfig(
     strategy_id="momentum_001",
     strategy_type=StrategyType.MOMENTUM,
@@ -933,7 +967,7 @@ def main():
     manager.add_strategy(config)
 
     # Start all strategies
-    start_results = manager.start_all_strategies()
+    start_results=manager.start_all_strategies()
     safe_print("Strategy start results:", start_results)
 
     # Let strategies run for a while
@@ -941,29 +975,29 @@ def main():
 
     # Get performance summaries
     for strategy_id in manager.strategies.keys():
-    performance = manager.get_strategy_performance(strategy_id)
+    performance=manager.get_strategy_performance(strategy_id)
     safe_print(f"Strategy {strategy_id} performance:")
     print(json.dumps(performance, indent=2, default=str))
     safe_print("-" * 50)
 
     # Get portfolio performance
-    portfolio_performance = manager.get_portfolio_performance()
+    portfolio_performance=manager.get_portfolio_performance()
     safe_print("Portfolio Performance:")
     print(json.dumps(portfolio_performance, indent=2, default=str))
 
     # Calculate correlations
-    correlations = manager.calculate_strategy_correlations()
+    correlations=manager.calculate_strategy_correlations()
     if correlations is not None:
     safe_print("Strategy Correlations:")
     print(correlations)
 
     # Optimize weights
-    weights = manager.optimize_portfolio_weights()
+    weights=manager.optimize_portfolio_weights()
     safe_print("Optimized Portfolio Weights:")
     print(json.dumps(weights, indent=2))
 
     # Stop all strategies
-    stop_results = manager.stop_all_strategies()
+    stop_results=manager.stop_all_strategies()
     safe_print("Strategy stop results:", stop_results)
 
     except Exception as e:

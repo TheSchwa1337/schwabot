@@ -47,6 +47,7 @@ import pandas as pd
 
 logger = logging.getLogger(__name__)
 
+
 class AnalysisType(Enum):
     TECHNICAL = "technical"
     STATISTICAL = "statistical"
@@ -57,6 +58,7 @@ class AnalysisType(Enum):
     ALTITUDE = "altitude"
     MACHINE_LEARNING = "machine_learning"
 
+
 class SignalType(Enum):
     BUY = "buy"
     SELL = "sell"
@@ -66,6 +68,7 @@ class SignalType(Enum):
     WEAK_BUY = "weak_buy"
     WEAK_SELL = "weak_sell"
 
+
 class PatternType(Enum):
     TREND = "trend"
     REVERSAL = "reversal"
@@ -73,6 +76,7 @@ class PatternType(Enum):
     CONSOLIDATION = "consolidation"
     BREAKOUT = "breakout"
     BREAKDOWN = "breakdown"
+
 
 @dataclass
 class MarketData:
@@ -86,6 +90,7 @@ class MarketData:
     interval: str
     metadata: Dict[str, Any] = field(default_factory=dict)
 
+
 @dataclass
 class TechnicalIndicator:
     name: str
@@ -96,6 +101,7 @@ class TechnicalIndicator:
     parameters: Dict[str, Any] = field(default_factory=dict)
     metadata: Dict[str, Any] = field(default_factory=dict)
 
+
 @dataclass
 class Pattern:
     pattern_type: PatternType
@@ -105,6 +111,7 @@ class Pattern:
     strength: float
     description: str
     metadata: Dict[str, Any] = field(default_factory=dict)
+
 
 @dataclass
 class AnalysisResult:
@@ -118,14 +125,17 @@ class AnalysisResult:
     risk_score: float
     metadata: Dict[str, Any] = field(default_factory=dict)
 
+
 class SignalProcessor:
     """Advanced signal processing and filtering."""
+
 
 def __init__(self, sample_rate: float = 1.0, filter_type: str = "butterworth"):
     self.sample_rate = sample_rate
     self.filter_type = filter_type
     self.filter_order = 4
     self.cutoff_freq = 0.1
+
 
 def apply_low_pass_filter(self, data: np.ndarray, cutoff: float = None) -> np.ndarray:
     """Apply low-pass filter to remove high-frequency noise."""
@@ -150,6 +160,7 @@ def apply_low_pass_filter(self, data: np.ndarray, cutoff: float = None) -> np.nd
     logger.error(f"Error applying low-pass filter: {e}")
     return data
 
+
 def apply_high_pass_filter(self, data: np.ndarray, cutoff: float = None) -> np.ndarray:
     """Apply high-pass filter to remove low-frequency trends."""
     try:
@@ -173,6 +184,7 @@ def apply_high_pass_filter(self, data: np.ndarray, cutoff: float = None) -> np.n
     logger.error(f"Error applying high-pass filter: {e}")
     return data
 
+
 def apply_band_pass_filter(self, data: np.ndarray, low_cutoff: float, high_cutoff: float) -> np.ndarray:
     """Apply band-pass filter."""
     try:
@@ -194,6 +206,7 @@ def apply_band_pass_filter(self, data: np.ndarray, low_cutoff: float, high_cutof
     logger.error(f"Error applying band-pass filter: {e}")
     return data
 
+
 def compute_fft(self, data: np.ndarray] -> Tuple[np.ndarray, np.ndarray):
     """Compute Fast Fourier Transform."""
     try:
@@ -213,6 +226,7 @@ def compute_fft(self, data: np.ndarray] -> Tuple[np.ndarray, np.ndarray):
     logger.error(f"Error computing FFT: {e}")
     return np.array(), np.array()
 
+
 def compute_power_spectral_density(self, data: np.ndarray] -> Tuple[np.ndarray, np.ndarray):
     """Compute power spectral density."""
     try:
@@ -224,8 +238,10 @@ def compute_power_spectral_density(self, data: np.ndarray] -> Tuple[np.ndarray, 
     logger.error(f"Error computing PSD: {e}")
     return np.array(), np.array()
 
+
 class TechnicalIndicators:
     """Technical indicator calculations."""
+
 
 def __init__(self):
     self.rsi_period = 14
@@ -234,6 +250,7 @@ def __init__(self):
     self.macd_signal = 9
     self.bollinger_period = 20
     self.bollinger_std = 2
+
 
 def calculate_rsi(self, prices: np.ndarray, period: int = None) -> float:
     """Calculate Relative Strength Index."""
@@ -269,6 +286,7 @@ def calculate_rsi(self, prices: np.ndarray, period: int = None) -> float:
     logger.error(f"Error calculating RSI: {e}")
     return 50.0
 
+
 def calculate_macd(self, prices: np.ndarray] -> Tuple[float, float, float):
     """Calculate MACD (Moving Average Convergence Divergence)."""
     try:
@@ -302,6 +320,7 @@ def calculate_macd(self, prices: np.ndarray] -> Tuple[float, float, float):
     logger.error(f"Error calculating MACD: {e}")
     return 0.0, 0.0, 0.0
 
+
 def calculate_bollinger_bands(self, prices: np.ndarray] -> Tuple[float, float, float):
     """Calculate Bollinger Bands."""
     try:
@@ -324,6 +343,7 @@ def calculate_bollinger_bands(self, prices: np.ndarray] -> Tuple[float, float, f
     except Exception as e:
     logger.error(f"Error calculating Bollinger Bands: {e}")
     return prices[-1], prices[-1], prices[-1]
+
 
 def calculate_stochastic(self, high: np.ndarray, low: np.ndarray, close: np.ndarray, period: int = 14) -> Tuple[float, float]:
     """Calculate Stochastic Oscillator."""
@@ -363,6 +383,7 @@ def calculate_stochastic(self, high: np.ndarray, low: np.ndarray, close: np.ndar
     logger.error(f"Error calculating Stochastic: {e}")
     return 50.0, 50.0
 
+
 def _calculate_ema(self, prices: np.ndarray, period: int) -> float:
     """Calculate Exponential Moving Average."""
     try:
@@ -386,13 +407,16 @@ def _calculate_ema(self, prices: np.ndarray, period: int) -> float:
     logger.error(f"Error calculating EMA: {e}")
     return prices[-1] if len(prices) > 0 else 0.0
 
+
 class PatternRecognizer:
     """Advanced pattern recognition and classification."""
+
 
 def __init__(self):
     self.pattern_threshold = 0.7
     self.min_pattern_length = 5
     self.max_pattern_length = 50
+
 
 def detect_trend_patterns(self, prices: np.ndarray, volumes: np.ndarray = None) -> List[Pattern]:
     """Detect trend patterns in price data."""
@@ -439,6 +463,7 @@ def detect_trend_patterns(self, prices: np.ndarray, volumes: np.ndarray = None) 
     logger.error(f"Error detecting trend patterns: {e}")
     return []
 
+
 def detect_reversal_patterns(self, prices: np.ndarray, volumes: np.ndarray = None) -> List[Pattern]:
     """Detect reversal patterns."""
     try:
@@ -484,6 +509,7 @@ def detect_reversal_patterns(self, prices: np.ndarray, volumes: np.ndarray = Non
     logger.error(f"Error detecting reversal patterns: {e}")
     return []
 
+
 def _is_uptrend(self, prices: np.ndarray) -> bool:
     """Check if prices are in uptrend."""
     try:
@@ -499,6 +525,7 @@ def _is_uptrend(self, prices: np.ndarray) -> bool:
 
     except Exception:
     return False
+
 
 def _is_downtrend(self, prices: np.ndarray) -> bool:
     """Check if prices are in downtrend."""
@@ -516,6 +543,7 @@ def _is_downtrend(self, prices: np.ndarray) -> bool:
     except Exception:
     return False
 
+
 def _is_consolidation(self, prices: np.ndarray) -> bool:
     """Check if prices are consolidating."""
     try:
@@ -532,6 +560,7 @@ def _is_consolidation(self, prices: np.ndarray) -> bool:
 
     except Exception:
     return False
+
 
 def _is_double_top(self, prices: np.ndarray) -> bool:
     """Detect double top pattern."""
@@ -555,6 +584,7 @@ def _is_double_top(self, prices: np.ndarray) -> bool:
     except Exception:
     return False
 
+
 def _is_double_bottom(self, prices: np.ndarray) -> bool:
     """Detect double bottom pattern."""
     try:
@@ -576,6 +606,7 @@ def _is_double_bottom(self, prices: np.ndarray) -> bool:
 
     except Exception:
     return False
+
 
 def _is_head_and_shoulders(self, prices: np.ndarray) -> bool:
     """Detect head and shoulders pattern."""
@@ -605,6 +636,7 @@ def _is_head_and_shoulders(self, prices: np.ndarray) -> bool:
     except Exception:
     return False
 
+
 def _calculate_trend_confidence(self, prices: np.ndarray, trend_type: str) -> float:
     """Calculate confidence in trend detection."""
     try:
@@ -617,6 +649,7 @@ def _calculate_trend_confidence(self, prices: np.ndarray, trend_type: str) -> fl
 
     except Exception:
     return 0.5
+
 
 def _calculate_trend_strength(self, prices: np.ndarray) -> float:
     """Calculate trend strength."""
@@ -631,6 +664,7 @@ def _calculate_trend_strength(self, prices: np.ndarray) -> float:
 
     except Exception:
     return 0.5
+
 
 def _calculate_consolidation_confidence(self, prices: np.ndarray) -> float:
     """Calculate confidence in consolidation detection."""
@@ -648,13 +682,16 @@ def _calculate_consolidation_confidence(self, prices: np.ndarray) -> float:
     except Exception:
     return 0.5
 
+
 class AltitudeLogic:
     """Advanced altitude logic for trading strategies."""
+
 
 def __init__(self):
     self.altitude_threshold = 0.1
     self.momentum_factor = 0.8
     self.gravity_factor = 0.2
+
 
 def calculate_altitude(self, prices: np.ndarray, volumes: np.ndarray = None) -> float:
     """Calculate altitude (price momentum and strength)."""
@@ -681,6 +718,7 @@ def calculate_altitude(self, prices: np.ndarray, volumes: np.ndarray = None) -> 
     logger.error(f"Error calculating altitude: {e}")
     return 0.0
 
+
 def calculate_gravity_effect(self, altitude: float, time_factor: float = 1.0) -> float:
     """Calculate gravity effect on altitude."""
     try:
@@ -694,6 +732,7 @@ def calculate_gravity_effect(self, altitude: float, time_factor: float = 1.0) ->
     logger.error(f"Error calculating gravity effect: {e}")
     return 0.0
 
+
 def calculate_escape_velocity(self, altitude: float, resistance_level: float) -> float:
     """Calculate escape velocity needed to break resistance."""
     try:
@@ -706,6 +745,7 @@ def calculate_escape_velocity(self, altitude: float, resistance_level: float) ->
     except Exception as e:
     logger.error(f"Error calculating escape velocity: {e}")
     return 0.0
+
 
 def detect_altitude_signals(self, altitudes: np.ndarray) -> List[SignalType]:
     """Detect trading signals based on altitude logic."""
@@ -745,8 +785,10 @@ def detect_altitude_signals(self, altitudes: np.ndarray) -> List[SignalType]:
     logger.error(f"Error detecting altitude signals: {e}")
     return [SignalType.HOLD]
 
+
 class AnalysisEngine:
     """Main analysis engine."""
+
 
 def __init__(self):
     self.signal_processor = SignalProcessor()
@@ -756,6 +798,7 @@ def __init__(self):
     self.analysis_history: deque = deque(maxlen=1000)
     self.is_running = False
     self.analysis_thread = None
+
 
 def analyze_market_data(self, market_data: List[MarketData]) -> AnalysisResult:
     """Perform comprehensive market analysis."""
@@ -815,6 +858,7 @@ def analyze_market_data(self, market_data: List[MarketData]) -> AnalysisResult:
     except Exception as e:
     logger.error(f"Error in market analysis: {e}")
     return self._create_empty_result()
+
 
 def _calculate_all_indicators(self, prices: np.ndarray, volumes: np.ndarray) -> List[TechnicalIndicator]:
     """Calculate all technical indicators."""
@@ -887,6 +931,7 @@ def _calculate_all_indicators(self, prices: np.ndarray, volumes: np.ndarray) -> 
     logger.error(f"Error calculating indicators: {e}")
     return []
 
+
 def _detect_all_patterns(self, prices: np.ndarray, volumes: np.ndarray) -> List[Pattern]:
     """Detect all patterns."""
     try:
@@ -906,6 +951,7 @@ def _detect_all_patterns(self, prices: np.ndarray, volumes: np.ndarray) -> List[
     except Exception as e:
     logger.error(f"Error detecting patterns: {e}")
     return []
+
 
 def _generate_signals(self, indicators: List[TechnicalIndicator],
     patterns: List[Pattern], altitude: float] -> List[SignalType]:
@@ -961,6 +1007,7 @@ def _generate_signals(self, indicators: List[TechnicalIndicator],
     logger.error(f"Error generating signals: {e}")
     return [SignalType.HOLD]
 
+
 def _calculate_confidence_score(self, indicators: List[TechnicalIndicator],
     patterns: List[Pattern)) -> float:
     """Calculate overall confidence score."""
@@ -987,6 +1034,7 @@ def _calculate_confidence_score(self, indicators: List[TechnicalIndicator],
     except Exception as e:
     logger.error(f"Error calculating confidence score: {e}"]
     return 0.5
+
 
 def _calculate_risk_score(self, indicators: List[TechnicalIndicator],
     patterns: List[Pattern] -> float:
@@ -1082,7 +1130,7 @@ def _create_empty_result(self) -> AnalysisResult:
     metadata={}
     )
 
-def get_analysis_history(self, limit: int = 100) -> List[AnalysisResult]:
+def get_analysis_history(self, limit: int=100) -> List[AnalysisResult]:
     """Get analysis history."""
     return list(self.analysis_history)[-limit:]
 

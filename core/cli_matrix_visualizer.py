@@ -1,3 +1,7 @@
+from schwabot.mathlib.ufs_tensor import UFSTensor
+from schwabot.mathlib.sfsss_tensor import SFSSTensor
+from schwabot.core.btc_tick_matrix_initializer import BTCTickMatrixInitializer, TickData
+from schwabot.core.multi_bit_btc_processor import MultiBitBTCProcessor
 from utils.safe_print import safe_print, info, warn, error, success, debug
 from core.unified_math_system import unified_math
 #!/usr/bin/env python3
@@ -31,10 +35,6 @@ from collections import deque
 # Add the project root to the path
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', '..'))
 
-from schwabot.core.multi_bit_btc_processor import MultiBitBTCProcessor
-from schwabot.core.btc_tick_matrix_initializer import BTCTickMatrixInitializer, TickData
-from schwabot.mathlib.sfsss_tensor import SFSSTensor
-from schwabot.mathlib.ufs_tensor import UFSTensor
 try:
     pass
 except ImportError as e:
@@ -47,6 +47,7 @@ except ImportError as e:
 
 logger = logging.getLogger(__name__)
 
+
 @dataclass
 class VisualConfig:
     """Visualization configuration."""
@@ -57,6 +58,7 @@ class VisualConfig:
     color_enabled: bool = True
     animation_enabled: bool = True
     max_history: int = 100
+
 
 @dataclass
 class MatrixState:
@@ -71,13 +73,16 @@ class MatrixState:
     hash_value: str
     metadata: Dict[str, Any] = field(default_factory=dict)
 
+
 class GlyphFrameProjection:
     """Glyph frame projection engine."""
+
 
 def __init__(self, config: VisualConfig):
     self.config = config
     self.glyph_sets = self._initialize_glyph_sets()
     self.projection_cache: Dict[str, str] = {}
+
 
 def _initialize_glyph_sets(self) -> Dict[str, Dict[str, str]:
     """Initialize different glyph sets."""
@@ -215,12 +220,12 @@ def create_glyph_matrix(self, states: List[MatrixState], width: int, height: int
 
     # Calculate glyphs for each state
     for i, state in enumerate(states[-width*height:]):  # Use most recent states
-    row = i // width
-    col = i % width
+    row=i // width
+    col=i % width
 
     if row < height:
-    glyph = self.project_glyph_frame(state.entry_exit_ratio, state.signal_strength)
-    matrix[row][col] = glyph
+    glyph=self.project_glyph_frame(state.entry_exit_ratio, state.signal_strength)
+    matrix[row][col]=glyph
 
     return matrix
 
@@ -234,9 +239,9 @@ class VectorOverlay:
     """Vector overlay engine."""
 
 def __init__(self, config: VisualConfig):
-    self.config = config
-    self.vector_cache: Dict[str, str] = {}
-    self.movement_history: deque = deque(maxlen=config.max_history)
+    self.config=config
+    self.vector_cache: Dict[str, str]={}
+    self.movement_history: deque=deque(maxlen=config.max_history)
 
 def classify_price_movement(self, current_price: float, previous_price: float,
     volume: float, delta: float) -> str:
@@ -254,13 +259,13 @@ def classify_price_movement(self, current_price: float, previous_price: float,
     """
     try:
     pass
-    glyphs = self.glyph_sets[self.config.glyph_set]
+    glyphs=self.glyph_sets[self.config.glyph_set]
 
     if previous_price == 0:
     return glyphs["neutral"]
 
-    price_change = current_price - previous_price
-    price_change_pct = unified_math.abs(price_change) / previous_price
+    price_change=current_price - previous_price
+    price_change_pct=unified_math.abs(price_change) / previous_price
 
     # Classify movement based on price change and volume
     if price_change > 0:
@@ -288,17 +293,17 @@ def create_vector_overlay(self, states: List[MatrixState] -> List[str]:
     """Create vector overlay from matrix states."""
     try:
     pass
-    overlay = [)
+    overlay=[)
 
     if len(states) < 2:
     return overlay
 
     # Create movement vectors
     for i in range(1, len(states)):
-    current_state = states[i]
-    previous_state = states[i-1]
+    current_state=states[i]
+    previous_state=states[i-1]
 
-    movement = self.classify_price_movement(
+    movement=self.classify_price_movement(
     current_state.price,
     previous_state.price,
     current_state.volume,
@@ -325,12 +330,12 @@ def get_movement_statistics(self) -> Dict[str, Any]:
     if not self.movement_history:
     return {}
 
-    movements = [entry['movement'] for entry in self.movement_history]
-    price_changes = [entry['price_change'] for entry in self.movement_history]
+    movements=[entry['movement'] for entry in self.movement_history]
+    price_changes=[entry['price_change'] for entry in self.movement_history]
 
-    glyphs = self.glyph_sets[self.config.glyph_set]
+    glyphs=self.glyph_sets[self.config.glyph_set]
 
-    stats = {
+    stats={
     'total_movements': len(self.movement_history),
     'up_movements': movements.count(glyphs["up")) + movements.count(glyphs["strong_up"]),
     'down_movements': movements.count(glyphs["down")) + movements.count(glyphs["strong_down"]],
@@ -351,12 +356,12 @@ class DeltaRangeLogic:
     """Delta range logic engine."""
 
 def __init__(self, config: VisualConfig):
-    self.config = config
-    self.delta_history: deque = deque(maxlen=config.max_history)
-    self.range_cache: Dict[str, float] = {}
+    self.config=config
+    self.delta_history: deque=deque(maxlen=config.max_history)
+    self.range_cache: Dict[str, float]={}
 
 def calculate_delta_range(self, current_price: float, previous_price: float,
-    volatility_factor: float = 1.0) -> float:
+    volatility_factor: float=1.0) -> float:
     """
     Calculate delta range: Δ(t) = |price_t - price_{t-1}| · ζ
 
@@ -373,8 +378,8 @@ def calculate_delta_range(self, current_price: float, previous_price: float,
     if previous_price == 0:
     return 0.0
 
-    delta = unified_math.abs(current_price - previous_price)
-    delta_range = delta * volatility_factor
+    delta=unified_math.abs(current_price - previous_price)
+    delta_range=delta * volatility_factor
 
     # Store in history
     self.delta_history.append({
@@ -397,10 +402,10 @@ def get_delta_statistics(self) -> Dict[str, float]:
     if not self.delta_history:
     return {}
 
-    deltas = [entry['delta'] for entry in self.delta_history]
-    delta_ranges = [entry['delta_range'] for entry in self.delta_history]
+    deltas=[entry['delta'] for entry in self.delta_history]
+    delta_ranges=[entry['delta_range'] for entry in self.delta_history]
 
-    stats = {
+    stats={
     'total_deltas': len(self.delta_history),
     'avg_delta': float(unified_math.unified_math.mean(deltas)),
     'avg_delta_range': float(unified_math.unified_math.mean(delta_ranges)),
@@ -419,14 +424,14 @@ def get_delta_statistics(self) -> Dict[str, float]:
 class CLIMatrixVisualizer:
     """Main CLI matrix visualizer."""
 
-def __init__(self, config: Optional[VisualConfig] = None):
-    self.config = config or VisualConfig()
-    self.glyph_projection = GlyphFrameProjection(self.config)
-    self.vector_overlay = VectorOverlay(self.config)
-    self.delta_logic = DeltaRangeLogic(self.config)
-    self.matrix_states: deque = deque(maxlen=self.config.max_history)
-    self.is_running = False
-    self.visualization_thread = None
+def __init__(self, config: Optional[VisualConfig]=None):
+    self.config=config or VisualConfig()
+    self.glyph_projection=GlyphFrameProjection(self.config)
+    self.vector_overlay=VectorOverlay(self.config)
+    self.delta_logic=DeltaRangeLogic(self.config)
+    self.matrix_states: deque=deque(maxlen=self.config.max_history)
+    self.is_running=False
+    self.visualization_thread=None
 
 def add_matrix_state(self, state: MatrixState):
     """Add a matrix state for visualization."""
@@ -441,8 +446,8 @@ def start_visualization(self):
     """Start the CLI visualization."""
     try:
     pass
-    self.is_running = True
-    self.visualization_thread = threading.Thread(target=self._visualization_loop, daemon=True)
+    self.is_running=True
+    self.visualization_thread=threading.Thread(target=self._visualization_loop, daemon=True)
     self.visualization_thread.start()
     logger.info("CLI matrix visualization started")
 
@@ -453,7 +458,7 @@ def stop_visualization(self):
     """Stop the CLI visualization."""
     try:
     pass
-    self.is_running = False
+    self.is_running=False
     if self.visualization_thread:
     self.visualization_thread.join(timeout=5)
     logger.info("CLI matrix visualization stopped")
@@ -481,17 +486,17 @@ def _render_dashboard(self):
     os.system('cls' if os.name == 'nt' else 'clear')
 
     # Get current states
-    states = list(self.matrix_states)
+    states=list(self.matrix_states)
 
     if not states:
     self._render_empty_dashboard()
     return
 
     # Create visualizations
-    glyph_matrix = self.glyph_projection.create_glyph_matrix(
+    glyph_matrix=self.glyph_projection.create_glyph_matrix(
     states, self.config.terminal_width, self.config.terminal_height // 2
     )
-    vector_overlay = self.vector_overlay.create_vector_overlay(states)
+    vector_overlay=self.vector_overlay.create_vector_overlay(states)
 
     # Render header
     self._render_header(states[-1] if states else None)
@@ -558,9 +563,9 @@ def _render_vector_overlay(self, overlay: List[str]):
     safe_print("-" * self.config.terminal_width)
 
     # Display overlay in chunks
-    chunk_size = self.config.terminal_width
+    chunk_size=self.config.terminal_width
     for i in range(0, len(overlay), chunk_size]:
-    chunk = overlay[i:i+chunk_size]
+    chunk=overlay[i:i+chunk_size]
     safe_print("".join(chunk))
 
     safe_print("-" * self.config.terminal_width)
@@ -571,7 +576,7 @@ def _render_statistics(self):
     safe_print("-" * self.config.terminal_width)
 
     # Movement statistics
-    movement_stats = self.vector_overlay.get_movement_statistics()
+    movement_stats=self.vector_overlay.get_movement_statistics()
     if movement_stats:
     safe_print(f"Movements: {movement_stats.get('total_movements', 0)} | "
     f"Up: {movement_stats.get('up_movements', 0)} | "
@@ -579,7 +584,7 @@ def _render_statistics(self):
     f"Neutral: {movement_stats.get('neutral_movements', 0)}")
 
     # Delta statistics
-    delta_stats = self.delta_logic.get_delta_statistics()
+    delta_stats=self.delta_logic.get_delta_statistics()
     if delta_stats:
     safe_print(f"Avg Delta: {delta_stats.get('avg_delta', 0):.4f} | "
     f"Avg Range: {delta_stats.get('avg_delta_range', 0):.4f} | "
@@ -598,9 +603,9 @@ def get_visualization_data(self) -> Dict[str, Any]:
     """Get visualization data for external use."""
     try:
     pass
-    states = list(self.matrix_states)
+    states=list(self.matrix_states)
 
-    data = {
+    data={
     'current_state': states[-1].__dict__ if states else None,
     'total_states': len(states),
     'glyph_matrix': self.glyph_projection.create_glyph_matrix(
@@ -628,22 +633,22 @@ def main():
     )
 
     # Create visualizer
-    config = VisualConfig()
-    visualizer = CLIMatrixVisualizer(config)
+    config=VisualConfig()
+    visualizer=CLIMatrixVisualizer(config)
 
     # Start visualization
     visualizer.start_visualization()
 
     # Simulate matrix states
-    base_price = 50000.0
+    base_price=50000.0
 
     for i in range(50):
-    timestamp = datetime.now() + timedelta(seconds=i)
-    price = base_price + np.random.normal(0, 100)
-    volume = np.random.uniform(0.1, 10.0)
-    delta = unified_math.abs(price - base_price)
+    timestamp=datetime.now() + timedelta(seconds=i)
+    price=base_price + np.random.normal(0, 100)
+    volume=np.random.uniform(0.1, 10.0)
+    delta=unified_math.abs(price - base_price)
 
-    state = MatrixState(
+    state=MatrixState(
     timestamp=timestamp,
     price=price,
     volume=volume,
@@ -668,7 +673,7 @@ def main():
     visualizer.stop_visualization()
 
     # Get visualization data
-    data = visualizer.get_visualization_data()
+    data=visualizer.get_visualization_data()
     safe_print("Visualization Data:")
     print(json.dumps(data, indent=2, default=str))
 

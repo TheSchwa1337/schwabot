@@ -1,3 +1,6 @@
+from schwabot.mathlib.ufs_tensor import UFSTensor
+from schwabot.mathlib.sfsss_tensor import SFSSTensor
+from schwabot.core.multi_bit_btc_processor import MultiBitBTCProcessor
 from utils.safe_print import safe_print, info, warn, error, success, debug
 from core.unified_math_system import unified_math
 #!/usr/bin/env python3
@@ -28,9 +31,6 @@ import sys
 # Add the project root to the path
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', '..'))
 
-from schwabot.core.multi_bit_btc_processor import MultiBitBTCProcessor
-from schwabot.mathlib.sfsss_tensor import SFSSTensor
-from schwabot.mathlib.ufs_tensor import UFSTensor
 try:
     pass
 except ImportError as e:
@@ -41,6 +41,7 @@ except ImportError as e:
     UFSTensor = type('UFSTensor', (), {})
 
 logger = logging.getLogger(__name__)
+
 
 @dataclass
 class TickData:
@@ -53,6 +54,7 @@ class TickData:
     spread: float
     metadata: Dict[str, Any] = field(default_factory=dict)
 
+
 @dataclass
 class MatrixConfig:
     """Matrix configuration."""
@@ -63,14 +65,17 @@ class MatrixConfig:
     similarity_threshold: float = 0.85  # Similarity threshold
     bootstrap_samples: int = 1000  # Number of samples for bootstrap
 
+
 class MatrixBootstrap:
     """Matrix bootstrap engine."""
+
 
 def __init__(self, config: MatrixConfig):
     self.config = config
     self.bootstrap_matrix: Optional[np.ndarray] = None
     self.bootstrap_history: List[np.ndarray] = []
     self.is_initialized = False
+
 
 def initialize_bootstrap_matrix(self, initial_ticks: List[TickData] -> np.ndarray:
     """
@@ -259,7 +264,7 @@ def calculate_hash_interlock(self, tick: TickData) -> str:
     logger.error(f"Error calculating hash interlock: {e}")
     return "0000000000000000000000000000000000000000000000000000000000000000"
 
-def find_interlock_patterns(self, target_hash: str, max_distance: int = 5) -> List[Dict[str, Any]:
+def find_interlock_patterns(self, target_hash: str, max_distance: int=5) -> List[Dict[str, Any]:
     """Find interlock patterns based on hash similarity."""
     try:
     pass
@@ -495,7 +500,7 @@ def get_entry_statistics(self] -> Dict[str, Any]:
 class BTCTickMatrixInitializer:
     """Main BTC tick matrix initializer."""
 
-def __init__(self, config: Optional[MatrixConfig] = None):
+def __init__(self, config: Optional[MatrixConfig]=None):
     self.config = config or MatrixConfig()
     self.bootstrap = MatrixBootstrap(self.config)
     self.hash_grid = HashInterlockGrid(self.config)

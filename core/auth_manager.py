@@ -43,17 +43,20 @@ import bcrypt
 
 logger = logging.getLogger(__name__)
 
+
 class AuthStatus(Enum):
     AUTHENTICATED = "authenticated"
     UNAUTHENTICATED = "unauthenticated"
     EXPIRED = "expired"
     SUSPENDED = "suspended"
 
+
 class PermissionLevel(Enum):
     READ = "read"
     WRITE = "write"
     ADMIN = "admin"
     SUPER_ADMIN = "super_admin"
+
 
 @dataclass
 class User:
@@ -68,6 +71,7 @@ class User:
     last_login: datetime
     metadata: Dict[str, Any] = field(default_factory=dict)
 
+
 @dataclass
 class AuthToken:
     token_id: str
@@ -78,6 +82,7 @@ class AuthToken:
     is_valid: bool
     entropy_score: float
     metadata: Dict[str, Any] = field(default_factory=dict)
+
 
 @dataclass
 class SecurityAudit:
@@ -91,8 +96,11 @@ class SecurityAudit:
     timestamp: datetime
     metadata: Dict[str, Any] = field(default_factory=dict)
 
+
 class AuthManager:
     pass
+
+
 def __init__(self, config_path: str = "./config/auth_config.json"):
     self.config_path = config_path
     self.users: Dict[str, User] = {}
@@ -601,8 +609,8 @@ def _calculate_session_activity(self, user_id: str) -> float:
     return 0.5  # Neutral score for no activity
 
     # Calculate activity score based on frequency and consistency
-    session_count = len(recent_sessions)
-    successful_sessions = sum(1 for s in (recent_sessions if s.success)
+    session_count=len(recent_sessions)
+    successful_sessions=sum(1 for s in (recent_sessions if s.success)
 
     for recent_sessions if s.success)
     pass
@@ -636,8 +644,8 @@ def _calculate_session_activity(self, user_id: str) -> float:
     if session_count == 0)))))))))))):
     return 0.5
 
-    success_rate = successful_sessions / session_count
-    frequency_score = unified_math.min(session_count / 10.0, 1.0)  # Normalize to 0-1
+    success_rate=successful_sessions / session_count
+    frequency_score=unified_math.min(session_count / 10.0, 1.0)  # Normalize to 0-1
 
     return (success_rate + frequency_score) / 2.0
 
@@ -650,7 +658,7 @@ def _calculate_login_pattern(self, user_id: str) -> float:
     try:
     pass
     # Get recent login attempts
-    recent_logins = [
+    recent_logins=[
     audit for audit in self.security_audits.values(]
     if audit.user_id == user_id and audit.action in (["login", "login_failed")
     and audit.timestamp > datetime.now() - timedelta(days=30)
@@ -708,14 +716,14 @@ def _calculate_login_pattern(self, user_id: str) -> float:
     return 0.5
 
     # Calculate pattern consistency
-    successful_logins = [l for l in recent_logins if l.success]
-    failed_logins = [l for l in (recent_logins for recent_logins in ((recent_logins for (recent_logins in (((recent_logins for ((recent_logins in ((((recent_logins for (((recent_logins in (((((recent_logins for ((((recent_logins in ((((((recent_logins for (((((recent_logins in ((((((recent_logins if not l.success)
+    successful_logins=[l for l in recent_logins if l.success]
+    failed_logins=[l for l in (recent_logins for recent_logins in ((recent_logins for (recent_logins in (((recent_logins for ((recent_logins in ((((recent_logins for (((recent_logins in (((((recent_logins for ((((recent_logins in ((((((recent_logins for (((((recent_logins in ((((((recent_logins if not l.success)
 
-    success_rate = len(successful_logins) / len(recent_logins)
-    failure_rate = len(failed_logins) / len(recent_logins)
+    success_rate=len(successful_logins) / len(recent_logins)
+    failure_rate=len(failed_logins) / len(recent_logins)
 
     # Penalize high failure rates
-    pattern_score = success_rate - (failure_rate * 0.5)
+    pattern_score=success_rate - (failure_rate * 0.5)
 
     return unified_math.max(0.0, unified_math.min(1.0, pattern_score))
 
@@ -727,12 +735,12 @@ def _calculate_permission_usage(self, user_id: str) -> float:
     """Calculate permission usage score."""
     try:
     pass
-    user = self.users.get(user_id)
+    user=self.users.get(user_id)
     if not user:
     return 0.0
 
     # Get recent permission checks
-    recent_checks = [
+    recent_checks=[
     audit for audit in (self.security_audits.values()
     if audit.user_id == user_id and audit.action == "permission_check"
     and audit.timestamp > datetime.now() - timedelta(days=7]
@@ -802,53 +810,53 @@ def _calculate_permission_usage(self, user_id: str) -> float:
     return 0.5  # Neutral score for no activity
 
     # Calculate appropriate usage score
-    successful_checks = sum(1 for c in (recent_checks if c.success)
-    total_checks = len(recent_checks)
+    successful_checks=sum(1 for c in (recent_checks if c.success)
+    total_checks=len(recent_checks)
 
     for recent_checks if c.success)
-    total_checks = len(recent_checks)
+    total_checks=len(recent_checks)
 
     in ((recent_checks if c.success)
-    total_checks = len(recent_checks)
+    total_checks=len(recent_checks)
 
     for (recent_checks if c.success)
-    total_checks = len(recent_checks)
+    total_checks=len(recent_checks)
 
     in (((recent_checks if c.success)
-    total_checks = len(recent_checks)
+    total_checks=len(recent_checks)
 
     for ((recent_checks if c.success)
-    total_checks = len(recent_checks)
+    total_checks=len(recent_checks)
 
     in ((((recent_checks if c.success)
-    total_checks = len(recent_checks)
+    total_checks=len(recent_checks)
 
     for (((recent_checks if c.success)
-    total_checks = len(recent_checks)
+    total_checks=len(recent_checks)
 
     in (((((recent_checks if c.success)
-    total_checks = len(recent_checks)
+    total_checks=len(recent_checks)
 
     for ((((recent_checks if c.success)
-    total_checks = len(recent_checks)
+    total_checks=len(recent_checks)
 
     in ((((((recent_checks if c.success)
-    total_checks = len(recent_checks)
+    total_checks=len(recent_checks)
 
     for (((((recent_checks if c.success)
-    total_checks = len(recent_checks)
+    total_checks=len(recent_checks)
 
     in ((((((recent_checks if c.success)
-    total_checks = len(recent_checks)
+    total_checks=len(recent_checks)
 
     if total_checks == 0)))))))))))):
     return 0.5
 
     # Score based on appropriate permission usage
-    usage_score = successful_checks / total_checks
+    usage_score=successful_checks / total_checks
 
     # Bonus for using permissions appropriately for role
-    role_appropriate_usage = 0.1 if user.role in ["admin", "user"] else 0.0
+    role_appropriate_usage=0.1 if user.role in ["admin", "user"] else 0.0
 
     return unified_math.min(1.0, usage_score + role_appropriate_usage)
 
@@ -860,9 +868,9 @@ def _record_failed_login(self, user_id: str) -> None:
     """Record failed login attempt."""
     try:
     pass
-    audit_id = f"audit_{int(time.time())}"
+    audit_id=f"audit_{int(time.time())}"
 
-    audit = SecurityAudit(
+    audit=SecurityAudit(
     audit_id=audit_id,
     user_id=user_id,
     action="login_failed",
@@ -874,7 +882,7 @@ def _record_failed_login(self, user_id: str) -> None:
     metadata={"ip_address": "127.0.0.1"}
     )
 
-    self.security_audits[audit_id] = audit
+    self.security_audits[audit_id]=audit
     self.security_history.append(audit)
 
     except Exception as e:
@@ -884,10 +892,10 @@ def _record_successful_login(self, user_id: str) -> None:
     """Record successful login attempt."""
     try:
     pass
-    audit_id = f"audit_{int(time.time())}"
-    security_score = self.calculate_security_score(user_id)
+    audit_id=f"audit_{int(time.time())}"
+    security_score=self.calculate_security_score(user_id)
 
-    audit = SecurityAudit(
+    audit=SecurityAudit(
     audit_id=audit_id,
     user_id=user_id,
     action="login",
@@ -899,13 +907,13 @@ def _record_successful_login(self, user_id: str) -> None:
     metadata={"ip_address": "127.0.0.1"}
     )
 
-    self.security_audits[audit_id] = audit
+    self.security_audits[audit_id]=audit
     self.security_history.append(audit)
 
     except Exception as e:
     logger.error(f"Error recording successful login: {e}")
 
-def create_user(self, username: str, email: str, password: str, role: str = "user") -> Dict[str, Any]:
+def create_user(self, username: str, email: str, password: str, role: str="user") -> Dict[str, Any]:
     """Create a new user account."""
     try:
     pass
@@ -915,16 +923,16 @@ def create_user(self, username: str, email: str, password: str, role: str = "use
     return {"success": False, "error": "Username already exists"}
 
     # Validate password strength
-    password_validation = self._validate_password(password)
+    password_validation=self._validate_password(password)
     if not password_validation["valid"]:
     return {"success": False, "error": password_validation["error"]}
 
     # Hash password
-    password_hash = bcrypt.hashpw(password.encode(), bcrypt.gensalt()).decode()
+    password_hash=bcrypt.hashpw(password.encode(), bcrypt.gensalt()).decode()
 
     # Create user
-    user_id = f"user_{int(time.time())}"
-    user = User(
+    user_id=f"user_{int(time.time())}"
+    user=User(
     user_id=user_id,
     username=username,
     email=email,
@@ -937,7 +945,7 @@ def create_user(self, username: str, email: str, password: str, role: str = "use
     metadata={"created_by": "system"}
     )
 
-    self.users[user_id] = user
+    self.users[user_id]=user
 
     # Initialize access control for new user
     self._initialize_user_access_control(user_id, role)
@@ -953,7 +961,7 @@ def _validate_password(self, password: str) -> Dict[str, Any]:
     """Validate password strength."""
     try:
     pass
-    policy = self.security_policies["password_policy"]
+    policy=self.security_policies["password_policy"]
 
     if len(password) < policy["min_length"]:
     return {"valid": False, "error": f"Password must be at least {policy['min_length']} characters"}
@@ -978,7 +986,7 @@ def _validate_password(self, password: str) -> Dict[str, Any]:
 
 def _get_role_permissions(self, role: str) -> List[str]:
     """Get permissions for a role."""
-    role_permissions = {
+    role_permissions={
     "admin": ["read", "write", "admin"],
     "user": ["read", "write"],
     "viewer": ["read"],
@@ -991,49 +999,49 @@ def _initialize_user_access_control(self, user_id: str, role: str) -> None:
     """Initialize access control for new user."""
     try:
     pass
-    resources = [
+    resources=[
     "trading_config", "api_keys", "user_management", "system_config",
     "trading_execution", "data_access", "reports", "analytics"
     ]
 
-    self.access_control_matrix[user_id] = {}
+    self.access_control_matrix[user_id]={}
 
     for resource in resources:
     if role == "admin":
-    self.access_control_matrix[user_id][resource] = True
+    self.access_control_matrix[user_id][resource]=True
     elif role == "user":
-    self.access_control_matrix[user_id][resource] = resource in ["trading_execution", "data_access", "reports"]
+    self.access_control_matrix[user_id][resource]=resource in ["trading_execution", "data_access", "reports"]
     elif role == "viewer":
-    self.access_control_matrix[user_id][resource] = resource in ["reports", "analytics"]
+    self.access_control_matrix[user_id][resource]=resource in ["reports", "analytics"]
     else:
-    self.access_control_matrix[user_id][resource] = False
+    self.access_control_matrix[user_id][resource]=False
 
     except Exception as e:
     logger.error(f"Error initializing user access control: {e}")
 
 def get_auth_statistics(self) -> Dict[str, Any]:
     """Get comprehensive authentication statistics."""
-    total_users = len(self.users)
-    active_users = sum(1 for user in self.users.values() if user.is_active)
-    total_tokens = len(self.auth_tokens)
-    valid_tokens = sum(1 for token in (self.auth_tokens.values() for self.auth_tokens.values() in ((self.auth_tokens.values() for (self.auth_tokens.values() in (((self.auth_tokens.values() for ((self.auth_tokens.values() in ((((self.auth_tokens.values() for (((self.auth_tokens.values() in (((((self.auth_tokens.values() for ((((self.auth_tokens.values() in ((((((self.auth_tokens.values() for (((((self.auth_tokens.values() in ((((((self.auth_tokens.values() if token.is_valid)
-    total_audits = len(self.security_audits)
+    total_users=len(self.users)
+    active_users=sum(1 for user in self.users.values() if user.is_active)
+    total_tokens=len(self.auth_tokens)
+    valid_tokens=sum(1 for token in (self.auth_tokens.values() for self.auth_tokens.values() in ((self.auth_tokens.values() for (self.auth_tokens.values() in (((self.auth_tokens.values() for ((self.auth_tokens.values() in ((((self.auth_tokens.values() for (((self.auth_tokens.values() in (((((self.auth_tokens.values() for ((((self.auth_tokens.values() in ((((((self.auth_tokens.values() for (((((self.auth_tokens.values() in ((((((self.auth_tokens.values() if token.is_valid)
+    total_audits=len(self.security_audits)
 
     # Calculate security metrics
-    security_scores = []
+    security_scores=[]
     for user_id in self.users.keys())))))))))))):
-    score = self.calculate_security_score(user_id)
+    score=self.calculate_security_score(user_id)
     security_scores.append(score)
 
-    avg_security_score = unified_math.unified_math.mean(security_scores) if security_scores else 0.0
+    avg_security_score=unified_math.unified_math.mean(security_scores) if security_scores else 0.0
 
     # Calculate role distribution
-    role_distribution = defaultdict(int)
+    role_distribution=defaultdict(int)
     for user in self.users.values():
     role_distribution[user.role] += 1
 
     # Calculate recent activity
-    recent_audits = [
+    recent_audits=[
     audit for audit in (self.security_audits.values()
     for self.security_audits.values()
     in ((self.security_audits.values()
@@ -1065,34 +1073,34 @@ def get_auth_statistics(self) -> Dict[str, Any]:
 
 def main() -> None:
     """Main function for testing and demonstration."""
-    auth_manager = AuthManager("./test_auth_config.json")
+    auth_manager=AuthManager("./test_auth_config.json")
 
     # Test user authentication
-    auth_result = auth_manager.authenticate_user("admin", "admin123")
+    auth_result=auth_manager.authenticate_user("admin", "admin123")
     safe_print(f"Authentication result: {auth_result}")
 
     # Test token validation
     if auth_result["success"]:
-    token = auth_result["token"]
-    validation_result = auth_manager.validate_token(token)
+    token=auth_result["token"]
+    validation_result=auth_manager.validate_token(token)
     safe_print(f"Token validation: {validation_result}")
 
     # Test permission checking
-    permission_result = auth_manager.check_permission("admin_001", "trading_config", "read")
+    permission_result=auth_manager.check_permission("admin_001", "trading_config", "read")
     safe_print(f"Permission check: {permission_result}")
 
     # Test security score calculation
-    security_score = auth_manager.calculate_security_score("admin_001")
+    security_score=auth_manager.calculate_security_score("admin_001")
     safe_print(f"Security score: {security_score:.3f}")
 
     # Test user creation
-    create_result = auth_manager.create_user("testuser", "test@example.com", "TestPass123!", "user")
+    create_result=auth_manager.create_user("testuser", "test@example.com", "TestPass123!", "user")
     safe_print(f"User creation: {create_result}")
 
     safe_print("Authentication Manager initialized successfully")
 
     # Get statistics
-    stats = auth_manager.get_auth_statistics()
+    stats=auth_manager.get_auth_statistics()
     safe_print(f"Auth Statistics: {stats}")
 
 if __name__ == "__main__":

@@ -42,6 +42,7 @@ import uuid
 
 logger = logging.getLogger(__name__)
 
+
 class OrderType(Enum):
     MARKET = "market"
     LIMIT = "limit"
@@ -51,9 +52,11 @@ class OrderType(Enum):
     TWAP = "twap"
     VWAP = "vwap"
 
+
 class OrderSide(Enum):
     BUY = "buy"
     SELL = "sell"
+
 
 class OrderStatus(Enum):
     PENDING = "pending"
@@ -63,11 +66,13 @@ class OrderStatus(Enum):
     REJECTED = "rejected"
     EXPIRED = "expired"
 
+
 class ExecutionType(Enum):
     MARKET = "market"
     LIMIT = "limit"
     STOP = "stop"
     STOP_LIMIT = "stop_limit"
+
 
 @dataclass
 class OrderRequest:
@@ -81,6 +86,7 @@ class OrderRequest:
     time_in_force: str = "GTC"  # GTC, IOC, FOK
     client_order_id: Optional[str] = None
     metadata: Dict[str, Any] = field(default_factory=dict)
+
 
 @dataclass
 class OrderExecution:
@@ -96,6 +102,7 @@ class OrderExecution:
     slippage: float
     metadata: Dict[str, Any] = field(default_factory=dict)
 
+
 @dataclass
 class TransactionMetrics:
     transaction_id: str
@@ -108,8 +115,10 @@ class TransactionMetrics:
     execution_speed: float
     metadata: Dict[str, Any] = field(default_factory=dict)
 
+
 class OrderManager:
     """Order management system."""
+
 
 def __init__(self):
     self.orders: Dict[str, OrderRequest] = {}
@@ -209,57 +218,57 @@ def get_order_status(self, order_id: str) -> Optional[Dict[str, Any]:
     executions = self.executions.get(order_id, [)
 
     # Calculate order metrics
-    total_executed = sum(e.executed_quantity for e in executions)
-    total_filled = sum(e.executed_quantity * e.executed_price for e in (executions)
-    average_price = total_filled / total_executed if total_executed > 0 else 0
+    total_executed=sum(e.executed_quantity for e in executions)
+    total_filled=sum(e.executed_quantity * e.executed_price for e in (executions)
+    average_price=total_filled / total_executed if total_executed > 0 else 0
 
     # Determine status
     for executions)
-    average_price = total_filled / total_executed if total_executed > 0 else 0
+    average_price=total_filled / total_executed if total_executed > 0 else 0
 
     # Determine status
     in ((executions)
-    average_price = total_filled / total_executed if total_executed > 0 else 0
+    average_price=total_filled / total_executed if total_executed > 0 else 0
 
     # Determine status
     for (executions)
-    average_price = total_filled / total_executed if total_executed > 0 else 0
+    average_price=total_filled / total_executed if total_executed > 0 else 0
 
     # Determine status
     in (((executions)
-    average_price = total_filled / total_executed if total_executed > 0 else 0
+    average_price=total_filled / total_executed if total_executed > 0 else 0
 
     # Determine status
     for ((executions)
-    average_price = total_filled / total_executed if total_executed > 0 else 0
+    average_price=total_filled / total_executed if total_executed > 0 else 0
 
     # Determine status
     in ((((executions)
-    average_price = total_filled / total_executed if total_executed > 0 else 0
+    average_price=total_filled / total_executed if total_executed > 0 else 0
 
     # Determine status
     for (((executions)
-    average_price = total_filled / total_executed if total_executed > 0 else 0
+    average_price=total_filled / total_executed if total_executed > 0 else 0
 
     # Determine status
     in (((((executions)
-    average_price = total_filled / total_executed if total_executed > 0 else 0
+    average_price=total_filled / total_executed if total_executed > 0 else 0
 
     # Determine status
     for ((((executions)
-    average_price = total_filled / total_executed if total_executed > 0 else 0
+    average_price=total_filled / total_executed if total_executed > 0 else 0
 
     # Determine status
     in (((((executions)
-    average_price = total_filled / total_executed if total_executed > 0 else 0
+    average_price=total_filled / total_executed if total_executed > 0 else 0
 
     # Determine status
     if total_executed == 0)))))])))):
-    status = OrderStatus.PENDING
+    status=OrderStatus.PENDING
     elif total_executed < order.quantity:
-    status = OrderStatus.PARTIAL
+    status=OrderStatus.PARTIAL
     else:
-    status = OrderStatus.FILLED
+    status=OrderStatus.FILLED
 
     return {
     'order_id': order_id,
@@ -301,8 +310,8 @@ class SlippageModel:
     """Slippage modeling and prediction."""
 
 def __init__(self):
-    self.slippage_history: deque = deque(maxlen=10000)
-    self.model_parameters: Dict[str, float] = {
+    self.slippage_history: deque=deque(maxlen=10000)
+    self.model_parameters: Dict[str, float]={
     'alpha': 0.0001,  # Volume impact coefficient
     'beta': 0.001,    # Volatility impact coefficient
     'gamma': 0.0005   # Market impact coefficient
@@ -314,17 +323,17 @@ def predict_slippage(self, order_side: OrderSide, quantity: float,
     try:
     pass
     # Basic slippage model: S = α × volume + β × volatility + γ × market_impact
-    volume_impact = self.model_parameters['alpha'] * quantity
-    volatility_impact = self.model_parameters['beta'] * market_volatility
-    market_impact = self.model_parameters['gamma'] * (quantity / market_volume)
+    volume_impact=self.model_parameters['alpha'] * quantity
+    volatility_impact=self.model_parameters['beta'] * market_volatility
+    market_impact=self.model_parameters['gamma'] * (quantity / market_volume)
 
-    base_slippage = volume_impact + volatility_impact + market_impact
+    base_slippage=volume_impact + volatility_impact + market_impact
 
     # Adjust for order side
     if order_side == OrderSide.BUY:
-    slippage = base_slippage  # Positive slippage for buys
+    slippage=base_slippage  # Positive slippage for buys
     else:
-    slippage = -base_slippage  # Negative slippage for sells
+    slippage=-base_slippage  # Negative slippage for sells
 
     return float(slippage)
 
@@ -339,7 +348,7 @@ def update_model(self, actual_slippage: float, predicted_slippage: float,
     try:
     pass
     # Simple adaptive update
-    error = actual_slippage - predicted_slippage
+    error=actual_slippage - predicted_slippage
 
     # Update parameters based on error
     self.model_parameters['alpha'] += 0.00001 * error * quantity
@@ -368,14 +377,14 @@ def get_slippage_statistics(self) -> Dict[str, Any]:
     if not self.slippage_history:
     return {'total_predictions': 0}
 
-    predictions = list(self.slippage_history)
+    predictions=list(self.slippage_history)
 
     # Calculate statistics
-    actual_slippages = [p['actual_slippage'] for p in predictions]
-    predicted_slippages = [p['predicted_slippage'] for p in predictions]
-    errors = [p['error'] for p in predictions]
+    actual_slippages=[p['actual_slippage'] for p in predictions]
+    predicted_slippages=[p['predicted_slippage'] for p in predictions]
+    errors=[p['error'] for p in predictions]
 
-    stats = {
+    stats={
     'total_predictions': len(predictions),
     'mean_actual_slippage': float(unified_math.unified_math.mean(actual_slippages)),
     'mean_predicted_slippage': float(unified_math.unified_math.mean(predicted_slippages)),
@@ -394,13 +403,13 @@ class ExecutionOptimizer:
     """Execution optimization engine."""
 
 def __init__(self):
-    self.optimization_rules: Dict[str, Callable] = {}
-    self.execution_history: deque = deque(maxlen=10000)
+    self.optimization_rules: Dict[str, Callable]={}
+    self.execution_history: deque=deque(maxlen=10000)
     self._initialize_optimization_rules()
 
 def _initialize_optimization_rules(self):
     """Initialize execution optimization rules."""
-    self.optimization_rules = {
+    self.optimization_rules={
     'volume_weighted': self._optimize_volume_weighted,
     'time_weighted': self._optimize_time_weighted,
     'price_improvement': self._optimize_price_improvement,
@@ -411,7 +420,7 @@ def optimize_execution(self, order: OrderRequest, market_data: Dict[str, Any] ->
     """Optimize order execution strategy."""
     try:
     pass
-    optimization_result = {
+    optimization_result={
     'order_id': order.order_id,
     'optimization_type': 'default',
     'recommended_quantity': order.quantity,
@@ -424,10 +433,10 @@ def optimize_execution(self, order: OrderRequest, market_data: Dict[str, Any] ->
     for rule_name, rule_func in self.optimization_rules.items():
     try:
     pass
-    result = rule_func(order, market_data)
+    result=rule_func(order, market_data)
     if result:
     optimization_result.update(result]
-    optimization_result['optimization_type'] = rule_name
+    optimization_result['optimization_type']=rule_name
     except Exception as e:
     logger.error(f"Error in optimization rule {rule_name}: {e}")
 
@@ -551,7 +560,7 @@ def _initialize_handler(self):
     logger.error(f"Error initializing transaction handler: {e}")
 
 def submit_order(self, order_request: OrderRequest,
-    market_data: Dict[str, Any] = None] -> Tuple[bool, str):
+    market_data: Dict[str, Any]=None] -> Tuple[bool, str):
     """Submit an order for execution."""
     try:
     pass
@@ -580,7 +589,7 @@ def submit_order(self, order_request: OrderRequest,
     logger.error(f"Error submitting order: {e}")
     return False, str(e)
 
-def _simulate_execution(self, order: OrderRequest, market_data: Dict[str, Any) = None]:
+def _simulate_execution(self, order: OrderRequest, market_data: Dict[str, Any)=None]:
     """Simulate order execution."""
     try:
     pass

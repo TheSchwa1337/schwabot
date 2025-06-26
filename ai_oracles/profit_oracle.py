@@ -30,6 +30,7 @@ from collections import defaultdict, deque
 
 logger = logging.getLogger(__name__)
 
+
 class OracleType(Enum):
     PROFIT_PREDICTION = "profit_prediction"
     RISK_OPTIMIZATION = "risk_optimization"
@@ -37,11 +38,13 @@ class OracleType(Enum):
     PORTFOLIO_OPTIMIZATION = "portfolio_optimization"
     PERFORMANCE_FORECAST = "performance_forecast"
 
+
 class PredictionConfidence(Enum):
     LOW = "low"
     MEDIUM = "medium"
     HIGH = "high"
     VERY_HIGH = "very_high"
+
 
 @dataclass
 class ProfitPrediction:
@@ -56,6 +59,7 @@ class ProfitPrediction:
     timestamp: datetime
     metadata: Dict[str, Any] = field(default_factory=dict)
 
+
 @dataclass
 class OptimizationRecommendation:
     recommendation_id: str
@@ -69,6 +73,7 @@ class OptimizationRecommendation:
     timestamp: datetime
     metadata: Dict[str, Any] = field(default_factory=dict)
 
+
 @dataclass
 class MarketOpportunity:
     opportunity_id: str
@@ -81,6 +86,7 @@ class MarketOpportunity:
     confidence_score: float
     timestamp: datetime
     metadata: Dict[str, Any] = field(default_factory=dict)
+
 
 class ProfitOracle:
     def __init__(self, config_path: str = "./config/profit_oracle_config.json"):
@@ -103,11 +109,11 @@ class ProfitOracle:
             if os.path.exists(self.config_path):
                 with open(self.config_path, 'r') as f:
                     config = json.load(f)
-                
+
                 logger.info(f"Loaded profit oracle configuration")
             else:
                 self._create_default_configuration()
-                
+
         except Exception as e:
             logger.error(f"Error loading configuration: {e}")
             self._create_default_configuration()

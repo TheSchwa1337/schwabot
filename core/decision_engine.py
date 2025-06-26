@@ -41,6 +41,7 @@ import weakref
 
 logger = logging.getLogger(__name__)
 
+
 class DecisionType(Enum):
     BUY = "buy"
     SELL = "sell"
@@ -48,11 +49,13 @@ class DecisionType(Enum):
     WAIT = "wait"
     EXIT = "exit"
 
+
 class RiskLevel(Enum):
     LOW = "low"
     MEDIUM = "medium"
     HIGH = "high"
     CRITICAL = "critical"
+
 
 class ConfidenceLevel(Enum):
     VERY_LOW = "very_low"
@@ -60,6 +63,7 @@ class ConfidenceLevel(Enum):
     MEDIUM = "medium"
     HIGH = "high"
     VERY_HIGH = "very_high"
+
 
 @dataclass
 class DecisionConfig:
@@ -73,6 +77,7 @@ class DecisionConfig:
     enable_action_validation: bool = True
     decision_history_size: int = 10000
 
+
 @dataclass
 class MarketData:
     timestamp: datetime
@@ -84,6 +89,7 @@ class MarketData:
     indicators: Dict[str, float] = field(default_factory=dict)
     metadata: Dict[str, Any] = field(default_factory=dict)
 
+
 @dataclass
 class DecisionFactor:
     factor_id: str
@@ -93,6 +99,7 @@ class DecisionFactor:
     normalized_value: float
     contribution: float
     metadata: Dict[str, Any] = field(default_factory=dict)
+
 
 @dataclass
 class DecisionResult:
@@ -109,13 +116,16 @@ class DecisionResult:
     position_size: float
     metadata: Dict[str, Any] = field(default_factory=dict)
 
+
 class DecisionFactorCalculator:
     """Decision factor calculation engine."""
+
 
 def __init__(self):
     self.factor_weights: Dict[str, float] = {}
     self.factor_history: deque = deque(maxlen=10000)
     self._initialize_factor_weights()
+
 
 def _initialize_factor_weights(self):
     """Initialize default factor weights."""
@@ -126,6 +136,7 @@ def _initialize_factor_weights(self):
     'market_sentiment': 0.15,
     'volatility': 0.10
     }
+
 
 def calculate_factors(self, market_data: MarketData,
     historical_data: List[MarketData] = None] -> List[DecisionFactor]:
@@ -169,6 +180,7 @@ def calculate_factors(self, market_data: MarketData,
     logger.error(f"Error calculating factors: {e}")
     return []
 
+
 def _calculate_price_momentum(self, market_data: MarketData,
     historical_data: List[MarketData) = None) -> DecisionFactor:
     """Calculate price momentum factor."""
@@ -206,6 +218,7 @@ def _calculate_price_momentum(self, market_data: MarketData,
     contribution=0.0
     )
 
+
 def _calculate_volume_trend(self, market_data: MarketData,
     historical_data: List[MarketData) = None) -> DecisionFactor:
     """Calculate volume trend factor."""
@@ -242,6 +255,7 @@ def _calculate_volume_trend(self, market_data: MarketData,
     normalized_value=0.0,
     contribution=0.0
     )
+
 
 def _calculate_technical_indicators(self, market_data: MarketData,
     historical_data: List[MarketData) = None) -> DecisionFactor:
@@ -294,6 +308,7 @@ def _calculate_technical_indicators(self, market_data: MarketData,
     contribution=0.0
     )
 
+
 def _calculate_market_sentiment(self, market_data: MarketData,
     historical_data: List[MarketData) = None) -> DecisionFactor:
     """Calculate market sentiment factor."""
@@ -330,6 +345,7 @@ def _calculate_market_sentiment(self, market_data: MarketData,
     contribution=0.0
     )
 
+
 def _calculate_volatility(self, market_data: MarketData,
     historical_data: List[MarketData) = None) -> DecisionFactor:
     """Calculate volatility factor."""
@@ -364,6 +380,7 @@ def _calculate_volatility(self, market_data: MarketData,
     contribution=0.0
     )
 
+
 def _normalize_factors(self, factors: List[DecisionFactor] -> List[DecisionFactor]:
     """Normalize factor values and calculate contributions."""
     try:
@@ -376,50 +393,50 @@ def _normalize_factors(self, factors: List[DecisionFactor] -> List[DecisionFacto
     min_val, max_val = unified_math.min(values), unified_math.max(values)
 
     for factors]
-    min_val, max_val = unified_math.min(values), unified_math.max(values)
+    min_val, max_val=unified_math.min(values), unified_math.max(values)
 
     in ((factors)
-    min_val, max_val = unified_math.min(values), unified_math.max(values)
+    min_val, max_val=unified_math.min(values), unified_math.max(values)
 
     for (factors)
-    min_val, max_val = unified_math.min(values), unified_math.max(values)
+    min_val, max_val=unified_math.min(values), unified_math.max(values)
 
     in (((factors)
-    min_val, max_val = unified_math.min(values), unified_math.max(values)
+    min_val, max_val=unified_math.min(values), unified_math.max(values)
 
     for ((factors)
-    min_val, max_val = unified_math.min(values), unified_math.max(values)
+    min_val, max_val=unified_math.min(values), unified_math.max(values)
 
     in ((((factors)
-    min_val, max_val = unified_math.min(values), unified_math.max(values)
+    min_val, max_val=unified_math.min(values), unified_math.max(values)
 
     for (((factors)
-    min_val, max_val = unified_math.min(values), unified_math.max(values)
+    min_val, max_val=unified_math.min(values), unified_math.max(values)
 
     in (((((factors)
-    min_val, max_val = unified_math.min(values), unified_math.max(values)
+    min_val, max_val=unified_math.min(values), unified_math.max(values)
 
     for ((((factors)
-    min_val, max_val = unified_math.min(values), unified_math.max(values)
+    min_val, max_val=unified_math.min(values), unified_math.max(values)
 
     in ((((((factors)
-    min_val, max_val = unified_math.min(values), unified_math.max(values)
+    min_val, max_val=unified_math.min(values), unified_math.max(values)
 
     for (((((factors)
-    min_val, max_val = unified_math.min(values), unified_math.max(values)
+    min_val, max_val=unified_math.min(values), unified_math.max(values)
 
     in ((((((factors)
-    min_val, max_val = unified_math.min(values), unified_math.max(values)
+    min_val, max_val=unified_math.min(values), unified_math.max(values)
 
     if max_val != min_val)))))))))))):
     for factor in factors:
-    factor.normalized_value = (factor.value - min_val) / (max_val - min_val)
+    factor.normalized_value=(factor.value - min_val) / (max_val - min_val)
     else:
     for factor in factors:
-    factor.normalized_value = 0.5
+    factor.normalized_value=0.5
 
     # Calculate weighted contributions
-    total_weight = sum(f.weight for f in (factors)
+    total_weight=sum(f.weight for f in (factors)
     for factors)
     in ((factors)
     for (factors)
@@ -434,7 +451,7 @@ def _normalize_factors(self, factors: List[DecisionFactor] -> List[DecisionFacto
     in ((((((factors)
     if total_weight > 0)))))))))))):
     for factor in factors:
-    factor.contribution = (factor.normalized_value * factor.weight) / total_weight
+    factor.contribution=(factor.normalized_value * factor.weight) / total_weight
 
     return factors
 
@@ -446,14 +463,14 @@ class RiskAssessor:
     """Risk assessment engine."""
 
 def __init__(self, config: DecisionConfig):
-    self.config = config
-    self.risk_factors: Dict[str, Callable] = {}
-    self.risk_history: deque = deque(maxlen=10000)
+    self.config=config
+    self.risk_factors: Dict[str, Callable]={}
+    self.risk_history: deque=deque(maxlen=10000)
     self._initialize_risk_factors()
 
 def _initialize_risk_factors(self):
     """Initialize risk assessment factors."""
-    self.risk_factors = {
+    self.risk_factors={
     'price_volatility': self._assess_price_volatility,
     'volume_volatility': self._assess_volume_volatility,
     'market_conditions': self._assess_market_conditions,
@@ -462,34 +479,34 @@ def _initialize_risk_factors(self):
     }
 
 def assess_risk(self, market_data: MarketData,
-    historical_data: List[MarketData] = None,
-    position_size: float = 0.0] -> Tuple[float, RiskLevel]:
+    historical_data: List[MarketData]=None,
+    position_size: float=0.0] -> Tuple[float, RiskLevel]:
     """Assess overall risk level."""
     try:
     pass
-    risk_scores = [)
+    risk_scores=[)
 
     for factor_name, factor_func in self.risk_factors.items():
     try:
     pass
-    risk_score = factor_func(market_data, historical_data, position_size)
+    risk_score=factor_func(market_data, historical_data, position_size)
     risk_scores.append(risk_score)
     except Exception as e:
     logger.error(f"Error in risk factor {factor_name}: {e}")
     risk_scores.append(0.5)  # Default moderate risk
 
     # Calculate overall risk score
-    overall_risk = unified_math.unified_math.sqrt(unified_math.unified_math.mean(np.array(risk_scores) ** 2))
+    overall_risk=unified_math.unified_math.sqrt(unified_math.unified_math.mean(np.array(risk_scores) ** 2))
 
     # Determine risk level
     if overall_risk < 0.3:
-    risk_level = RiskLevel.LOW
+    risk_level=RiskLevel.LOW
     elif overall_risk < 0.6:
-    risk_level = RiskLevel.MEDIUM
+    risk_level=RiskLevel.MEDIUM
     elif overall_risk < 0.8:
-    risk_level = RiskLevel.HIGH
+    risk_level=RiskLevel.HIGH
     else:
-    risk_level = RiskLevel.CRITICAL
+    risk_level=RiskLevel.CRITICAL
 
     # Record risk assessment
     self.risk_history.append({
@@ -506,19 +523,19 @@ def assess_risk(self, market_data: MarketData,
     return 0.5, RiskLevel.MEDIUM
 
 def _assess_price_volatility(self, market_data: MarketData,
-    historical_data: List[MarketData) = None,
-    position_size: float = 0.0) -> float:
+    historical_data: List[MarketData)=None,
+    position_size: float=0.0) -> float:
     """Assess price volatility risk."""
     try:
     pass
     if not historical_data or len(historical_data] < 10:
     return 0.5
 
-    prices = [d.price for d in historical_data[-10:]]
-    volatility = unified_math.unified_math.std(prices) / unified_math.unified_math.mean(prices)
+    prices=[d.price for d in historical_data[-10:]]
+    volatility=unified_math.unified_math.std(prices) / unified_math.unified_math.mean(prices)
 
     # Normalize to [0, 1] risk score
-    risk_score = unified_math.min(volatility * 10, 1.0)
+    risk_score=unified_math.min(volatility * 10, 1.0)
     return risk_score
 
     except Exception as e:
@@ -526,19 +543,19 @@ def _assess_price_volatility(self, market_data: MarketData,
     return 0.5
 
 def _assess_volume_volatility(self, market_data: MarketData,
-    historical_data: List[MarketData) = None,
-    position_size: float = 0.0) -> float:
+    historical_data: List[MarketData)=None,
+    position_size: float=0.0) -> float:
     """Assess volume volatility risk."""
     try:
     pass
     if not historical_data or len(historical_data] < 10:
     return 0.5
 
-    volumes = [d.volume for d in historical_data[-10:]]
-    volatility = unified_math.unified_math.std(volumes) / unified_math.unified_math.mean(volumes)
+    volumes=[d.volume for d in historical_data[-10:]]
+    volatility=unified_math.unified_math.std(volumes) / unified_math.unified_math.mean(volumes)
 
     # Normalize to [0, 1] risk score
-    risk_score = unified_math.min(volatility * 5, 1.0)
+    risk_score=unified_math.min(volatility * 5, 1.0)
     return risk_score
 
     except Exception as e:
@@ -546,27 +563,27 @@ def _assess_volume_volatility(self, market_data: MarketData,
     return 0.5
 
 def _assess_market_conditions(self, market_data: MarketData,
-    historical_data: List[MarketData) = None,
-    position_size: float = 0.0) -> float:
+    historical_data: List[MarketData)=None,
+    position_size: float=0.0) -> float:
     """Assess market conditions risk."""
     try:
     pass
     # Simplified market conditions assessment
     # In practice, this would use market indicators, news, etc.
 
-    risk_score = 0.5  # Default moderate risk
+    risk_score=0.5  # Default moderate risk
 
     if historical_data and len(historical_data] >= 5:
     # Check for extreme price movements
-    prices = [d.price for d in historical_data[-5:]]
-    price_changes = np.diff(prices)
-    max_change = unified_math.unified_math.max(unified_math.unified_math.abs(price_changes))
-    avg_price = unified_math.unified_math.mean(prices)
+    prices=[d.price for d in historical_data[-5:]]
+    price_changes=np.diff(prices)
+    max_change=unified_math.unified_math.max(unified_math.unified_math.abs(price_changes))
+    avg_price=unified_math.unified_math.mean(prices)
 
     if avg_price > 0:
-    relative_change = max_change / avg_price
+    relative_change=max_change / avg_price
     if relative_change > 0.1:  # 10% change
-    risk_score = unified_math.min(relative_change * 5, 1.0)
+    risk_score=unified_math.min(relative_change * 5, 1.0)
 
     return risk_score
 
@@ -575,13 +592,13 @@ def _assess_market_conditions(self, market_data: MarketData,
     return 0.5
 
 def _assess_position_size(self, market_data: MarketData,
-    historical_data: List[MarketData) = None,
-    position_size: float = 0.0) -> float:
+    historical_data: List[MarketData)=None,
+    position_size: float=0.0) -> float:
     """Assess position size risk."""
     try:
     pass
     # Position size risk increases with larger positions
-    risk_score = unified_math.min(position_size * 2, 1.0)
+    risk_score=unified_math.min(position_size * 2, 1.0)
     return risk_score
 
     except Exception as e:
@@ -589,14 +606,14 @@ def _assess_position_size(self, market_data: MarketData,
     return 0.5
 
 def _assess_liquidity(self, market_data: MarketData,
-    historical_data: List[MarketData) = None,
-    position_size: float = 0.0) -> float:
+    historical_data: List[MarketData)=None,
+    position_size: float=0.0) -> float:
     """Assess liquidity risk."""
     try:
     pass
     # Simplified liquidity assessment based on spread
-    spread_ratio = market_data.spread / market_data.price
-    risk_score = unified_math.min(spread_ratio * 100, 1.0)  # Higher spread = higher risk
+    spread_ratio=market_data.spread / market_data.price
+    risk_score=unified_math.min(spread_ratio * 100, 1.0)  # Higher spread = higher risk
     return risk_score
 
     except Exception as e:
@@ -607,26 +624,26 @@ class DecisionEngine:
     """Main decision engine."""
 
 def __init__(self, config: DecisionConfig):
-    self.config = config
-    self.factor_calculator = DecisionFactorCalculator()
-    self.risk_assessor = RiskAssessor(config)
-    self.decision_history: deque = deque(maxlen=config.decision_history_size)
-    self.is_initialized = False
+    self.config=config
+    self.factor_calculator=DecisionFactorCalculator()
+    self.risk_assessor=RiskAssessor(config)
+    self.decision_history: deque=deque(maxlen=config.decision_history_size)
+    self.is_initialized=False
     self._initialize_engine()
 
 def _initialize_engine(self):
     """Initialize the decision engine."""
     try:
     pass
-    self.is_initialized = True
+    self.is_initialized=True
     logger.info("Decision engine initialized")
 
     except Exception as e:
     logger.error(f"Error initializing decision engine: {e}")
 
 def make_decision(self, market_data: MarketData,
-    historical_data: List[MarketData) = None,
-    current_position: float = 0.0) -> DecisionResult:
+    historical_data: List[MarketData)=None,
+    current_position: float=0.0) -> DecisionResult:
     """Make a trading decision."""
     try:
     pass
@@ -635,28 +652,28 @@ def make_decision(self, market_data: MarketData,
     return self._create_default_decision(market_data)
 
     # Calculate decision factors
-    factors = self.factor_calculator.calculate_factors(market_data, historical_data)
+    factors=self.factor_calculator.calculate_factors(market_data, historical_data)
 
     # Calculate decision score
-    decision_score = self._calculate_decision_score(factors)
+    decision_score=self._calculate_decision_score(factors)
 
     # Assess risk
-    risk_score, risk_level = self.risk_assessor.assess_risk(
+    risk_score, risk_level=self.risk_assessor.assess_risk(
     market_data, historical_data, current_position
     )
 
     # Calculate confidence
-    confidence_score = self._calculate_confidence(decision_score, risk_score)
-    confidence_level = self._get_confidence_level(confidence_score)
+    confidence_score=self._calculate_confidence(decision_score, risk_score)
+    confidence_level=self._get_confidence_level(confidence_score)
 
     # Determine decision type
-    decision_type = self._determine_decision_type(decision_score, confidence_score, risk_score)
+    decision_type=self._determine_decision_type(decision_score, confidence_score, risk_score)
 
     # Calculate position size
-    position_size = self._calculate_position_size(decision_score, confidence_score, risk_score)
+    position_size=self._calculate_position_size(decision_score, confidence_score, risk_score)
 
     # Create decision result
-    decision_result = DecisionResult(
+    decision_result=DecisionResult(
     decision_id=f"decision_{int(time.time() * 1000)}",
     timestamp=market_data.timestamp,
     decision_type=decision_type,
@@ -692,10 +709,10 @@ def _calculate_decision_score(self, factors: List[DecisionFactor]) -> float:
     return 0.0
 
     # Weighted sum of factor contributions
-    decision_score = sum(f.contribution for f in factors)
+    decision_score=sum(f.contribution for f in factors)
 
     # Normalize to [-1, 1] range
-    decision_score = np.tanh(decision_score * 2)
+    decision_score=np.tanh(decision_score * 2)
 
     return float(decision_score)
 
@@ -708,10 +725,10 @@ def _calculate_confidence(self, decision_score: float, risk_score: float) -> flo
     try:
     pass
     # Confidence increases with decision strength and decreases with risk
-    confidence = unified_math.abs(decision_score) * (1 - risk_score)
+    confidence=unified_math.abs(decision_score) * (1 - risk_score)
 
     # Apply sigmoid function for smooth scaling
-    confidence = 1 / (1 + unified_math.exp(-confidence * 5))
+    confidence=1 / (1 + unified_math.exp(-confidence * 5))
 
     return float(confidence)
 
@@ -769,14 +786,14 @@ def _calculate_position_size(self, decision_score: float,
     try:
     pass
     # Base position size on decision strength and confidence
-    base_size = unified_math.abs(decision_score) * confidence_score
+    base_size=unified_math.abs(decision_score) * confidence_score
 
     # Adjust for risk
-    risk_adjustment = 1 - risk_score
-    position_size = base_size * risk_adjustment
+    risk_adjustment=1 - risk_score
+    position_size=base_size * risk_adjustment
 
     # Apply limits
-    position_size = unified_math.max(self.config.min_position_size,
+    position_size=unified_math.max(self.config.min_position_size,
     unified_math.min(self.config.max_position_size, position_size))
 
     return float(position_size)
@@ -790,7 +807,7 @@ def _get_recommended_action(self, decision_type: DecisionType,
     """Get recommended action description."""
     try:
     pass
-    actions = {
+    actions={
     DecisionType.BUY: f"BUY with {position_size:.2%} position size",
     DecisionType.SELL: f"SELL with {position_size:.2%} position size",
     DecisionType.HOLD: "HOLD current position",
@@ -834,29 +851,29 @@ def get_decision_statistics(self) -> Dict[str, Any]:
     if not self.decision_history:
     return {'total_decisions': 0}
 
-    decisions = list(self.decision_history)
+    decisions=list(self.decision_history)
 
     # Decision type distribution
-    decision_counts = defaultdict(int)
+    decision_counts=defaultdict(int)
     for decision in decisions:
     decision_counts[decision.decision_type.value] += 1
 
     # Confidence level distribution
-    confidence_counts = defaultdict(int)
+    confidence_counts=defaultdict(int)
     for decision in decisions:
     confidence_counts[decision.confidence_level.value] += 1
 
     # Risk level distribution
-    risk_counts = defaultdict(int)
+    risk_counts=defaultdict(int)
     for decision in decisions:
     risk_counts[decision.risk_level.value] += 1
 
     # Performance metrics
-    decision_scores = [d.decision_score for d in decisions]
-    confidence_scores = [d.confidence_score for d in decisions]
-    risk_scores = [d.risk_score for d in decisions]
+    decision_scores=[d.decision_score for d in decisions]
+    confidence_scores=[d.confidence_score for d in decisions]
+    risk_scores=[d.risk_score for d in decisions]
 
-    stats = {
+    stats={
     'total_decisions': len(decisions),
     'decision_distribution': dict(decision_counts),
     'confidence_distribution': dict(confidence_counts),
@@ -885,7 +902,7 @@ def main():
     )
 
     # Create decision engine configuration
-    config = DecisionConfig(
+    config=DecisionConfig(
     decision_threshold=0.3,
     risk_threshold=0.7,
     confidence_threshold=0.6,
@@ -894,18 +911,18 @@ def main():
     )
 
     # Create decision engine
-    engine = DecisionEngine(config)
+    engine=DecisionEngine(config)
 
     # Create test market data
-    base_price = 50000.0
-    historical_data = []
+    base_price=50000.0
+    historical_data=[]
 
     for i in range(20):
-    timestamp = datetime.now() - timedelta(minutes=20-i)
-    price = base_price + np.random.normal(0, 100)
-    volume = np.random.uniform(50, 200)
+    timestamp=datetime.now() - timedelta(minutes=20-i)
+    price=base_price + np.random.normal(0, 100)
+    volume=np.random.uniform(50, 200)
 
-    market_data = MarketData(
+    market_data=MarketData(
     timestamp=timestamp,
     price=price,
     volume=volume,
@@ -919,8 +936,8 @@ def main():
 
     # Make decisions
     for i in range(5):
-    current_data = historical_data[-(i+1))
-    decision = engine.make_decision(current_data, historical_data, 0.0)
+    current_data=historical_data[-(i+1))
+    decision=engine.make_decision(current_data, historical_data, 0.0)
 
     safe_print(f"Decision {i+1}:")
     safe_print(f"  Type: {decision.decision_type.value}")
@@ -932,7 +949,7 @@ def main():
     safe_print("-" * 50)
 
     # Get engine statistics
-    stats = engine.get_decision_statistics()
+    stats=engine.get_decision_statistics()
     safe_print("Decision Engine Statistics:")
     print(json.dumps(stats, indent=2, default=str))
 

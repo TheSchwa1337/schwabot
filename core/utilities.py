@@ -46,12 +46,14 @@ import asyncio
 
 logger = logging.getLogger(__name__)
 
+
 class DataType(Enum):
     NUMERICAL = "numerical"
     CATEGORICAL = "categorical"
     TIMESTAMP = "timestamp"
     TEXT = "text"
     BINARY = "binary"
+
 
 @dataclass
 class PerformanceMetrics:
@@ -61,6 +63,7 @@ class PerformanceMetrics:
     disk_usage: float
     network_io: Dict[str, float]
     metadata: Dict[str, Any] = field(default_factory=dict)
+
 
 class MathematicalUtils:
     """Mathematical utility functions."""
@@ -86,8 +89,8 @@ def calculate_returns(prices: List[float] -> List[float):    """Calculate percen
     logger.error(f"Error calculating returns: {e}")
     return []
 
-    @staticmethod
-def calculate_volatility(returns: List[float], window: int = None) -> float:
+    @ staticmethod
+def calculate_volatility(returns: List[float], window: int=None) -> float:
     """Calculate volatility (standard deviation) of returns."""
     try:
     pass
@@ -103,8 +106,8 @@ def calculate_volatility(returns: List[float], window: int = None) -> float:
     logger.error(f"Error calculating volatility: {e}")
     return 0.0
 
-    @staticmethod
-def calculate_sharpe_ratio(returns: List[float], risk_free_rate: float = 0.02) -> float:
+    @ staticmethod
+def calculate_sharpe_ratio(returns: List[float], risk_free_rate: float=0.02) -> float:
     """Calculate Sharpe ratio."""
     try:
     pass
@@ -125,7 +128,7 @@ def calculate_sharpe_ratio(returns: List[float], risk_free_rate: float = 0.02) -
     logger.error(f"Error calculating Sharpe ratio: {e}")
     return 0.0
 
-    @staticmethod
+    @ staticmethod
 def calculate_max_drawdown(returns: List[float]) -> float:
     """Calculate maximum drawdown."""
     try:
@@ -144,7 +147,7 @@ def calculate_max_drawdown(returns: List[float]) -> float:
     logger.error(f"Error calculating max drawdown: {e}")
     return 0.0
 
-    @staticmethod
+    @ staticmethod
 def calculate_correlation(series1: List[float], series2: List[float]) -> float:
     """Calculate correlation between two series."""
     try:
@@ -159,8 +162,8 @@ def calculate_correlation(series1: List[float], series2: List[float]) -> float:
     logger.error(f"Error calculating correlation: {e}")
     return 0.0
 
-    @staticmethod
-def normalize_data(data: List[float], method: str = 'minmax'] -> List[float]:
+    @ staticmethod
+def normalize_data(data: List[float], method: str='minmax'] -> List[float]:
     """Normalize data using specified method."""
     try:
     pass
@@ -198,7 +201,7 @@ def normalize_data(data: List[float], method: str = 'minmax'] -> List[float]:
     logger.error(f"Error normalizing data: {e}")
     return data
 
-    @staticmethod
+    @ staticmethod
 def calculate_moving_average(data: List[float], window: int] -> List[float):
     """Calculate moving average."""
     try:
@@ -217,7 +220,7 @@ def calculate_moving_average(data: List[float], window: int] -> List[float):
     logger.error(f"Error calculating moving average: {e}")
     return []
 
-    @staticmethod
+    @ staticmethod
 def calculate_exponential_moving_average(data: List[float], alpha: float] -> List[float]:
     """Calculate exponential moving average."""
     try:
@@ -236,8 +239,8 @@ def calculate_exponential_moving_average(data: List[float], alpha: float] -> Lis
     logger.error(f"Error calculating EMA: {e}")
     return []
 
-    @staticmethod
-def calculate_rsi(prices: List[float], period: int = 14] -> List[float):
+    @ staticmethod
+def calculate_rsi(prices: List[float], period: int=14] -> List[float):
     """Calculate Relative Strength Index."""
     try:
     pass
@@ -273,7 +276,7 @@ def calculate_rsi(prices: List[float], period: int = 14] -> List[float):
 class FinancialUtils:
     """Financial utility functions."""
 
-    @staticmethod
+    @ staticmethod
 def calculate_present_value(future_value: float, rate: float, periods: int) -> float:
     """Calculate present value."""
     try:
@@ -288,7 +291,7 @@ def calculate_present_value(future_value: float, rate: float, periods: int) -> f
     logger.error(f"Error calculating present value: {e}")
     return 0.0
 
-    @staticmethod
+    @ staticmethod
 def calculate_future_value(present_value: float, rate: float, periods: int) -> float:
     """Calculate future value."""
     try:
@@ -300,7 +303,7 @@ def calculate_future_value(present_value: float, rate: float, periods: int) -> f
     logger.error(f"Error calculating future value: {e}")
     return 0.0
 
-    @staticmethod
+    @ staticmethod
 def calculate_compound_annual_growth_rate(beginning_value: float, ending_value: float, years: float) -> float:
     """Calculate Compound Annual Growth Rate."""
     try:
@@ -315,7 +318,7 @@ def calculate_compound_annual_growth_rate(beginning_value: float, ending_value: 
     logger.error(f"Error calculating CAGR: {e}")
     return 0.0
 
-    @staticmethod
+    @ staticmethod
 def calculate_kelly_criterion(win_rate: float, avg_win: float, avg_loss: float) -> float:
     """Calculate Kelly Criterion for position sizing."""
     try:
@@ -330,8 +333,8 @@ def calculate_kelly_criterion(win_rate: float, avg_win: float, avg_loss: float) 
     logger.error(f"Error calculating Kelly Criterion: {e}")
     return 0.0
 
-    @staticmethod
-def calculate_value_at_risk(returns: List[float], confidence_level: float = 0.95) -> float:
+    @ staticmethod
+def calculate_value_at_risk(returns: List[float], confidence_level: float=0.95) -> float:
     """Calculate Value at Risk."""
     try:
     pass
@@ -348,8 +351,8 @@ def calculate_value_at_risk(returns: List[float], confidence_level: float = 0.95
     logger.error(f"Error calculating VaR: {e}")
     return 0.0
 
-    @staticmethod
-def calculate_conditional_value_at_risk(returns: List[float], confidence_level: float = 0.95) -> float:
+    @ staticmethod
+def calculate_conditional_value_at_risk(returns: List[float], confidence_level: float=0.95) -> float:
     """Calculate Conditional Value at Risk (Expected Shortfall)."""
     try:
     pass
@@ -386,7 +389,7 @@ def calculate_conditional_value_at_risk(returns: List[float], confidence_level: 
     if not tail_returns)))))))))):
     return var
 
-    cvar = unified_math.unified_math.mean(tail_returns)
+    cvar=unified_math.unified_math.mean(tail_returns)
     return float(cvar)
 
     except Exception as e:
@@ -396,36 +399,36 @@ def calculate_conditional_value_at_risk(returns: List[float], confidence_level: 
 class DataProcessingUtils:
     """Data processing utility functions."""
 
-    @staticmethod
-def detect_outliers(data: List[float], method: str = 'iqr', threshold: float = 1.5] -> List[bool]:
+    @ staticmethod
+def detect_outliers(data: List[float], method: str='iqr', threshold: float=1.5] -> List[bool]:
     """Detect outliers in data."""
     try:
     pass
     if not data:
     return [)
 
-    data_array = np.array(data)
-    outliers = []
+    data_array=np.array(data)
+    outliers=[]
 
     if method == 'iqr':
-    q1 = np.percentile(data_array, 25)
-    q3 = np.percentile(data_array, 75)
-    iqr = q3 - q1
+    q1=np.percentile(data_array, 25)
+    q3=np.percentile(data_array, 75)
+    iqr=q3 - q1
 
-    lower_bound = q1 - threshold * iqr
-    upper_bound = q3 + threshold * iqr
+    lower_bound=q1 - threshold * iqr
+    upper_bound=q3 + threshold * iqr
 
-    outliers = (data_array < lower_bound) | (data_array > upper_bound)
+    outliers=(data_array < lower_bound) | (data_array > upper_bound)
 
     elif method == 'zscore':
-    mean_val = unified_math.unified_math.mean(data_array)
-    std_val = unified_math.unified_math.std(data_array)
+    mean_val=unified_math.unified_math.mean(data_array)
+    std_val=unified_math.unified_math.std(data_array)
 
     if std_val > 0:
-    z_scores = unified_math.abs((data_array - mean_val) / std_val)
-    outliers = z_scores > threshold
+    z_scores=unified_math.abs((data_array - mean_val) / std_val)
+    outliers=z_scores > threshold
     else:
-    outliers = np.zeros_like(data_array, dtype=bool)
+    outliers=np.zeros_like(data_array, dtype=bool)
 
     return outliers.tolist()
 
@@ -433,16 +436,16 @@ def detect_outliers(data: List[float], method: str = 'iqr', threshold: float = 1
     logger.error(f"Error detecting outliers: {e}")
     return [False] * len(data) if data else []
 
-    @staticmethod
-def remove_outliers(data: List[float], method: str = 'iqr', threshold: float = 1.5] -> List[float]:
+    @ staticmethod
+def remove_outliers(data: List[float], method: str='iqr', threshold: float=1.5] -> List[float]:
     """Remove outliers from data."""
     try:
     pass
     if not data:
     return [)
 
-    outliers = DataProcessingUtils.detect_outliers(data, method, threshold)
-    cleaned_data = [val for val, is_outlier in (zip(data, outliers) for zip(data, outliers) in ((zip(data, outliers) for (zip(data, outliers) in (((zip(data, outliers] for ((zip(data, outliers] in ((((zip(data, outliers] for (((zip(data, outliers] in (((((zip(data, outliers] for ((((zip(data, outliers] in (((((zip(data, outliers) if not is_outlier)
+    outliers=DataProcessingUtils.detect_outliers(data, method, threshold)
+    cleaned_data=[val for val, is_outlier in (zip(data, outliers) for zip(data, outliers) in ((zip(data, outliers) for (zip(data, outliers) in (((zip(data, outliers] for ((zip(data, outliers] in ((((zip(data, outliers] for (((zip(data, outliers] in (((((zip(data, outliers] for ((((zip(data, outliers] in (((((zip(data, outliers) if not is_outlier)
 
     return cleaned_data
 
@@ -450,8 +453,8 @@ def remove_outliers(data: List[float], method: str = 'iqr', threshold: float = 1
     logger.error(f"Error removing outliers: {e}")
     return data
 
-    @staticmethod
-def interpolate_missing_values(data: List[Optional[float]], method: str = 'linear'] -> List[float]:
+    @ staticmethod
+def interpolate_missing_values(data: List[Optional[float]], method: str='linear'] -> List[float]:
     """Interpolate missing values in data."""
     try:
     pass
@@ -459,7 +462,7 @@ def interpolate_missing_values(data: List[Optional[float]], method: str = 'linea
     return []
 
     # Convert to numpy array with NaN for missing values
-    data_array = np.array([val if val is not None else np.nan for val in (data]]
+    data_array=np.array([val if val is not None else np.nan for val in (data]]
 
     for data))
     pass
@@ -487,32 +490,32 @@ def interpolate_missing_values(data: List[Optional[float]], method: str = 'linea
 
     if method == 'linear')))))))))):
     # Linear interpolation
-    mask = np.isnan(data_array)
+    mask=np.isnan(data_array)
     if not mask.any():
     return data_array.tolist()
 
-    indices = np.arange(len(data_array))
-    data_array[mask] = np.interp(indices[mask), indices[~mask), data_array[~mask]]
+    indices=np.arange(len(data_array))
+    data_array[mask]=np.interp(indices[mask), indices[~mask), data_array[~mask]]
 
     elif method == 'forward_fill':
     # Forward fill
-    mask = np.isnan(data_array)
+    mask=np.isnan(data_array)
     if not mask.any():
     return data_array.tolist()
 
     for i in range(1, len(data_array)):
     if np.isnan(data_array[i]]:
-    data_array[i] = data_array[i-1)
+    data_array[i]=data_array[i-1)
 
     elif method == 'backward_fill':
     # Backward fill
-    mask = np.isnan(data_array)
+    mask=np.isnan(data_array)
     if not mask.any():
     return data_array.tolist()
 
     for i in range(len(data_array)-2, -1, -1):
     if np.isnan(data_array[i]]:
-    data_array[i] = data_array[i+1)
+    data_array[i]=data_array[i+1)
 
     return data_array.tolist()
 
@@ -520,32 +523,32 @@ def interpolate_missing_values(data: List[Optional[float]], method: str = 'linea
     logger.error(f"Error interpolating missing values: {e}")
     return [0.0 if val is None else val for val in data]
 
-    @staticmethod
+    @ staticmethod
 def calculate_rolling_statistics(data: List[float], window: int,
-    statistic: str = 'mean'] -> List[float):
+    statistic: str='mean'] -> List[float):
     """Calculate rolling statistics."""
     try:
     pass
     if len(data] < window:
     return []
 
-    results = []
+    results=[]
     for i in range(window - 1, len(data)):
-    window_data = data[i - window + 1:i + 1]
+    window_data=data[i - window + 1:i + 1]
 
     if statistic == 'mean':
-    result = unified_math.unified_math.mean(window_data)
+    result=unified_math.unified_math.mean(window_data)
     elif statistic == 'std':
-    result = unified_math.unified_math.std(window_data)
+    result=unified_math.unified_math.std(window_data)
     elif statistic == 'min':
-    result = unified_math.unified_math.min(window_data)
+    result=unified_math.unified_math.min(window_data)
     elif statistic == 'max':
-    result = unified_math.unified_math.max(window_data)
+    result=unified_math.unified_math.max(window_data)
     elif statistic == 'median':
-    result = np.median(window_data)
+    result=np.median(window_data)
     else:
     logger.warning(f"Unknown statistic: {statistic}")
-    result = unified_math.unified_math.mean(window_data)
+    result=unified_math.unified_math.mean(window_data)
 
     results.append(float(result))
 
@@ -555,7 +558,7 @@ def calculate_rolling_statistics(data: List[float], window: int,
     logger.error(f"Error calculating rolling statistics: {e}")
     return []
 
-    @staticmethod
+    @ staticmethod
 def calculate_percentiles(data: List[float], percentiles: List[float] -> Dict[float, float):
     """Calculate percentiles of data."""
     try:
@@ -563,13 +566,13 @@ def calculate_percentiles(data: List[float], percentiles: List[float] -> Dict[fl
     if not data:
     return {}
 
-    data_array = np.array(data)
-    results = {}
+    data_array=np.array(data)
+    results={}
 
     for percentile in percentiles:
     if 0 <= percentile <= 100:
-    value = np.percentile(data_array, percentile]
-    results[percentile] = float(value)
+    value=np.percentile(data_array, percentile]
+    results[percentile]=float(value)
 
     return results
 
@@ -580,12 +583,12 @@ def calculate_percentiles(data: List[float], percentiles: List[float] -> Dict[fl
 class SystemUtils:
     """System utility functions."""
 
-    @staticmethod
+    @ staticmethod
 def get_system_info() -> Dict[str, Any]:
     """Get system information."""
     try:
     pass
-    info = {
+    info={
     'platform': platform.platform(),
     'system': platform.system(),
     'release': platform.release(),
@@ -602,13 +605,13 @@ def get_system_info() -> Dict[str, Any]:
     logger.error(f"Error getting system info: {e}")
     return {}
 
-    @staticmethod
+    @ staticmethod
 def get_memory_usage() -> Dict[str, float]:
     """Get memory usage information."""
     try:
     pass
-    memory = psutil.virtual_memory()
-    swap = psutil.swap_memory()
+    memory=psutil.virtual_memory()
+    swap=psutil.swap_memory()
 
     return {
     'total_memory_mb': memory.total / (1024 * 1024),
@@ -624,14 +627,14 @@ def get_memory_usage() -> Dict[str, float]:
     logger.error(f"Error getting memory usage: {e}")
     return {}
 
-    @staticmethod
+    @ staticmethod
 def get_cpu_usage() -> Dict[str, float]:
     """Get CPU usage information."""
     try:
     pass
-    cpu_percent = psutil.cpu_percent(interval=1)
-    cpu_count = psutil.cpu_count()
-    cpu_freq = psutil.cpu_freq()
+    cpu_percent=psutil.cpu_percent(interval=1)
+    cpu_count=psutil.cpu_count()
+    cpu_freq=psutil.cpu_freq()
 
     return {
     'cpu_percent': cpu_percent,
@@ -645,12 +648,12 @@ def get_cpu_usage() -> Dict[str, float]:
     logger.error(f"Error getting CPU usage: {e}")
     return {}
 
-    @staticmethod
-def get_disk_usage(path: str = "/") -> Dict[str, float]:
+    @ staticmethod
+def get_disk_usage(path: str="/") -> Dict[str, float]:
     """Get disk usage information."""
     try:
     pass
-    disk = psutil.disk_usage(path)
+    disk=psutil.disk_usage(path)
 
     return {
     'total_gb': disk.total / (1024 * 1024 * 1024),
@@ -663,12 +666,12 @@ def get_disk_usage(path: str = "/") -> Dict[str, float]:
     logger.error(f"Error getting disk usage: {e}")
     return {}
 
-    @staticmethod
+    @ staticmethod
 def get_network_io() -> Dict[str, float]:
     """Get network I/O information."""
     try:
     pass
-    network = psutil.net_io_counters()
+    network=psutil.net_io_counters()
 
     return {
     'bytes_sent_mb': network.bytes_sent / (1024 * 1024),
@@ -685,17 +688,17 @@ def get_network_io() -> Dict[str, float]:
     logger.error(f"Error getting network I/O: {e}")
     return {}
 
-    @staticmethod
+    @ staticmethod
 def get_performance_metrics() -> PerformanceMetrics:
     """Get comprehensive performance metrics."""
     try:
     pass
-    memory_usage = SystemUtils.get_memory_usage()
-    cpu_usage = SystemUtils.get_cpu_usage()
-    disk_usage = SystemUtils.get_disk_usage()
-    network_io = SystemUtils.get_network_io()
+    memory_usage=SystemUtils.get_memory_usage()
+    cpu_usage=SystemUtils.get_cpu_usage()
+    disk_usage=SystemUtils.get_disk_usage()
+    network_io=SystemUtils.get_network_io()
 
-    metrics = PerformanceMetrics(
+    metrics=PerformanceMetrics(
     timestamp=datetime.now(),
     cpu_usage=cpu_usage.get('cpu_percent', 0.0),
     memory_usage=memory_usage.get('memory_percent', 0.0),
@@ -718,7 +721,7 @@ def get_performance_metrics() -> PerformanceMetrics:
 class FileUtils:
     """File utility functions."""
 
-    @staticmethod
+    @ staticmethod
 def ensure_directory(path: str) -> bool:
     """Ensure directory exists, create if it doesn't."""
     try:
@@ -730,13 +733,13 @@ def ensure_directory(path: str) -> bool:
     logger.error(f"Error ensuring directory: {e}")
     return False
 
-    @staticmethod
-def save_json(data: Any, file_path: str, indent: int = 2) -> bool:
+    @ staticmethod
+def save_json(data: Any, file_path: str, indent: int=2) -> bool:
     """Save data to JSON file."""
     try:
     pass
     # Ensure directory exists
-    directory = os.path.dirname(file_path)
+    directory=os.path.dirname(file_path)
     if directory and not FileUtils.ensure_directory(directory):
     return False
 
@@ -749,7 +752,7 @@ def save_json(data: Any, file_path: str, indent: int = 2) -> bool:
     logger.error(f"Error saving JSON: {e}")
     return False
 
-    @staticmethod
+    @ staticmethod
 def load_json(file_path: str) -> Optional[Any]:
     """Load data from JSON file."""
     try:
@@ -759,7 +762,7 @@ def load_json(file_path: str) -> Optional[Any]:
     return None
 
     with open(file_path, 'r') as f:
-    data = json.load(f)
+    data=json.load(f)
 
     return data
 
@@ -767,15 +770,15 @@ def load_json(file_path: str) -> Optional[Any]:
     logger.error(f"Error loading JSON: {e}")
     return None
 
-    @staticmethod
-def get_file_hash(file_path: str, algorithm: str = 'md5') -> Optional[str]:
+    @ staticmethod
+def get_file_hash(file_path: str, algorithm: str='md5') -> Optional[str]:
     """Calculate file hash."""
     try:
     pass
     if not os.path.exists(file_path):
     return None
 
-    hash_func = hashlib.new(algorithm)
+    hash_func=hashlib.new(algorithm)
 
     with open(file_path, 'rb') as f:
     for chunk in iter(lambda: f.read(4096), b""):
@@ -787,7 +790,7 @@ def get_file_hash(file_path: str, algorithm: str = 'md5') -> Optional[str]:
     logger.error(f"Error calculating file hash: {e}")
     return None
 
-    @staticmethod
+    @ staticmethod
 def get_file_size(file_path: str) -> Optional[int]:
     """Get file size in bytes."""
     try:
@@ -804,33 +807,33 @@ def get_file_size(file_path: str) -> Optional[int]:
 class TimingUtils:
     """Timing utility functions."""
 
-    @staticmethod
+    @ staticmethod
 def time_function(func: Callable, *args, **kwargs) -> Tuple[Any, float]:
     """Time a function execution."""
     try:
     pass
-    start_time = time.time()
-    result = func(*args, **kwargs)
-    end_time = time.time()
+    start_time=time.time()
+    result=func(*args, **kwargs)
+    end_time=time.time()
 
-    execution_time = end_time - start_time
+    execution_time=end_time - start_time
     return result, execution_time
 
     except Exception as e:
     logger.error(f"Error timing function: {e}")
     return None, 0.0
 
-    @staticmethod
+    @ staticmethod
 def create_timer() -> Callable:
     """Create a timer function."""
-    start_time = time.time()
+    start_time=time.time()
 
 def timer():
     return time.time() - start_time
 
     return timer
 
-    @staticmethod
+    @ staticmethod
 def format_duration(seconds: float) -> str:
     """Format duration in human-readable format."""
     try:
@@ -838,10 +841,10 @@ def format_duration(seconds: float) -> str:
     if seconds < 60:
     return f"{seconds:.2f}s"
     elif seconds < 3600:
-    minutes = seconds / 60
+    minutes=seconds / 60
     return f"{minutes:.1f}m"
     else:
-    hours = seconds / 3600
+    hours=seconds / 3600
     return f"{hours:.1f}h"
 
     except Exception as e:
@@ -859,11 +862,11 @@ def main():
     )
 
     # Test mathematical utilities
-    test_prices = [100, 105, 103, 108, 110, 107, 112, 115, 113, 118]
-    returns = MathematicalUtils.calculate_returns(test_prices)
-    volatility = MathematicalUtils.calculate_volatility(returns)
-    sharpe = MathematicalUtils.calculate_sharpe_ratio(returns)
-    max_dd = MathematicalUtils.calculate_max_drawdown(returns)
+    test_prices=[100, 105, 103, 108, 110, 107, 112, 115, 113, 118]
+    returns=MathematicalUtils.calculate_returns(test_prices)
+    volatility=MathematicalUtils.calculate_volatility(returns)
+    sharpe=MathematicalUtils.calculate_sharpe_ratio(returns)
+    max_dd=MathematicalUtils.calculate_max_drawdown(returns)
 
     safe_print("Mathematical Utils Test:")
     safe_print(f"Returns: {returns}")
@@ -872,9 +875,9 @@ def main():
     safe_print(f"Max Drawdown: {max_dd:.4f}")
 
     # Test financial utilities
-    pv = FinancialUtils.calculate_present_value(1000, 0.05, 5)
-    fv = FinancialUtils.calculate_future_value(1000, 0.05, 5)
-    cagr = FinancialUtils.calculate_compound_annual_growth_rate(1000, 1500, 3)
+    pv=FinancialUtils.calculate_present_value(1000, 0.05, 5)
+    fv=FinancialUtils.calculate_future_value(1000, 0.05, 5)
+    cagr=FinancialUtils.calculate_compound_annual_growth_rate(1000, 1500, 3)
 
     safe_print("\nFinancial Utils Test:")
     safe_print(f"Present Value: ${pv:.2f}")
@@ -882,17 +885,17 @@ def main():
     safe_print(f"CAGR: {cagr:.2%}")
 
     # Test data processing utilities
-    outliers = DataProcessingUtils.detect_outliers(test_prices)
-    cleaned_data = DataProcessingUtils.remove_outliers(test_prices)
+    outliers=DataProcessingUtils.detect_outliers(test_prices)
+    cleaned_data=DataProcessingUtils.remove_outliers(test_prices)
 
     safe_print("\nData Processing Utils Test:")
     safe_print(f"Outliers detected: {sum(outliers)}")
     safe_print(f"Cleaned data length: {len(cleaned_data)}")
 
     # Test system utilities
-    system_info = SystemUtils.get_system_info()
-    memory_usage = SystemUtils.get_memory_usage()
-    cpu_usage = SystemUtils.get_cpu_usage()
+    system_info=SystemUtils.get_system_info()
+    memory_usage=SystemUtils.get_memory_usage()
+    cpu_usage=SystemUtils.get_cpu_usage()
 
     safe_print("\nSystem Utils Test:")
     safe_print(f"Platform: {system_info.get('platform', 'Unknown')}")
@@ -900,9 +903,9 @@ def main():
     safe_print(f"CPU Usage: {cpu_usage.get('cpu_percent', 0):.1f}%")
 
     # Test file utilities
-    test_data = {'test': 'data', 'numbers': [1, 2, 3, 4, 5]}
+    test_data={'test': 'data', 'numbers': [1, 2, 3, 4, 5]}
     FileUtils.save_json(test_data, 'test_utils.json')
-    loaded_data = FileUtils.load_json('test_utils.json')
+    loaded_data=FileUtils.load_json('test_utils.json')
 
     safe_print("\nFile Utils Test:")
     safe_print(f"Data saved and loaded: {loaded_data == test_data}")
@@ -912,8 +915,8 @@ def test_function():
     time.sleep(0.1)
     return "test"
 
-    result, execution_time = TimingUtils.time_function(test_function)
-    formatted_time = TimingUtils.format_duration(execution_time)
+    result, execution_time=TimingUtils.time_function(test_function)
+    formatted_time=TimingUtils.format_duration(execution_time)
 
     safe_print("\nTiming Utils Test:")
     safe_print(f"Function result: {result}")

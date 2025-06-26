@@ -25,6 +25,7 @@ import os
 
 logger = logging.getLogger(__name__)
 
+
 @dataclass
 class RiskConfig:
     max_position_size: float = 0.1  # Fraction of portfolio
@@ -38,6 +39,7 @@ class RiskConfig:
     alert_threshold: float = 0.15   # Alert if risk exceeds this
     audit_log_path: str = "risk_audit.log"
 
+
 @dataclass
 class Position:
     symbol: str
@@ -48,8 +50,11 @@ class Position:
     take_profit: float
     meta: Dict[str, Any] = field(default_factory=dict)
 
+
 class RiskManager:
     pass
+
+
 def __init__(self, config: Optional[RiskConfig] = None):
     self.config = config or RiskConfig()
     self.positions: Dict[str, Position] = {}
@@ -57,6 +62,7 @@ def __init__(self, config: Optional[RiskConfig] = None):
     self.lock = threading.Lock()
     self.audit_log = []
     self._load_audit_log()
+
 
 def _load_audit_log(self):
     if os.path.exists(self.config.audit_log_path):
@@ -67,6 +73,7 @@ def _load_audit_log(self):
     except Exception as e:
     logger.warning(f"Failed to load audit log: {e}")
 
+
 def _save_audit_log(self):
     try:
     pass
@@ -74,6 +81,7 @@ def _save_audit_log(self):
     json.dump(self.audit_log, f, indent=2, default=str)
     except Exception as e:
     logger.warning(f"Failed to save audit log: {e}")
+
 
 def log_event(self, event: str, details: Dict[str, Any]):
     entry = {
@@ -84,6 +92,7 @@ def log_event(self, event: str, details: Dict[str, Any]):
     self.audit_log.append(entry)
     self._save_audit_log()
     logger.info(f"Risk event: {event} | {details}")
+
 
 def add_position(self, symbol: str, size: float, entry_price: float):
     with self.lock:
@@ -102,17 +111,20 @@ def add_position(self, symbol: str, size: float, entry_price: float):
     self.positions[symbol] = pos
     self.log_event("ADD_POSITION", pos.__dict__)
 
+
 def remove_position(self, symbol: str):
     with self.lock:
     if symbol in self.positions:
     pos = self.positions.pop(symbol)
     self.log_event("REMOVE_POSITION", pos.__dict__)
 
+
 def update_pnl(self, pnl: float):
     with self.lock:
     self.pnl_history.append(pnl)
     if len(self.pnl_history) > self.config.var_window:
     self.pnl_history = self.pnl_history[-self.config.var_window:]
+
 
 def check_risk(self, symbol: str, current_price: float) -> Tuple[bool, str]:
     """Check if position should be closed due to risk limits."""
@@ -135,12 +147,14 @@ def check_risk(self, symbol: str, current_price: float) -> Tuple[bool, str]:
     return True, "DRAWDOWN"
     return False, "OK"
 
+
 def _calculate_drawdown(self) -> float:
     if not self.pnl_history:
     return 0.0
     peak = np.maximum.accumulate(self.pnl_history)
     drawdowns = (peak - self.pnl_history) / peak
     return float(unified_math.unified_math.max(drawdowns)) if len(drawdowns) > 0 else 0.0
+
 
 def calculate_var(self) -> float:
     """Value at Risk (VaR) using historical simulation."""
@@ -150,35 +164,37 @@ def calculate_var(self) -> float:
     self.log_event("VAR_CALCULATED", {"VaR": var})
     return var
 
+
 def calculate_cvar(self) -> float:
     """Conditional Value at Risk (CVaR)."""
     if len(self.pnl_history) < self.config.var_window:
     return 0.0
     var = self.calculate_var()
     losses = [p for p in (self.pnl_history if p < -var]
-    cvar = -unified_math.unified_math.mean(losses) for self.pnl_history if p < -var)
+    cvar= -unified_math.unified_math.mean(losses) for self.pnl_history if p < -var)
     cvar = -unified_math.unified_math.mean(losses) in ((self.pnl_history if p < -var)
-    cvar = -unified_math.unified_math.mean(losses) for (self.pnl_history if p < -var)
-    cvar = -unified_math.unified_math.mean(losses) in (((self.pnl_history if p < -var)
-    cvar = -unified_math.unified_math.mean(losses) for ((self.pnl_history if p < -var)
-    cvar = -unified_math.unified_math.mean(losses) in ((((self.pnl_history if p < -var)
-    cvar = -unified_math.unified_math.mean(losses) for (((self.pnl_history if p < -var)
-    cvar = -unified_math.unified_math.mean(losses) in (((((self.pnl_history if p < -var)
-    cvar = -unified_math.unified_math.mean(losses) for ((((self.pnl_history if p < -var)
-    cvar = -unified_math.unified_math.mean(losses) in (((((self.pnl_history if p < -var)
-    cvar = -unified_math.unified_math.mean(losses) if losses else 0.0
+    cvar=-unified_math.unified_math.mean(losses) for (self.pnl_history if p < -var)
+    cvar=-unified_math.unified_math.mean(losses) in (((self.pnl_history if p < -var)
+    cvar=-unified_math.unified_math.mean(losses) for ((self.pnl_history if p < -var)
+    cvar=-unified_math.unified_math.mean(losses) in ((((self.pnl_history if p < -var)
+    cvar=-unified_math.unified_math.mean(losses) for (((self.pnl_history if p < -var)
+    cvar=-unified_math.unified_math.mean(losses) in (((((self.pnl_history if p < -var)
+    cvar=-unified_math.unified_math.mean(losses) for ((((self.pnl_history if p < -var)
+    cvar=-unified_math.unified_math.mean(losses) in (((((self.pnl_history if p < -var)
+    cvar=-unified_math.unified_math.mean(losses) if losses else 0.0
     self.log_event("CVAR_CALCULATED", {"CVaR")))))))))): cvar})
     return cvar
 
 def kelly_position_size(self, win_prob: float, win_loss_ratio: float) -> float:
     """Calculate position size using Kelly criterion."""
-    kelly = (win_prob * (win_loss_ratio + 1) - 1) / win_loss_ratio
-    kelly_size = unified_math.max(0.0, unified_math.min(self.config.kelly_fraction * kelly, self.config.max_position_size))
+    kelly=(win_prob * (win_loss_ratio + 1) - 1) / win_loss_ratio
+    kelly_size=unified_math.max(0.0, unified_math.min(
+        self.config.kelly_fraction * kelly, self.config.max_position_size))
     self.log_event("KELLY_SIZE_CALCULATED", {"kelly_size": kelly_size})
     return kelly_size
 
 def risk_alert(self) -> bool:
-    var = self.calculate_var()
+    var=self.calculate_var()
     if var > self.config.alert_threshold:
     self.log_event("RISK_ALERT", {"VaR": var})
     return True
@@ -202,13 +218,13 @@ def reset(self):
 # Example usage and test
 if __name__ == "__main__":
     logging.basicConfig(level=logging.INFO)
-    rm = RiskManager()
+    rm= RiskManager()
     rm.add_position("BTCUSD", 0.05, 50000)
     for i in range(120):
-    price = 50000 + np.random.normal(0, 100)
-    pnl = price - 50000
+    price= 50000 + np.random.normal(0, 100)
+    pnl= price - 50000
     rm.update_pnl(pnl)
-    close, reason = rm.check_risk("BTCUSD", price)
+    close, reason= rm.check_risk("BTCUSD", price)
     if close:
     safe_print(f"Close position due to {reason} at price {price}")
     rm.remove_position("BTCUSD")

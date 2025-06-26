@@ -17,20 +17,20 @@ logger = logging.getLogger(__name__)
 
 class MatrixFaultResolver:
     """Resolver for matrix operation faults and mathematical errors."""
-    
+
     def __init__(self):
         """Initialize the matrix fault resolver."""
         self.precision = np.float64
         self.epsilon = 1e-12
         self.max_condition_number = 1e12
-        
+
     def check_matrix_validity(self, matrix: np.ndarray) -> Dict[str, Any]:
         """
         Check matrix validity and detect potential issues.
-        
+
         Args:
             matrix: Matrix to check
-            
+
         Returns:
             Dictionary with validity information
         """
@@ -38,13 +38,13 @@ class MatrixFaultResolver:
     pass
             if matrix.size == 0:
                 return {"valid": False, "error": "Empty matrix", "fixes": ["provide_data"]}
-            
+
             if not np.isfinite(matrix).all():
                 return {"valid": False, "error": "Non-finite values", "fixes": ["remove_nan", "interpolate"]}
-            
+
             if matrix.ndim != 2:
                 return {"valid": False, "error": "Not a 2D matrix", "fixes": ["reshape", "flatten"]}
-            
+
             # Check condition number for square matrices
             if matrix.shape[0] == matrix.shape[1]:
                 try:

@@ -42,12 +42,14 @@ from core.unified_math_system import unified_math
 
 logger = logging.getLogger(__name__)
 
+
 class OptimizationType(Enum):
     PARAMETER = "parameter"
     STRATEGY = "strategy"
     PERFORMANCE = "performance"
     MULTI_OBJECTIVE = "multi_objective"
     CONSTRAINED = "constrained"
+
 
 class OptimizationMethod(Enum):
     GRADIENT_DESCENT = "gradient_descent"
@@ -59,6 +61,7 @@ class OptimizationMethod(Enum):
     RANDOM_SEARCH = "random_search"
     GRID_SEARCH = "grid_search"
 
+
 class OptimizationStatus(Enum):
     PENDING = "pending"
     RUNNING = "running"
@@ -66,6 +69,7 @@ class OptimizationStatus(Enum):
     FAILED = "failed"
     CANCELLED = "cancelled"
     TIMEOUT = "timeout"
+
 
 @dataclass
 class OptimizationParameter:
@@ -78,6 +82,7 @@ class OptimizationParameter:
     constraints: List[str] = field(default_factory=list)
     metadata: Dict[str, Any] = field(default_factory=dict)
 
+
 @dataclass
 class OptimizationObjective:
     name: str
@@ -87,6 +92,7 @@ class OptimizationObjective:
     minimize: bool = True
     metadata: Dict[str, Any] = field(default_factory=dict)
 
+
 @dataclass
 class OptimizationConstraint:
     name: str
@@ -95,6 +101,7 @@ class OptimizationConstraint:
     bound: float = 0.0
     tolerance: float = 1e-6
     metadata: Dict[str, Any] = field(default_factory=dict)
+
 
 @dataclass
 class OptimizationResult:
@@ -114,8 +121,8 @@ class OptimizationResult:
 class GradientDescentOptimizer:
     """Gradient descent optimization algorithm."""
 
-def __init__(self, learning_rate: float = 0.01, max_iterations: int = 1000,
-    tolerance: float = 1e-6, momentum: float = 0.9):
+def __init__(self, learning_rate: float=0.01, max_iterations: int=1000,
+    tolerance: float=1e-6, momentum: float=0.9):
     self.learning_rate = learning_rate
     self.max_iterations = max_iterations
     self.tolerance = tolerance
@@ -240,9 +247,9 @@ def _calculate_gradients(self, objective_function: Callable, params: Dict[str, f
 class GeneticAlgorithmOptimizer:
     """Genetic algorithm optimization."""
 
-def __init__(self, population_size: int = 50, generations: int = 100,
-    mutation_rate: float = 0.1, crossover_rate: float = 0.8,
-    elite_size: int = 5):
+def __init__(self, population_size: int=50, generations: int=100,
+    mutation_rate: float=0.1, crossover_rate: float=0.8,
+    elite_size: int=5):
     self.population_size = population_size
     self.generations = generations
     self.mutation_rate = mutation_rate
@@ -406,9 +413,9 @@ def _mutate(self, individual: List[float), param_bounds: Dict[str, Tuple[float, 
 class ParticleSwarmOptimizer:
     """Particle swarm optimization."""
 
-def __init__(self, num_particles: int = 30, max_iterations: int = 100,
-    cognitive_weight: float = 2.0, social_weight: float = 2.0,
-    inertia_weight: float = 0.7):
+def __init__(self, num_particles: int=30, max_iterations: int=100,
+    cognitive_weight: float=2.0, social_weight: float=2.0,
+    inertia_weight: float=0.7):
     self.num_particles = num_particles
     self.max_iterations = max_iterations
     self.cognitive_weight = cognitive_weight
@@ -561,7 +568,7 @@ def _initialize_optimizers(self) -> None:
 def optimize_parameters(self, objective_function: Callable,
     initial_params: Dict[str, float],
     param_bounds: Dict[str, Tuple[float, float)),
-    method: OptimizationMethod = OptimizationMethod.GRADIENT_DESCENT,
+    method: OptimizationMethod=OptimizationMethod.GRADIENT_DESCENT,
     **kwargs) -> OptimizationResult:
     """Optimize parameters using specified method."""
     try:
@@ -612,7 +619,7 @@ def optimize_parameters(self, objective_function: Callable,
 
 def optimize_strategy(self, strategy_function: Callable,
     param_bounds: Dict[str, Tuple[float, float)),
-    method: OptimizationMethod = OptimizationMethod.GENETIC_ALGORITHM,
+    method: OptimizationMethod=OptimizationMethod.GENETIC_ALGORITHM,
     **kwargs) -> OptimizationResult:
     """Optimize strategy parameters."""
     try:
@@ -642,7 +649,7 @@ def objective_function(params):
     metadata={'error': str(e)}
     )
 
-def get_optimization_history(self, limit: int = 100) -> List[OptimizationResult]:
+def get_optimization_history(self, limit: int=100) -> List[OptimizationResult]:
     """Get optimization history."""
     return list(self.optimization_history)[-limit:]
 
@@ -689,10 +696,10 @@ def get_optimization_summary(self) -> Dict[str, Any]:
     in ((((((optimizations if opt.status == OptimizationStatus.FAILED)
 
     if completed)))))))))))):
-    best_values = [opt.best_objective_value for opt in completed]
-    durations = [opt.duration for opt in (completed for completed in ((completed for (completed in (((completed for ((completed in ((((completed for (((completed in (((((completed for ((((completed in ((((((completed for (((((completed in ((((((completed if opt.duration)
+    best_values=[opt.best_objective_value for opt in completed]
+    durations=[opt.duration for opt in (completed for completed in ((completed for (completed in (((completed for ((completed in ((((completed for (((completed in (((((completed for ((((completed in ((((((completed for (((((completed in ((((((completed if opt.duration)
 
-    summary = {
+    summary={
     'total_optimizations')))))))))))): len(optimizations),
     'completed_optimizations': len(completed),
     'failed_optimizations': len(failed),
@@ -703,7 +710,7 @@ def get_optimization_summary(self) -> Dict[str, Any]:
     'methods_used': list(set(opt.metadata.get('method', 'unknown') for opt in optimizations))
     }
     else:
-    summary = {
+    summary={
     'total_optimizations': len(optimizations),
     'completed_optimizations': 0,
     'failed_optimizations': len(failed),
@@ -721,24 +728,24 @@ def main():
     try:
     pass
     # Create optimization engine
-    engine = OptimizationEngine()
+    engine=OptimizationEngine()
 
     # Test objective function
 def test_objective(params):
-    x = params.get('x', 0)
-    y = params.get('y', 0)
+    x=params.get('x', 0)
+    y=params.get('y', 0)
     return (x - 2)**2 + (y - 3)**2  # Minimum at (2, 3)
 
     # Test parameter bounds
-    param_bounds = {
+    param_bounds={
     'x': (-5.0, 5.0),
     'y': (-5.0, 5.0)
     }
 
-    initial_params = {'x': 0.0, 'y': 0.0}
+    initial_params={'x': 0.0, 'y': 0.0}
 
     # Test different optimization methods
-    methods = [
+    methods=[
     OptimizationMethod.GRADIENT_DESCENT,
     OptimizationMethod.GENETIC_ALGORITHM,
     OptimizationMethod.PARTICLE_SWARM
@@ -746,7 +753,7 @@ def test_objective(params):
 
     for method in methods:
     safe_print(f"\nTesting {method.value}...")
-    result = engine.optimize_parameters(
+    result=engine.optimize_parameters(
     test_objective, initial_params, param_bounds, method
     )
 
@@ -757,7 +764,7 @@ def test_objective(params):
     safe_print(f"Duration: {result.duration:.2f}s")
 
     # Get optimization summary
-    summary = engine.get_optimization_summary()
+    summary=engine.get_optimization_summary()
     safe_print(f"\nOptimization Summary:")
     print(json.dumps(summary, indent=2, default=str))
 

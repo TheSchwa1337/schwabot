@@ -1,3 +1,4 @@
+from schwabot import initialize, get_info, shutdown
 from utils.safe_print import safe_print, info, warn, error, success, debug
 #!/usr/bin/env python3
 """
@@ -30,7 +31,6 @@ from pathlib import Path
 project_root = Path(__file__).parent.parent
 sys.path.insert(0, str(project_root))
 
-from schwabot import initialize, get_info, shutdown
 
 # Configure logging
 logging.basicConfig(
@@ -44,46 +44,47 @@ logging.basicConfig(
 
 logger = logging.getLogger(__name__)
 
+
 class SchwabotSystem:
     """Main Schwabot system controller."""
-    
+
     def __init__(self):
         self.running = False
         self.startup_time: Optional[datetime] = None
         self.config: Dict[str, Any] = {}
         self.components: Dict[str, Any] = {}
         self.tasks: List[asyncio.Task] = []
-        
+
     async def startup(self, config_path: Optional[str] = None) -> bool:
         """Start up the Schwabot system."""
         try:
     pass
             self.startup_time = datetime.now()
             logger.info("Starting Schwabot trading system...")
-            
+
             # Load configuration
             if not await self._load_configuration(config_path):
                 logger.error("Failed to load configuration")
                 return False
-            
+
             # Initialize core package
             init_result = initialize()
             if init_result['status'] != 'ready':
                 logger.error(f"Package initialization failed: {init_result.get('error', 'Unknown error')}")
                 return False
-            
+
             # Initialize system components
             if not await self._initialize_components():
                 logger.error("Failed to initialize system components")
                 return False
-            
+
             # Start background tasks
             await self._start_background_tasks()
-            
+
             self.running = True
             logger.info("Schwabot system started successfully")
             return True
-            
+
         except Exception as e:
             logger.error(f"System startup failed: {e}")
             return False
