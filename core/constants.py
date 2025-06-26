@@ -140,7 +140,7 @@ class ErrorCodes:
     INVALID_QUANTITY_ERROR = 1018
     INVALID_PRICE_ERROR = 1019
 
-# Status Codes
+    # Status Codes
 class StatusCodes:
     PENDING = "pending"
     ACTIVE = "active"
@@ -151,7 +151,7 @@ class StatusCodes:
     PARTIAL = "partial"
     REJECTED = "rejected"
 
-# Order Types
+    # Order Types
 class OrderTypes:
     MARKET = "market"
     LIMIT = "limit"
@@ -162,12 +162,12 @@ class OrderTypes:
     TWAP = "twap"
     VWAP = "vwap"
 
-# Order Sides
+    # Order Sides
 class OrderSides:
     BUY = "buy"
     SELL = "sell"
 
-# Time Frames
+    # Time Frames
 class TimeFrames:
     TICK = "tick"
     SECOND = "1s"
@@ -181,7 +181,7 @@ class TimeFrames:
     WEEK = "1w"
     MONTH = "1M"
 
-# Data Types
+    # Data Types
 class DataTypes:
     OHLCV = "ohlcv"
     TICK = "tick"
@@ -190,7 +190,7 @@ class DataTypes:
     FUNDING_RATE = "funding_rate"
     OPEN_INTEREST = "open_interest"
 
-# Strategy Types
+    # Strategy Types
 class StrategyTypes:
     MEAN_REVERSION = "mean_reversion"
     MOMENTUM = "momentum"
@@ -201,7 +201,7 @@ class StrategyTypes:
     SWING_TRADING = "swing_trading"
     POSITION_TRADING = "position_trading"
 
-# Risk Models
+    # Risk Models
 class RiskModels:
     VAR = "var"
     CVAR = "cvar"
@@ -210,7 +210,7 @@ class RiskModels:
     MARKOWITZ = "markowitz"
     MONTE_CARLO = "monte_carlo"
 
-# Optimization Methods
+    # Optimization Methods
 class OptimizationMethods:
     GRADIENT_DESCENT = "gradient_descent"
     GENETIC_ALGORITHM = "genetic_algorithm"
@@ -219,7 +219,7 @@ class OptimizationMethods:
     RANDOM_SEARCH = "random_search"
     PARTICLE_SWARM = "particle_swarm"
 
-# Validation Types
+    # Validation Types
 class ValidationTypes:
     TYPE = "type"
     RANGE = "range"
@@ -228,7 +228,7 @@ class ValidationTypes:
     BUSINESS_LOGIC = "business_logic"
     CROSS_FIELD = "cross_field"
 
-# Log Levels
+    # Log Levels
 class LogLevels:
     DEBUG = "DEBUG"
     INFO = "INFO"
@@ -236,14 +236,14 @@ class LogLevels:
     ERROR = "ERROR"
     CRITICAL = "CRITICAL"
 
-# Cache Types
+    # Cache Types
 class CacheTypes:
     MEMORY = "memory"
     REDIS = "redis"
     DISK = "disk"
     DATABASE = "database"
 
-# Database Types
+    # Database Types
 class DatabaseTypes:
     SQLITE = "sqlite"
     POSTGRESQL = "postgresql"
@@ -251,14 +251,14 @@ class DatabaseTypes:
     MONGODB = "mongodb"
     INFLUXDB = "influxdb"
 
-# Exchange Types
+    # Exchange Types
 class ExchangeTypes:
     SPOT = "spot"
     FUTURES = "futures"
     OPTIONS = "options"
     SWAPS = "swaps"
 
-# Market Types
+    # Market Types
 class MarketTypes:
     BULL = "bull"
     BEAR = "bear"
@@ -266,7 +266,7 @@ class MarketTypes:
     VOLATILE = "volatile"
     TRENDING = "trending"
 
-# Signal Types
+    # Signal Types
 class SignalTypes:
     BUY = "buy"
     SELL = "sell"
@@ -274,7 +274,7 @@ class SignalTypes:
     STRONG_BUY = "strong_buy"
     STRONG_SELL = "strong_sell"
 
-# Indicator Types
+    # Indicator Types
 class IndicatorTypes:
     TREND = "trend"
     MOMENTUM = "momentum"
@@ -283,7 +283,7 @@ class IndicatorTypes:
     SUPPORT_RESISTANCE = "support_resistance"
     OSCILLATOR = "oscillator"
 
-# Configuration Sections
+    # Configuration Sections
 class ConfigSections:
     SYSTEM = "system"
     TRADING = "trading"
@@ -296,7 +296,7 @@ class ConfigSections:
     NETWORK = "network"
     SECURITY = "security"
 
-# File Extensions
+    # File Extensions
 class FileExtensions:
     JSON = ".json"
     YAML = ".yaml"
@@ -307,7 +307,7 @@ class FileExtensions:
     DB = ".db"
     SQLITE = ".sqlite"
 
-# Default File Paths
+    # Default File Paths
 class DefaultPaths:
     CONFIG = "config/"
     LOGS = "logs/"
@@ -318,7 +318,7 @@ class DefaultPaths:
     EXPORTS = "exports/"
     REPORTS = "reports/"
 
-# Default File Names
+    # Default File Names
 class DefaultFiles:
     CONFIG = "config.json"
     LOG = "schwabot.log"
@@ -327,103 +327,103 @@ class DefaultFiles:
     CACHE = "cache.db"
     STATE = "state.json"
 
-# Mathematical Functions Constants
+    # Mathematical Functions Constants
 class MathConstants:
     # Precision constants
     EPSILON = 1e-10
     INFINITY = float('inf')
     NEGATIVE_INFINITY = float('-inf')
-    
+
     # Statistical constants
     CONFIDENCE_95 = 1.96
     CONFIDENCE_99 = 2.576
     CONFIDENCE_99_9 = 3.291
-    
+
     # Financial constants
     COMPOUNDING_FREQUENCIES = {
-        'daily': 365,
-        'weekly': 52,
-        'monthly': 12,
-        'quarterly': 4,
-        'semi_annual': 2,
-        'annual': 1
+    'daily': 365,
+    'weekly': 52,
+    'monthly': 12,
+    'quarterly': 4,
+    'semi_annual': 2,
+    'annual': 1
     }
 
-# Trading System Constants
+    # Trading System Constants
 class TradingConstants:
     # Position sizing
     KELLY_FRACTION = 0.25  # Conservative Kelly fraction
     MAX_LEVERAGE = 10.0
     MIN_LEVERAGE = 1.0
-    
+
     # Order management
     MAX_ORDERS_PER_SYMBOL = 10
     MAX_ACTIVE_ORDERS = 100
     ORDER_TIMEOUT = 300  # 5 minutes
-    
+
     # Risk limits
     MAX_DAILY_TRADES = 1000
     MAX_DAILY_VOLUME = 1000000  # $1M
     MAX_POSITION_DURATION = 86400  # 24 hours in seconds
-    
+
     # Performance thresholds
     MIN_PROFIT_FACTOR = 1.1
     MAX_DRAWDOWN_DURATION = 30  # days
     MIN_RETURN_ON_CAPITAL = 0.1  # 10%
 
-# System Performance Constants
+    # System Performance Constants
 class PerformanceConstants:
     # Response time thresholds
     MAX_API_RESPONSE_TIME = 1.0  # seconds
     MAX_DB_QUERY_TIME = 0.1  # seconds
     MAX_CACHE_ACCESS_TIME = 0.001  # seconds
-    
+
     # Throughput thresholds
     MIN_TRADES_PER_SECOND = 10
     MIN_DATA_POINTS_PER_SECOND = 1000
     MAX_MEMORY_USAGE_PERCENT = 80
-    
+
     # Error rate thresholds
     MAX_ERROR_RATE = 0.01  # 1%
     MAX_TIMEOUT_RATE = 0.05  # 5%
     MAX_FAILURE_RATE = 0.001  # 0.1%
 
-# Security Constants
+    # Security Constants
 class SecurityConstants:
     # Authentication
     TOKEN_EXPIRY_HOURS = 24
     REFRESH_TOKEN_EXPIRY_DAYS = 30
     MAX_LOGIN_ATTEMPTS = 5
     LOCKOUT_DURATION_MINUTES = 30
-    
+
     # Encryption
     KEY_SIZE = 256
     SALT_SIZE = 32
     ITERATION_COUNT = 100000
-    
+
     # API Security
     MAX_API_KEYS_PER_USER = 5
     API_KEY_EXPIRY_DAYS = 365
     REQUIRED_PERMISSIONS = ['read', 'trade']
 
-# Notification Constants
+    # Notification Constants
 class NotificationConstants:
     # Email
     SMTP_TIMEOUT = 30
     MAX_EMAIL_RECIPIENTS = 10
     EMAIL_RATE_LIMIT = 10  # per hour
-    
+
     # SMS
     SMS_RATE_LIMIT = 5  # per hour
     MAX_SMS_LENGTH = 160
-    
+
     # Webhook
     WEBHOOK_TIMEOUT = 10
     MAX_WEBHOOK_RETRIES = 3
     WEBHOOK_RATE_LIMIT = 100  # per minute
 
-# Default Values Dictionary
-DEFAULT_VALUES = {
+    # Default Values Dictionary
+    DEFAULT_VALUES = {
     'commission_rate': DEFAULT_COMMISSION_RATE,
     'slippage': DEFAULT_SLIPPAGE,
     'stop_loss': DEFAULT_STOP_LOSS,
@@ -450,50 +450,52 @@ DEFAULT_VALUES = {
 
 # Error Messages Dictionary
 ERROR_MESSAGES = {
-    ErrorCodes.SUCCESS: "Operation completed successfully",
-    ErrorCodes.GENERAL_ERROR: "An unexpected error occurred",
-    ErrorCodes.VALIDATION_ERROR: "Data validation failed",
-    ErrorCodes.CONFIGURATION_ERROR: "Configuration error",
-    ErrorCodes.DATABASE_ERROR: "Database operation failed",
-    ErrorCodes.NETWORK_ERROR: "Network connection failed",
-    ErrorCodes.API_ERROR: "API request failed",
-    ErrorCodes.TIMEOUT_ERROR: "Operation timed out",
-    ErrorCodes.MEMORY_ERROR: "Insufficient memory",
-    ErrorCodes.PERMISSION_ERROR: "Permission denied",
-    ErrorCodes.AUTHENTICATION_ERROR: "Authentication failed",
-    ErrorCodes.AUTHORIZATION_ERROR: "Authorization failed",
-    ErrorCodes.RATE_LIMIT_ERROR: "Rate limit exceeded",
-    ErrorCodes.INSUFFICIENT_FUNDS_ERROR: "Insufficient funds",
-    ErrorCodes.INSUFFICIENT_LIQUIDITY_ERROR: "Insufficient liquidity",
-    ErrorCodes.ORDER_REJECTED_ERROR: "Order rejected",
-    ErrorCodes.MARKET_CLOSED_ERROR: "Market is closed",
-    ErrorCodes.INVALID_SYMBOL_ERROR: "Invalid symbol",
-    ErrorCodes.INVALID_ORDER_TYPE_ERROR: "Invalid order type",
-    ErrorCodes.INVALID_QUANTITY_ERROR: "Invalid quantity",
-    ErrorCodes.INVALID_PRICE_ERROR: "Invalid price"
+ErrorCodes.SUCCESS: "Operation completed successfully",
+ErrorCodes.GENERAL_ERROR: "An unexpected error occurred",
+ErrorCodes.VALIDATION_ERROR: "Data validation failed",
+ErrorCodes.CONFIGURATION_ERROR: "Configuration error",
+ErrorCodes.DATABASE_ERROR: "Database operation failed",
+ErrorCodes.NETWORK_ERROR: "Network connection failed",
+ErrorCodes.API_ERROR: "API request failed",
+ErrorCodes.TIMEOUT_ERROR: "Operation timed out",
+ErrorCodes.MEMORY_ERROR: "Insufficient memory",
+ErrorCodes.PERMISSION_ERROR: "Permission denied",
+ErrorCodes.AUTHENTICATION_ERROR: "Authentication failed",
+ErrorCodes.AUTHORIZATION_ERROR: "Authorization failed",
+ErrorCodes.RATE_LIMIT_ERROR: "Rate limit exceeded",
+ErrorCodes.INSUFFICIENT_FUNDS_ERROR: "Insufficient funds",
+ErrorCodes.INSUFFICIENT_LIQUIDITY_ERROR: "Insufficient liquidity",
+ErrorCodes.ORDER_REJECTED_ERROR: "Order rejected",
+ErrorCodes.MARKET_CLOSED_ERROR: "Market is closed",
+ErrorCodes.INVALID_SYMBOL_ERROR: "Invalid symbol",
+ErrorCodes.INVALID_ORDER_TYPE_ERROR: "Invalid order type",
+ErrorCodes.INVALID_QUANTITY_ERROR: "Invalid quantity",
+ErrorCodes.INVALID_PRICE_ERROR: "Invalid price"
 }
 
 # Success Messages Dictionary
 SUCCESS_MESSAGES = {
-    'order_placed': "Order placed successfully",
-    'order_cancelled': "Order cancelled successfully",
-    'position_opened': "Position opened successfully",
-    'position_closed': "Position closed successfully",
-    'strategy_started': "Strategy started successfully",
-    'strategy_stopped': "Strategy stopped successfully",
-    'config_saved': "Configuration saved successfully",
-    'backup_created': "Backup created successfully",
-    'data_exported': "Data exported successfully",
-    'system_started': "System started successfully",
-    'system_stopped': "System stopped successfully"
+'order_placed': "Order placed successfully",
+'order_cancelled': "Order cancelled successfully",
+'position_opened': "Position opened successfully",
+'position_closed': "Position closed successfully",
+'strategy_started': "Strategy started successfully",
+'strategy_stopped': "Strategy stopped successfully",
+'config_saved': "Configuration saved successfully",
+'backup_created': "Backup created successfully",
+'data_exported': "Data exported successfully",
+'system_started': "System started successfully",
+'system_stopped': "System stopped successfully"
 }
 
 def get_constant(name: str, default: Any = None) -> Any:
     """Get a constant value by name."""
     try:
-        return globals().get(name, default)
+    pass
+    pass
+    return globals().get(name, default)
     except Exception:
-        return default
+    return default
 
 def get_default_value(key: str, default: Any = None) -> Any:
     """Get a default value by key."""
@@ -510,46 +512,48 @@ def get_success_message(key: str) -> str:
 def main():
     """Main function for testing."""
     try:
-        safe_print("Schwabot Constants Module")
-        safe_print("=" * 50)
-        
-        # Test mathematical constants
-        safe_print(f"PI: {PI}")
-        safe_print(f"E: {E}")
-        safe_print(f"Golden Ratio: {GOLDEN_RATIO}")
-        
-        # Test financial constants
-        safe_print(f"Risk-free rate (annual): {RISK_FREE_RATE_ANNUAL}")
-        safe_print(f"Risk-free rate (daily): {RISK_FREE_RATE_DAILY}")
-        safe_print(f"Trading days per year: {TRADING_DAYS_PER_YEAR}")
-        
-        # Test trading constants
-        safe_print(f"Default commission rate: {DEFAULT_COMMISSION_RATE}")
-        safe_print(f"Default slippage: {DEFAULT_SLIPPAGE}")
-        safe_print(f"Max position size: {MAX_POSITION_SIZE}")
-        
-        # Test system constants
-        safe_print(f"Default log level: {DEFAULT_LOG_LEVEL}")
-        safe_print(f"Default cache size: {DEFAULT_CACHE_SIZE}")
-        safe_print(f"Default timeout: {DEFAULT_TIMEOUT}")
-        
-        # Test error codes
-        safe_print(f"Success code: {ErrorCodes.SUCCESS}")
-        safe_print(f"General error code: {ErrorCodes.GENERAL_ERROR}")
-        safe_print(f"Validation error code: {ErrorCodes.VALIDATION_ERROR}")
-        
-        # Test helper functions
-        safe_print(f"Constant PI: {get_constant('PI')}")
-        safe_print(f"Default commission: {get_default_value('commission_rate')}")
-        safe_print(f"Error message: {get_error_message(ErrorCodes.SUCCESS)}")
-        safe_print(f"Success message: {get_success_message('order_placed')}")
-        
-        safe_print("\nAll constants loaded successfully!")
-        
+    pass
+    pass
+    safe_print("Schwabot Constants Module")
+    safe_print("=" * 50)
+
+    # Test mathematical constants
+    safe_print(f"PI: {PI}")
+    safe_print(f"E: {E}")
+    safe_print(f"Golden Ratio: {GOLDEN_RATIO}")
+
+    # Test financial constants
+    safe_print(f"Risk-free rate (annual): {RISK_FREE_RATE_ANNUAL}")
+    safe_print(f"Risk-free rate (daily): {RISK_FREE_RATE_DAILY}")
+    safe_print(f"Trading days per year: {TRADING_DAYS_PER_YEAR}")
+
+    # Test trading constants
+    safe_print(f"Default commission rate: {DEFAULT_COMMISSION_RATE}")
+    safe_print(f"Default slippage: {DEFAULT_SLIPPAGE}")
+    safe_print(f"Max position size: {MAX_POSITION_SIZE}")
+
+    # Test system constants
+    safe_print(f"Default log level: {DEFAULT_LOG_LEVEL}")
+    safe_print(f"Default cache size: {DEFAULT_CACHE_SIZE}")
+    safe_print(f"Default timeout: {DEFAULT_TIMEOUT}")
+
+    # Test error codes
+    safe_print(f"Success code: {ErrorCodes.SUCCESS}")
+    safe_print(f"General error code: {ErrorCodes.GENERAL_ERROR}")
+    safe_print(f"Validation error code: {ErrorCodes.VALIDATION_ERROR}")
+
+    # Test helper functions
+    safe_print(f"Constant PI: {get_constant('PI')}")
+    safe_print(f"Default commission: {get_default_value('commission_rate')}")
+    safe_print(f"Error message: {get_error_message(ErrorCodes.SUCCESS)}")
+    safe_print(f"Success message: {get_success_message('order_placed')}")
+
+    safe_print("\nAll constants loaded successfully!")
+
     except Exception as e:
-        safe_print(f"Error in main: {e}")
-        import traceback
-        traceback.print_exc()
+    safe_print(f"Error in main: {e}")
+import traceback
+traceback.print_exc()
 
 if __name__ == "__main__":
-    main() 
+    main()

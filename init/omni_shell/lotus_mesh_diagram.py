@@ -1,4 +1,4 @@
-"""TODO: document module."""."""
+"""TODO: document module."""
 import os
 import platform
 from typing import Any
@@ -14,11 +14,11 @@ from core.unified_math_system import unified_math
 
 
 class WindowsCliCompatibilityHandler:
-    """Windows CLI compatibility for emoji and Unicode handling."""."""
+    """Windows CLI compatibility for emoji and Unicode handling."""
 
     @staticmethod
     def is_windows_cli() -> bool:
-        """Detect if running in Windows CLI environment."""."""
+        """Detect if running in Windows CLI environment."""
         return platform.system() == "Windows" and (
             "cmd" in os.environ.get("COMSPEC", "").lower()
             or "powershell" in os.environ.get("PSModulePath", "").lower()
@@ -26,7 +26,7 @@ class WindowsCliCompatibilityHandler:
 
     @staticmethod
     def safe_print(message: str, use_emoji: bool = True) -> str:
-        """Print message safely with Windows CLI compatibility."""."""
+        """Print message safely with Windows CLI compatibility."""
         if WindowsCliCompatibilityHandler.is_windows_cli() and use_emoji:
             emoji_mapping = {
                 "🚨": "[ALERT]",
@@ -42,9 +42,10 @@ class WindowsCliCompatibilityHandler:
 
     @staticmethod
     def log_safe(logger: Any, level: str, message: str) -> None:
-        """Log message safely with Windows CLI compatibility."""."""
+        """Log message safely with Windows CLI compatibility."""
         safe_message = WindowsCliCompatibilityHandler.safe_print(message)
         try:
+    pass
             getattr(logger, level.lower())(safe_message)
         except UnicodeEncodeError:
             ascii_message = safe_message.encode(

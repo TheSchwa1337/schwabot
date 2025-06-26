@@ -35,6 +35,7 @@ class LineRenderEngine:
             Dictionary with line data
         """
         try:
+    pass
             if not prices:
                 return {"points": [], "error": "No price data"}
                 
@@ -76,6 +77,7 @@ class LineRenderEngine:
             Dictionary with function line data
         """
         try:
+    pass
             if not func_values:
                 return {"points": [], "error": "No function data"}
                 
@@ -111,6 +113,7 @@ class LineRenderEngine:
             Dictionary with tensor visualization data
         """
         try:
+    pass
             if tensor_data.size == 0:
                 return {"lines": [], "error": "No tensor data"}
                 
