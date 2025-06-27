@@ -10,8 +10,8 @@ providing mathematical decision models, risk assessment, and AI-driven
 trading decisions.
 
 Core Mathematical Functions:
-- Decision Score: D(x) = Σ(wᵢ × sᵢ(x)) where wᵢ are decision weights
-- Risk Assessment: R(x) = √(Σ(risk_factorᵢ²))
+- Decision Score: D(x) = \\u03a3(w\\u1d62 \\u00d7 s\\u1d62(x)) where w\\u1d62 are decision weights
+- Risk Assessment: R(x) = \\u221a(\\u03a3(risk_factor\\u1d62\\u00b2))
 - Confidence Level: C(x) = sigmoid(decision_score / risk_threshold)
 - Action Probability: P(a|x) = softmax(decision_scores)
 
@@ -960,3 +960,5 @@ traceback.print_exc()
 
 if __name__ == "__main__":
     main()
+
+"""

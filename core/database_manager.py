@@ -10,9 +10,9 @@ providing mathematical query optimization, connection pooling, and real-time
 monitoring capabilities.
 
 Core Mathematical Functions:
-- Query Complexity: C(q) = Σ(wᵢ × cᵢ) where wᵢ are operation weights
-- Connection Efficiency: E = (active_connections / max_connections) × 100%
-- Cache Hit Ratio: H = (cache_hits / total_queries) × 100%
+- Query Complexity: C(q) = \\u03a3(w\\u1d62 \\u00d7 c\\u1d62) where w\\u1d62 are operation weights
+- Connection Efficiency: E = (active_connections / max_connections) \\u00d7 100%
+- Cache Hit Ratio: H = (cache_hits / total_queries) \\u00d7 100%
 - Query Performance: P = execution_time / expected_time
 
 Core Functionality:
@@ -747,3 +747,5 @@ traceback.print_exc()
 
 if __name__ == "__main__":
     main()
+
+"""

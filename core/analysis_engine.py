@@ -9,11 +9,11 @@ This module implements a comprehensive analysis engine for Schwabot,
 performing advanced mathematical analysis, signal processing, and pattern recognition.
 
 Core Mathematical Functions:
-- Signal Analysis: S(t) = Σ(aₙ * unified_math.cos(ωₙt + φₙ)) + noise
+- Signal Analysis: S(t) = \\u03a3(a\\u2099 * unified_math.cos(\\u03c9\\u2099t + \\u03c6\\u2099)) + noise
 - Pattern Recognition: P(x) = argmax(P(C|x)) where C are pattern classes
 - Technical Indicators: RSI = 100 - (100 / (1 + RS)) where RS = avg_gain / avg_loss
-- Fourier Analysis: X(ω) = ∫x(t)e^(-jωt)dt
-- Wavelet Transform: W(a,b) = (1/√|a|)∫x(t)ψ*((t-b)/a)dt
+- Fourier Analysis: X(\\u03c9) = \\u222bx(t)e^(-j\\u03c9t)dt
+- Wavelet Transform: W(a,b) = (1/\\u221a|a|)\\u222bx(t)\\u03c8*((t-b)/a)dt
 
 Core Functionality:
 - Real-time market data analysis
@@ -1214,7 +1214,7 @@ def main():
 
     # Get analysis summary
     summary = engine.get_analysis_summary()
-    safe_print(f"\nAnalysis Summary:")
+    safe_print(f"\\nAnalysis Summary:")
     print(json.dumps(summary, indent=2, default=str))
 
     except Exception as e:

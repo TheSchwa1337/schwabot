@@ -10,10 +10,10 @@ providing mathematical data transformation, real-time streaming, and advanced
 analytics capabilities.
 
 Core Mathematical Functions:
-- Data Transformation: T(x) = Σ(wᵢ × fᵢ(x)) where wᵢ are transformation weights
-- Stream Processing: S(t) = ∫f(x)dx from t₀ to t
+- Data Transformation: T(x) = \\u03a3(w\\u1d62 \\u00d7 f\\u1d62(x)) where w\\u1d62 are transformation weights
+- Stream Processing: S(t) = \\u222bf(x)dx from t\\u2080 to t
 - Feature Extraction: F(x) = argmax(unified_math.correlation(x, target))
-- Data Normalization: N(x) = (x - μ) / σ
+- Data Normalization: N(x) = (x - \\u03bc) / \\u03c3
 
 Core Functionality:
 - Real-time data streaming and processing
@@ -789,3 +789,5 @@ traceback.print_exc()
 
 if __name__ == "__main__":
     main()
+
+"""

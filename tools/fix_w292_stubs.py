@@ -66,7 +66,7 @@ def validate_stub_integrity(file_path: str) -> Dict[str, any]:
         has_logic = b'def ' in content or b'class ' in content
         file_size = len(content)
 
-        # Mathematical integrity check: R(S_i) = 1 ⟺ E_i = 1 ∧ P(S_i) = TRUE
+        # Mathematical integrity check: R(S_i) = 1 \\u27fa E_i = 1 \\u2227 P(S_i) = TRUE
         is_valid_stub = has_newline and has_logic and file_size > 0
 
         return {
@@ -89,7 +89,7 @@ def fix_w292_error(file_path: str) -> bool:
     """
     Fix W292 error by ensuring file ends with newline.
 
-    Mathematical fix: ∀f ∈ StubSet, if last(f) ≠ "\n", then f ← f + "\n"
+    Mathematical fix: \\u2200f \\u2208 StubSet, if last(f) \\u2260 "\n", then f \\u2190 f + "\n"
     """
     try:
     pass
@@ -99,14 +99,14 @@ def fix_w292_error(file_path: str) -> bool:
 
             if last_char != b'\n':
                 f.write(b'\n')
-                safe_print(f"✅ Fixed W292: {file_path}")
+                safe_print(f"\\u2705 Fixed W292: {file_path}")
                 return True
             else:
-                safe_print(f"✅ Already correct: {file_path}")
+                safe_print(f"\\u2705 Already correct: {file_path}")
                 return True
 
     except Exception as e:
-        safe_print(f"❌ Error fixing {file_path}: {e}")
+        safe_print(f"\\u274c Error fixing {file_path}: {e}")
         return False
 
 
@@ -171,21 +171,21 @@ def main():
     """
     Main execution function for W292 stub fixing.
     """
-    safe_print("🧠 Schwabot W292 Stub Fixer")
+    safe_print("\\u1f9e0 Schwabot W292 Stub Fixer")
     safe_print("=" * 50)
 
     # Step 1: Validate current state
-    safe_print("\n📊 Step 1: Validating current stub integrity...")
+    safe_print("\\n\\u1f4ca Step 1: Validating current stub integrity...")
     validation_results = {}
 
     for file_path in STUB_FILES:
         if os.path.exists(file_path):
             validation_results[file_path] = validate_stub_integrity(file_path)
         else:
-            safe_print(f"⚠️  File not found: {file_path}")
+            safe_print(f"\\u26a0\\ufe0f  File not found: {file_path}")
 
     # Step 2: Fix W292 errors
-    safe_print("\n🔧 Step 2: Fixing W292 errors...")
+    safe_print("\\n\\u1f527 Step 2: Fixing W292 errors...")
     fixed_count = 0
 
     for file_path in STUB_FILES:
@@ -194,11 +194,11 @@ def main():
                 fixed_count += 1
 
     # Step 3: Create stub registry
-    safe_print("\n📋 Step 3: Creating stub registry...")
+    safe_print("\\n\\u1f4cb Step 3: Creating stub registry...")
     registry = create_stub_registry()
 
     # Step 4: Generate integration report
-    safe_print("\n📈 Step 4: Integration Report")
+    safe_print("\\n\\u1f4c8 Step 4: Integration Report")
     safe_print("-" * 30)
 
     domain_counts = {}
@@ -210,13 +210,13 @@ def main():
     for domain, count in domain_counts.items():
         safe_print(f"{domain.capitalize()} domain: {count} files")
 
-    safe_print(f"\n✅ Summary:")
+    safe_print(f"\\n\\u2705 Summary:")
     safe_print(f"   - Files processed: {len(STUB_FILES)}")
     safe_print(f"   - W292 errors fixed: {fixed_count}")
     safe_print(f"   - Domains identified: {len(domain_counts)}")
 
     # Step 5: Generate integration code
-    safe_print("\n🔗 Step 5: Generating integration code...")
+    safe_print("\\n\\u1f517 Step 5: Generating integration code...")
 
     integration_code = """
 # Auto-generated stub integration code
@@ -260,9 +260,9 @@ def load_stub_modules():
     with open('core/stub_integration.py', 'w') as f:
         f.write(integration_code)
 
-    safe_print("✅ Generated: core/stub_integration.py")
+    safe_print("\\u2705 Generated: core/stub_integration.py")
 
-    safe_print("\n🎯 Next Steps:")
+    safe_print("\\n\\u1f3af Next Steps:")
     safe_print("1. Review the generated stub_integration.py")
     safe_print("2. Integrate load_stub_modules() into your main execution")
     safe_print("3. Run flake8 to confirm all W292 errors are resolved")

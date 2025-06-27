@@ -11,8 +11,8 @@ for Schwabot, providing mathematical security validation, token management,
 and role-based access control capabilities.
 
 Core Mathematical Functions:
-- Security Score Calculation: S = Σ(wᵢ × sᵢ) / Σ(wᵢ) where wᵢ are security weights
-- Token Entropy Validation: E = -Σ(pᵢ × log₂(pᵢ)) where pᵢ are token probabilities
+- Security Score Calculation: S = \\u03a3(w\\u1d62 \\u00d7 s\\u1d62) / \\u03a3(w\\u1d62) where w\\u1d62 are security weights
+- Token Entropy Validation: E = -\\u03a3(p\\u1d62 \\u00d7 log\\u2082(p\\u1d62)) where p\\u1d62 are token probabilities
 - Access Control Matrix: A[i,j] = 1 if user i has permission j, 0 otherwise
 
 Core Functionality:
@@ -354,7 +354,7 @@ def _generate_auth_token(self, user_id: str) -> AuthToken:
     entropy_score=entropy_score,
     metadata={
     "created": datetime.now().isoformat(),
-    "ip_address": "127.0.0.1"  # In production, get from request
+    "ip_address": "127.0_0.1"  # In production, get from request
     }
     )
 
@@ -372,7 +372,7 @@ def _calculate_token_entropy(self, token: str) -> float:
     Calculate token entropy.
 
     Mathematical Formula:
-    E = -Σ(pᵢ × log₂(pᵢ)) where pᵢ are token probabilities
+    E = -\\u03a3(p\\u1d62 \\u00d7 log\\u2082(p\\u1d62)) where p\\u1d62 are token probabilities
     """
     try:
     pass
@@ -475,7 +475,7 @@ def calculate_security_score(self, user_id: str) -> float:
     Calculate user security score.
 
     Mathematical Formula:
-    S = Σ(wᵢ × sᵢ) / Σ(wᵢ) where wᵢ are security weights and sᵢ are security scores
+    S = \\u03a3(w\\u1d62 \\u00d7 s\\u1d62) / \\u03a3(w\\u1d62) where w\\u1d62 are security weights and s\\u1d62 are security scores
     """
     try:
     pass
@@ -879,7 +879,7 @@ def _record_failed_login(self, user_id: str) -> None:
     security_score=0.0,
     risk_level="high",
     timestamp=datetime.now(),
-    metadata={"ip_address": "127.0.0.1"}
+    metadata={"ip_address": "127.0_0.1"}
     )
 
     self.security_audits[audit_id]=audit
@@ -904,7 +904,7 @@ def _record_successful_login(self, user_id: str) -> None:
     security_score=security_score,
     risk_level="low" if security_score > 0.7 else "medium",
     timestamp=datetime.now(),
-    metadata={"ip_address": "127.0.0.1"}
+    metadata={"ip_address": "127.0_0.1"}
     )
 
     self.security_audits[audit_id]=audit

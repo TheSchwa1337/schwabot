@@ -9,12 +9,12 @@ This module implements a comprehensive performance monitoring system for Schwabo
 tracking trading performance, calculating metrics, and providing optimization insights.
 
 Core Mathematical Functions:
-- Sharpe Ratio: SR = (R_p - R_f) / σ_p where R_p is portfolio return, R_f is risk-free rate
+- Sharpe Ratio: SR = (R_p - R_f) / \\u03c3_p where R_p is portfolio return, R_f is risk-free rate
 - Maximum Drawdown: MDD = max((P_peak - P_t) / P_peak) for all t
-- Sortino Ratio: SR = (R_p - R_f) / σ_down where σ_down is downside deviation
+- Sortino Ratio: SR = (R_p - R_f) / \\u03c3_down where \\u03c3_down is downside deviation
 - Calmar Ratio: CR = Annual Return / Maximum Drawdown
-- Information Ratio: IR = (R_p - R_b) / σ_excess where R_b is benchmark return
-- VaR: P(L > VaR) = α where L is loss and α is confidence level
+- Information Ratio: IR = (R_p - R_b) / \\u03c3_excess where R_b is benchmark return
+- VaR: P(L > VaR) = \\u03b1 where L is loss and \\u03b1 is confidence level
 
 Core Functionality:
 - Real-time performance tracking
@@ -1020,7 +1020,7 @@ def main():
     end_date=datetime.now()
     report=monitor.generate_performance_report(start_date, end_date)
 
-    safe_print(f"\nPerformance Report:")
+    safe_print(f"\\nPerformance Report:")
     safe_print(f"Total Return: {report.total_return:.2%}")
     safe_print(f"Annualized Return: {report.annualized_return:.2%}")
     safe_print(f"Sharpe Ratio: {report.sharpe_ratio:.2f}")
@@ -1030,7 +1030,7 @@ def main():
 
     # Get performance summary
     summary=monitor.get_performance_summary()
-    safe_print(f"\nPerformance Summary:")
+    safe_print(f"\\nPerformance Summary:")
     print(json.dumps(summary, indent=2, default=str))
 
     except Exception as e:
@@ -1040,3 +1040,5 @@ traceback.print_exc()
 
 if __name__ == "__main__":
     main()
+
+"""

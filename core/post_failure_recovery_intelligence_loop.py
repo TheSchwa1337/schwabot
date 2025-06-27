@@ -10,8 +10,8 @@ providing comprehensive fallback logic, trade memory recall, and intelligent
 recovery mechanisms for failed trades or malformed cycles.
 
 Core Mathematical Functions:
-- Loss Threshold Triggering: L_trigger = Σ(losses_last_5_ticks) > ε
-- Fallback Position Vectorization: V_fb = mean([H₁, H₂, ..., Hₙ]) where H = profitable historical hashes
+- Loss Threshold Triggering: L_trigger = \\u03a3(losses_last_5_ticks) > \\u03b5
+- Fallback Position Vectorization: V_fb = mean([H\\u2081, H\\u2082, ..., H\\u2099]) where H = profitable historical hashes
 - Profit Equilibrium Correction: E_corr = (P_prev_best - P_current) / t
 
 Core Functionality:
@@ -225,11 +225,11 @@ def check_loss_threshold(self, recent_losses: List[float], threshold_value: floa
     Check Loss Threshold Triggering.
 
     Mathematical Formula:
-    L_trigger = Σ(losses_last_5_ticks) > ε
+    L_trigger = \\u03a3(losses_last_5_ticks) > \\u03b5
 
     Where:
     - losses_last_5_ticks is the list of recent losses
-    - ε is the threshold value
+    - \\u03b5 is the threshold value
     - L_trigger indicates if threshold is exceeded
     """
     try:
@@ -277,10 +277,10 @@ def calculate_fallback_position(self, historical_hashes: List[str],
     Calculate Fallback Position Vectorization.
 
     Mathematical Formula:
-    V_fb = mean([H₁, H₂, ..., Hₙ]) where H = profitable historical hashes
+    V_fb = mean([H\\u2081, H\\u2082, ..., H\\u2099]) where H = profitable historical hashes
 
     Where:
-    - H₁, H₂, ..., Hₙ are the profitable historical hashes
+    - H\\u2081, H\\u2082, ..., H\\u2099 are the profitable historical hashes
     - V_fb is the fallback position vector
     """
     try:

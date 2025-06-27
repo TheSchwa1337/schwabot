@@ -12,7 +12,7 @@ Core Mathematical Functions:
 - Parameter Optimization: P* = argmin(L(P)) where L is loss function
 - Strategy Optimization: S* = argmax(R(S)) where R is return function
 - Performance Tuning: T* = argmin(C(T)) where C is cost function
-- Multi-objective Optimization: F(x) = [f₁(x], f₂(x], ..., fₙ(x))
+- Multi-objective Optimization: F(x) = [f\\u2081(x], f\\u2082(x], ..., f\\u2099(x))
 
 Core Functionality:
 - Mathematical optimization algorithms
@@ -752,7 +752,7 @@ def test_objective(params):
     ]
 
     for method in methods:
-    safe_print(f"\nTesting {method.value}...")
+    safe_print(f"\\nTesting {method.value}...")
     result=engine.optimize_parameters(
     test_objective, initial_params, param_bounds, method
     )
@@ -765,7 +765,7 @@ def test_objective(params):
 
     # Get optimization summary
     summary=engine.get_optimization_summary()
-    safe_print(f"\nOptimization Summary:")
+    safe_print(f"\\nOptimization Summary:")
     print(json.dumps(summary, indent=2, default=str))
 
     except Exception as e:
@@ -775,3 +775,5 @@ traceback.print_exc()
 
 if __name__ == "__main__":
     main()
+
+"""

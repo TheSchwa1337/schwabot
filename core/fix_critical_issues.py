@@ -1095,7 +1095,7 @@ def main():
 
     # Print statistics
     stats = fixer.get_fixer_statistics()
-    safe_print(f"\nStatistics: {stats}")
+    safe_print(f"\\nStatistics: {stats}")
 
     except Exception as e:
     logger.error(f"Error in main: {e}")
@@ -1103,3 +1103,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+"""

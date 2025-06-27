@@ -148,7 +148,7 @@ class Configuration:
     created_time: datetime
     updated_time: datetime
     data: Dict[str, Any]
-    version: str = "1.0.0"
+    version: str = "1.0_0"
     is_active: bool = True
     metadata: Dict[str, Any] = field(default_factory=dict)
 
@@ -249,7 +249,7 @@ class BaseComponent(ABC):
 
 
 def __init__(self, component_id: str, name: str, component_type: ComponentType,
-    description: str = "", version: str = "1.0.0"):
+    description: str = "", version: str = "1.0_0"):
     self.component_id = component_id
     self.name = name
     self.component_type = component_type
@@ -704,7 +704,7 @@ return bool(re.match(pattern, email))
 def is_valid_url(url: str) -> bool:
     """Check if URL is valid."""
 import re
-pattern = r'^https?://(?:[-\w.))+(?:[:\d)+)?(?:/(?:[\w/_.))*(?:\?(?:[\w&=%.))*)?(?:#(?:[\w.))*]?]?$'
+pattern = r'^https?://(?:[-\\w.))+(?:[:\\d)+)?(?:/(?:[\\w/_.))*(?:\?(?:[\\w&=%.))*)?(?:#(?:[\\w.))*]?]?$'
 return bool(re.match(pattern, url))
 
 def retry_on_error(max_retries: int=3, delay: float=1.0,
@@ -830,7 +830,7 @@ class TestComponent(BaseComponent):
     component = TestComponent("test", "Test Component", ComponentType.SYSTEM)
     safe_print(f"Component info: {component.get_info()}")
 
-    safe_print("\nAll common functionality tests completed successfully!")
+    safe_print("\\nAll common functionality tests completed successfully!")
 
     except Exception as e:
     safe_print(f"Error in main: {e}")

@@ -879,7 +879,7 @@ def main():
     fv=FinancialUtils.calculate_future_value(1000, 0.05, 5)
     cagr=FinancialUtils.calculate_compound_annual_growth_rate(1000, 1500, 3)
 
-    safe_print("\nFinancial Utils Test:")
+    safe_print("\\nFinancial Utils Test:")
     safe_print(f"Present Value: ${pv:.2f}")
     safe_print(f"Future Value: ${fv:.2f}")
     safe_print(f"CAGR: {cagr:.2%}")
@@ -888,7 +888,7 @@ def main():
     outliers=DataProcessingUtils.detect_outliers(test_prices)
     cleaned_data=DataProcessingUtils.remove_outliers(test_prices)
 
-    safe_print("\nData Processing Utils Test:")
+    safe_print("\\nData Processing Utils Test:")
     safe_print(f"Outliers detected: {sum(outliers)}")
     safe_print(f"Cleaned data length: {len(cleaned_data)}")
 
@@ -897,7 +897,7 @@ def main():
     memory_usage=SystemUtils.get_memory_usage()
     cpu_usage=SystemUtils.get_cpu_usage()
 
-    safe_print("\nSystem Utils Test:")
+    safe_print("\\nSystem Utils Test:")
     safe_print(f"Platform: {system_info.get('platform', 'Unknown')}")
     safe_print(f"Memory Usage: {memory_usage.get('memory_percent', 0):.1f}%")
     safe_print(f"CPU Usage: {cpu_usage.get('cpu_percent', 0):.1f}%")
@@ -907,7 +907,7 @@ def main():
     FileUtils.save_json(test_data, 'test_utils.json')
     loaded_data=FileUtils.load_json('test_utils.json')
 
-    safe_print("\nFile Utils Test:")
+    safe_print("\\nFile Utils Test:")
     safe_print(f"Data saved and loaded: {loaded_data == test_data}")
 
     # Test timing utilities
@@ -918,11 +918,11 @@ def test_function():
     result, execution_time=TimingUtils.time_function(test_function)
     formatted_time=TimingUtils.format_duration(execution_time)
 
-    safe_print("\nTiming Utils Test:")
+    safe_print("\\nTiming Utils Test:")
     safe_print(f"Function result: {result}")
     safe_print(f"Execution time: {formatted_time}")
 
-    safe_print("\nAll utility tests completed successfully!")
+    safe_print("\\nAll utility tests completed successfully!")
 
     except Exception as e:
     safe_print(f"Error in main: {e}")
@@ -931,3 +931,5 @@ traceback.print_exc()
 
 if __name__ == "__main__":
     main()
+
+"""

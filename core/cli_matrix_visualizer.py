@@ -15,9 +15,9 @@ for real-time debugging and monitoring.
     pass
 
 Core Mathematical Functions:
-- Glyph Frame Projection: G(t) = σ(entry_exit_ratio_t) ∈ ASCII/CLI-safe space
-- Vector Overlay: Vᵢ(t) = {⇡, ⇣, ⇢, ⇠} where price_movement classified
-- Delta Range Logic: Δ(t) = |price_t - price_{t-1}| · ζ
+- Glyph Frame Projection: G(t) = \\u03c3(entry_exit_ratio_t) \\u2208 ASCII/CLI-safe space
+- Vector Overlay: V\\u1d62(t) = {\\u21e1, \\u21e3, \\u21e2, \\u21e0} where price_movement classified
+- Delta Range Logic: \\u0394(t) = |price_t - price_{t-1}| \\u00b7 \\u03b6
 """
 
 from core.unified_math_system import unified_math
@@ -103,40 +103,40 @@ def _initialize_glyph_sets(self) -> Dict[str, Dict[str, str]:
     "line": "-"
     },
     "unicode": {
-    "up": "⇡",
-    "down": "⇣",
-    "left": "⇠",
-    "right": "⇢",
-    "neutral": "•",
-    "strong_up": "⇑",
-    "strong_down": "⇓",
-    "weak_up": "↑",
-    "weak_down": "↓",
-    "block": "█",
+    "up": "\\u21e1",
+    "down": "\\u21e3",
+    "left": "\\u21e0",
+    "right": "\\u21e2",
+    "neutral": "\\u2022",
+    "strong_up": "\\u21d1",
+    "strong_down": "\\u21d3",
+    "weak_up": "\\u2191",
+    "weak_down": "\\u2193",
+    "block": "\\u2588",
     "space": " ",
-    "border": "╬",
-    "line": "═"
+    "border": "\\u256c",
+    "line": "\\u2550"
     },
     "blocks": {
-    "up": "▴",
-    "down": "▾",
-    "left": "◂",
-    "right": "▸",
-    "neutral": "▪",
-    "strong_up": "▲",
-    "strong_down": "▼",
-    "weak_up": "▵",
-    "weak_down": "▿",
-    "block": "█",
+    "up": "\\u25b4",
+    "down": "\\u25be",
+    "left": "\\u25c2",
+    "right": "\\u25b8",
+    "neutral": "\\u25aa",
+    "strong_up": "\\u25b2",
+    "strong_down": "\\u25bc",
+    "weak_up": "\\u25b5",
+    "weak_down": "\\u25bf",
+    "block": "\\u2588",
     "space": " ",
-    "border": "█",
-    "line": "█"
+    "border": "\\u2588",
+    "line": "\\u2588"
     }
     }
 
 def project_glyph_frame(self, entry_exit_ratio: float, signal_strength: float) -> str:
     """
-    Project glyph frame: G(t) = σ(entry_exit_ratio_t) ∈ ASCII/CLI-safe space
+    Project glyph frame: G(t) = \\u03c3(entry_exit_ratio_t) \\u2208 ASCII/CLI-safe space
 
     Args:
     entry_exit_ratio: Entry/exit ratio
@@ -246,7 +246,7 @@ def __init__(self, config: VisualConfig):
 def classify_price_movement(self, current_price: float, previous_price: float,
     volume: float, delta: float) -> str:
     """
-    Classify price movement: Vᵢ(t) = {⇡, ⇣, ⇢, ⇠} where price_movement classified
+    Classify price movement: V\\u1d62(t) = {\\u21e1, \\u21e3, \\u21e2, \\u21e0} where price_movement classified
 
     Args:
     current_price: Current price
@@ -363,12 +363,12 @@ def __init__(self, config: VisualConfig):
 def calculate_delta_range(self, current_price: float, previous_price: float,
     volatility_factor: float=1.0) -> float:
     """
-    Calculate delta range: Δ(t) = |price_t - price_{t-1}| · ζ
+    Calculate delta range: \\u0394(t) = |price_t - price_{t-1}| \\u00b7 \\u03b6
 
     Args:
     current_price: Current price
     previous_price: Previous price
-    volatility_factor: Volatility factor ζ
+    volatility_factor: Volatility factor \\u03b6
 
     Returns:
     Delta range value

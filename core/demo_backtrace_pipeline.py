@@ -21,8 +21,8 @@ rebuilding for demo and testing scenarios.
 
 Core Mathematical Functions:
 - Trade Hash Replay: H(t) = hash(price_t, vector_state_t)
-- Recursive Path Logic: Ψ_backtrace = ∑(exit_vector_i · reentry_signal_i)
-- Tick Window Rebuild: τ(t) = tₙ - t₀; for n in replay range
+- Recursive Path Logic: \\u03a8_backtrace = \\u2211(exit_vector_i \\u00b7 reentry_signal_i)
+- Tick Window Rebuild: \\u03c4(t) = t\\u2099 - t\\u2080; for n in replay range
 """
 
 from core.unified_math_system import unified_math
@@ -208,7 +208,7 @@ def __init__(self, config: BacktraceConfig):
 def calculate_recursive_path(self, exit_vectors: List[np.ndarray],
     reentry_signals: List[np.ndarray)) -> float:
     """
-    Calculate recursive path logic: Ψ_backtrace = ∑(exit_vector_i · reentry_signal_i)
+    Calculate recursive path logic: \\u03a8_backtrace = \\u2211(exit_vector_i \\u00b7 reentry_signal_i)
 
     Args:
     exit_vectors: List of exit vectors
@@ -445,7 +445,7 @@ def __init__(self, config: BacktraceConfig):
 
 def rebuild_tick_window(self, start_time: datetime, end_time: datetime) -> List[Dict[str, Any]:
     """
-    Rebuild tick window: τ(t) = tₙ - t₀; for n in replay range
+    Rebuild tick window: \\u03c4(t) = t\\u2099 - t\\u2080; for n in replay range
 
     Args:
     start_time: Start of tick window
@@ -592,10 +592,10 @@ def _initialize_core_components(self) -> None:
     self.dlt_engine=DLTWaveformEngine()
     self.matrix_mapper=MatrixMapper()
 
-    logger.info("✅ All core components initialized successfully")
+    logger.info("\\u2705 All core components initialized successfully")
 
     except Exception as e:
-    logger.error(f"❌ Failed to initialize core components: {e}")
+    logger.error(f"\\u274c Failed to initialize core components: {e}")
     raise RuntimeError(f"Core component initialization failed: {e}")
 
 def start_backtrace_analysis(self):
@@ -869,11 +869,11 @@ def analyze_trade_hash(self, trade_hash: str, replay_range: int = 100) -> Backtr
     self.current_backtrace = backtrace_result
     self.backtrace_history.append(backtrace_result)
 
-    logger.info(f"✅ Trade hash analysis completed: {trade_hash}")
+    logger.info(f"\\u2705 Trade hash analysis completed: {trade_hash}")
     return backtrace_result
 
     except Exception as e:
-    logger.error(f"❌ Error analyzing trade hash: {e}")
+    logger.error(f"\\u274c Error analyzing trade hash: {e}")
     raise RuntimeError(f"Trade hash analysis failed: {e}")
 
 def _generate_real_btc_price(self) -> float:

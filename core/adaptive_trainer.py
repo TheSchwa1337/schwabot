@@ -395,7 +395,7 @@ def _get_optimization_config(self) -> Dict[str, Any]:
     version=ModelVersion(
     version_id=f"v_{training_result.model_id}_{int(time.time())}",
     model_id=training_result.model_id,
-    version_number="1.0.0",
+    version_number="1.0_0",
     model_path=model_path,
     training_result=training_result,
     performance_metrics=metrics,
@@ -553,7 +553,7 @@ def _generate_training_metrics(self, training_config: TrainingConfig,
     new_version=ModelVersion(
     version_id=new_version_id,
     model_id=model_id,
-    version_number="1.1.0",
+    version_number="1.1_0",
     model_path=f"models/{model_id}_adapt_{int(time.time())}.pkl",
     training_result=self.training_results[result_id],
     performance_metrics=self.training_results[result_id].metrics,
@@ -685,3 +685,5 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
+
+"""

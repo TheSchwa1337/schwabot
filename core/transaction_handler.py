@@ -10,8 +10,8 @@ providing mathematical transaction optimization, order management, and execution
 analytics.
 
 Core Mathematical Functions:
-- Transaction Cost: TC = fixed_cost + variable_cost × volume
-- Slippage Model: S = α × volume + β × volatility
+- Transaction Cost: TC = fixed_cost + variable_cost \\u00d7 volume
+- Slippage Model: S = \\u03b1 \\u00d7 volume + \\u03b2 \\u00d7 volatility
 - Execution Quality: EQ = (target_price - executed_price) / target_price
 - Order Fill Rate: FR = filled_volume / requested_volume
 
@@ -322,7 +322,7 @@ def predict_slippage(self, order_side: OrderSide, quantity: float,
     """Predict slippage for an order."""
     try:
     pass
-    # Basic slippage model: S = α × volume + β × volatility + γ × market_impact
+    # Basic slippage model: S = \\u03b1 \\u00d7 volume + \\u03b2 \\u00d7 volatility + \\u03b3 \\u00d7 market_impact
     volume_impact=self.model_parameters['alpha'] * quantity
     volatility_impact=self.model_parameters['beta'] * market_volatility
     market_impact=self.model_parameters['gamma'] * (quantity / market_volume)
@@ -796,3 +796,5 @@ traceback.print_exc()
 
 if __name__ == "__main__":
     main()
+
+"""

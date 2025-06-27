@@ -10,7 +10,7 @@ This module defines all constants used throughout the Schwabot system,
 including mathematical constants, trading parameters, and system configuration.
 
 Core Mathematical Constants:
-- Mathematical constants (π, e, etc.)
+- Mathematical constants (\\u03c0, e, etc.)
 - Financial constants (risk-free rates, etc.)
 - Trading constants (timeframes, limits, etc.)
 - System constants (defaults, limits, etc.)
@@ -607,7 +607,7 @@ def main():
     safe_print(f"Error message: {get_error_message(ErrorCodes.SUCCESS)}")
     safe_print(f"Success message: {get_success_message('order_placed')}")
 
-    safe_print("\nAll constants loaded successfully!")
+    safe_print("\\nAll constants loaded successfully!")
 
     except Exception as e:
     safe_print(f"Error in main: {e}")
@@ -617,3 +617,5 @@ traceback.print_exc()
 
 if __name__ == "__main__":
     main()
+
+"""

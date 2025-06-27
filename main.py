@@ -117,7 +117,7 @@ class SchwabotSystem:
         return {
             "system": {
                 "name": "Schwabot Trading System",
-                "version": "1.0.0",
+                "version": "1.0_0",
                 "environment": "development",
                 "debug": True,
                 "log_level": "INFO"
@@ -393,7 +393,7 @@ class SchwabotSystem:
         return {
             "system": {
                 "name": self.config.get("system", {}).get("name", "Schwabot Trading System"),
-                "version": self.config.get("system", {}).get("version", "1.0.0"),
+                "version": self.config.get("system", {}).get("version", "1.0_0"),
                 "status": "running" if self.running else "stopped",
                 "startup_time": self.startup_time.isoformat() if self.startup_time else None,
                 "uptime": (datetime.now() - self.startup_time).total_seconds() if self.startup_time else 0
@@ -471,3 +471,5 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+"""

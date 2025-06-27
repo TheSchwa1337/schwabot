@@ -10,9 +10,9 @@ providing comprehensive latency correction, swap timing optimization, and
 execution window adjustment based on out-of-phase tick cycles.
 
 Core Mathematical Functions:
-- Tick Lag Compensation: Lₜ = T_obs - T_exec
-- Phase-Sync Rebalancer: τ_sync = (T_cycle × Δprofitₜ) mod ϕₜ
-- Adaptive Time Fallback: Fₜ = if Lₜ > L_max then rollback(Δₜ)
+- Tick Lag Compensation: L\\u209c = T_obs - T_exec
+- Phase-Sync Rebalancer: \\u03c4_sync = (T_cycle \\u00d7 \\u0394profit\\u209c) mod \\u03d5\\u209c
+- Adaptive Time Fallback: F\\u209c = if L\\u209c > L_max then rollback(\\u0394\\u209c)
 
 Core Functionality:
 - Latency measurement and correction
@@ -223,12 +223,12 @@ def measure_latency(self, observed_time: datetime, execution_time: datetime) -> 
     Measure Tick Lag Compensation.
 
     Mathematical Formula:
-    Lₜ = T_obs - T_exec
+    L\\u209c = T_obs - T_exec
 
     Where:
     - T_obs is the observed time
     - T_exec is the execution time
-    - Lₜ is the latency at time t
+    - L\\u209c is the latency at time t
     """
     try:
     pass
@@ -273,13 +273,13 @@ def calculate_phase_sync(self, cycle_time: float, profit_delta: float,
     Calculate Phase-Sync Rebalancer.
 
     Mathematical Formula:
-    τ_sync = (T_cycle × Δprofitₜ) mod ϕₜ
+    \\u03c4_sync = (T_cycle \\u00d7 \\u0394profit\\u209c) mod \\u03d5\\u209c
 
     Where:
     - T_cycle is the cycle time
-    - Δprofitₜ is the profit delta at time t
-    - ϕₜ is the oscillator phase at time t
-    - τ_sync is the sync time
+    - \\u0394profit\\u209c is the profit delta at time t
+    - \\u03d5\\u209c is the oscillator phase at time t
+    - \\u03c4_sync is the sync time
     """
     try:
     pass
@@ -323,13 +323,13 @@ def check_adaptive_fallback(self, current_latency: float, max_latency: float) ->
     Check Adaptive Time Fallback.
 
     Mathematical Formula:
-    Fₜ = if Lₜ > L_max then rollback(Δₜ)
+    F\\u209c = if L\\u209c > L_max then rollback(\\u0394\\u209c)
 
     Where:
-    - Lₜ is the current latency
+    - L\\u209c is the current latency
     - L_max is the maximum allowed latency
-    - Δₜ is the time delta
-    - Fₜ is the fallback action
+    - \\u0394\\u209c is the time delta
+    - F\\u209c is the fallback action
     """
     try:
     pass

@@ -10,9 +10,9 @@ providing mathematical compression optimization, incremental backups, and
 advanced disaster recovery capabilities.
 
 Core Mathematical Functions:
-- Compression Ratio: C = (1 - compressed_size / original_size) × 100%
-- Backup Efficiency: E = Σ(wᵢ × vᵢ) where wᵢ are importance weights
-- Recovery Time Prediction: T_recovery = Σ(file_sizeᵢ / transfer_rateᵢ)
+- Compression Ratio: C = (1 - compressed_size / original_size) \\u00d7 100%
+- Backup Efficiency: E = \\u03a3(w\\u1d62 \\u00d7 v\\u1d62) where w\\u1d62 are importance weights
+- Recovery Time Prediction: T_recovery = \\u03a3(file_size\\u1d62 / transfer_rate\\u1d62)
 
 Core Functionality:
 - Incremental and full backup strategies
@@ -599,7 +599,7 @@ def _calculate_compression_ratio(self, original_size: int, compressed_size: int)
     Calculate compression ratio.
 
     Mathematical Formula:
-    C = (1 - compressed_size / original_size) × 100%
+    C = (1 - compressed_size / original_size) \\u00d7 100%
     """
     try:
     pass
@@ -693,7 +693,7 @@ def _create_recovery_plan(self, metadata: BackupMetadata, target_path: str) -> R
     Create recovery plan.
 
     Mathematical Formula:
-    T_recovery = Σ(file_sizeᵢ / transfer_rateᵢ)
+    T_recovery = \\u03a3(file_size\\u1d62 / transfer_rate\\u1d62)
     """
     try:
     pass

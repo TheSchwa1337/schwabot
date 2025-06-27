@@ -12,9 +12,9 @@ This module implements advanced BTC tick matrix initialization for Schwabot,
 including matrix bootstrap, hash interlock grid, and causal entry field logic.
 
 Core Mathematical Functions:
-- Matrix Bootstrap: M₀ = [[δ_p₀, Δ_v₀], [θ₁, ω₁]]
-- Hash Interlock Grid: Hₘₐₜ(t) = SHA-256(price_t | volume_t | trend_t)
-- Causal Entry Field: Eₜ = argmax(signal_strength_t · weight_matrix_t)
+- Matrix Bootstrap: M\\u2080 = [[\\u03b4_p\\u2080, \\u0394_v\\u2080], [\\u03b8\\u2081, \\u03c9\\u2081]]
+- Hash Interlock Grid: H\\u2098\\u2090\\u209c(t) = SHA-256(price_t | volume_t | trend_t)
+- Causal Entry Field: E\\u209c = argmax(signal_strength_t \\u00b7 weight_matrix_t)
 """
 
 from core.unified_math_system import unified_math
@@ -79,7 +79,7 @@ def __init__(self, config: MatrixConfig):
 
 def initialize_bootstrap_matrix(self, initial_ticks: List[TickData] -> np.ndarray:
     """
-    Initialize bootstrap matrix: M₀ = [[δ_p₀, Δ_v₀], [θ₁, ω₁])
+    Initialize bootstrap matrix: M\\u2080 = [[\\u03b4_p\\u2080, \\u0394_v\\u2080], [\\u03b8\\u2081, \\u03c9\\u2081])
 
     Args:
     initial_ticks: Initial tick data for bootstrap
@@ -120,10 +120,10 @@ def initialize_bootstrap_matrix(self, initial_ticks: List[TickData] -> np.ndarra
     matrix = np.zeros((self.config.matrix_dimensions, self.config.matrix_dimensions)]
 
     # Fill matrix with calculated parameters
-    matrix[0, 0] = price_mean  # δ_p₀
-    matrix[0, 1] = volume_mean  # Δ_v₀
-    matrix[1, 0] = price_std   # θ₁
-    matrix[1, 1] = volume_std  # ω₁
+    matrix[0, 0] = price_mean  # \\u03b4_p\\u2080
+    matrix[0, 1] = volume_mean  # \\u0394_v\\u2080
+    matrix[1, 0] = price_std   # \\u03b8\\u2081
+    matrix[1, 1] = volume_std  # \\u03c9\\u2081
 
     # Fill remaining elements with derived values
     for i in range(2, self.config.matrix_dimensions):
@@ -218,7 +218,7 @@ def __init__(self, config: MatrixConfig):
 
 def calculate_hash_interlock(self, tick: TickData) -> str:
     """
-    Calculate hash interlock: Hₘₐₜ(t) = SHA-256(price_t | volume_t | trend_t)
+    Calculate hash interlock: H\\u2098\\u2090\\u209c(t) = SHA-256(price_t | volume_t | trend_t)
 
     Args:
     tick: Tick data
@@ -397,7 +397,7 @@ def calculate_signal_strength(self, tick: TickData, matrix: np.ndarray) -> float
 
 def find_causal_entry(self, ticks: List[TickData], matrix: np.ndarray] -> Optional[Dict[str, Any):
     """
-    Find causal entry: Eₜ = argmax(signal_strength_t · weight_matrix_t)
+    Find causal entry: E\\u209c = argmax(signal_strength_t \\u00b7 weight_matrix_t)
 
     Args:
     ticks: List of tick data

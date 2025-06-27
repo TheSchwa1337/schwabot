@@ -29,7 +29,7 @@ logging.basicConfig(
 )
 
 # Package version information
-__version__ = "1.0.0"
+__version__ = "1.0_0"
 __author__ = "Schwabot Development Team"
 __description__ = "Advanced Trading System with AI Integration"
 __license__ = "MIT"
@@ -43,63 +43,63 @@ PACKAGE_METADATA = {
     "license": __license__,
     "python_requires": ">=3.8",
     "install_requires": [
-        "numpy>=1.21.0",
-        "pandas>=1.3.0",
-        "requests>=2.25.0",
+        "numpy>=1.21_0",
+        "pandas>=1.3_0",
+        "requests>=2.25_0",
         "websockets>=10.0",
-        "asyncio>=3.4.3",
-        "aiohttp>=3.8.0",
-        "sqlalchemy>=1.4.0",
-        "pydantic>=1.8.0",
-        "fastapi>=0.68.0",
-        "uvicorn>=0.15.0",
-        "python-dotenv>=0.19.0",
-        "cryptography>=3.4.0",
-        "ccxt>=1.60.0",
-        "ta-lib>=0.4.0",
-        "scikit-learn>=1.0.0",
-        "matplotlib>=3.4.0",
-        "seaborn>=0.11.0",
-        "plotly>=5.0.0",
-        "dash>=2.0.0",
-        "redis>=4.0.0",
-        "celery>=5.2.0",
-        "prometheus-client>=0.12.0",
-        "structlog>=21.5.0",
-        "pytest>=6.2.0",
-        "pytest-asyncio>=0.16.0",
-        "pytest-cov>=3.0.0",
-        "black>=21.0.0",
-        "flake8>=3.9.0",
+        "asyncio>=3.4_3",
+        "aiohttp>=3.8_0",
+        "sqlalchemy>=1.4_0",
+        "pydantic>=1.8_0",
+        "fastapi>=0.68_0",
+        "uvicorn>=0.15_0",
+        "python-dotenv>=0.19_0",
+        "cryptography>=3.4_0",
+        "ccxt>=1.60_0",
+        "ta-lib>=0.4_0",
+        "scikit-learn>=1.0_0",
+        "matplotlib>=3.4_0",
+        "seaborn>=0.11_0",
+        "plotly>=5.0_0",
+        "dash>=2.0_0",
+        "redis>=4.0_0",
+        "celery>=5.2_0",
+        "prometheus-client>=0.12_0",
+        "structlog>=21.5_0",
+        "pytest>=6.2_0",
+        "pytest-asyncio>=0.16_0",
+        "pytest-cov>=3.0_0",
+        "black>=21.0_0",
+        "flake8>=3.9_0",
         "mypy>=0.910",
-        "pre-commit>=2.15.0"
+        "pre-commit>=2.15_0"
     ],
     "extras_require": {
         "dev": [
-            "pytest>=6.2.0",
-            "pytest-asyncio>=0.16.0",
-            "pytest-cov>=3.0.0",
-            "black>=21.0.0",
-            "flake8>=3.9.0",
+            "pytest>=6.2_0",
+            "pytest-asyncio>=0.16_0",
+            "pytest-cov>=3.0_0",
+            "black>=21.0_0",
+            "flake8>=3.9_0",
             "mypy>=0.910",
-            "pre-commit>=2.15.0",
-            "jupyter>=1.0.0",
-            "ipython>=7.0.0"
+            "pre-commit>=2.15_0",
+            "jupyter>=1.0_0",
+            "ipython>=7.0_0"
         ],
         "production": [
-            "gunicorn>=20.1.0",
-            "supervisor>=4.2.0",
-            "nginx>=1.20.0",
-            "docker>=5.0.0",
-            "kubernetes>=18.0.0"
+            "gunicorn>=20.1_0",
+            "supervisor>=4.2_0",
+            "nginx>=1.20_0",
+            "docker>=5.0_0",
+            "kubernetes>=18.0_0"
         ],
         "ai": [
-            "torch>=1.9.0",
-            "tensorflow>=2.6.0",
-            "transformers>=4.11.0",
-            "openai>=0.27.0",
-            "langchain>=0.0.200",
-            "sentence-transformers>=2.2.0"
+            "torch>=1.9_0",
+            "tensorflow>=2.6_0",
+            "transformers>=4.11_0",
+            "openai>=0.27_0",
+            "langchain>=0.0_200",
+            "sentence-transformers>=2.2_0"
         ]
     }
 }
@@ -473,3 +473,5 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
+
+"""

@@ -10,9 +10,9 @@ comprehensive 16-bit tickstream compression, multi-bit frame collapse,
 profit drift detection, and compression hash mapping for Bitcoin trading.
 
 Core Mathematical Functions:
-- Multi-bit Frame Collapse: Φ(t) = Σ [μₙ(t) × ωₙ) over n ∈ {2,4,8,16}
-- Profit Drift Detection: δₚ = |P(t) - P(t - Δτ)| / Δτ
-- Compression Hash Mapping: Hₙ = SHA256([tickₙ, Δtₙ, volₙ])
+- Multi-bit Frame Collapse: \\u03a6(t) = \\u03a3 [\\u03bc\\u2099(t) \\u00d7 \\u03c9\\u2099) over n \\u2208 {2,4,8,16}
+- Profit Drift Detection: \\u03b4\\u209a = |P(t) - P(t - \\u0394\\u03c4)| / \\u0394\\u03c4
+- Compression Hash Mapping: H\\u2099 = SHA256([tick\\u2099, \\u0394t\\u2099, vol\\u2099])
 
 Core Functionality:
 - 16-bit tickstream compression and analysis
@@ -287,11 +287,11 @@ def calculate_frame_collapse(self, frame_size: BitFrameSize, time_window: float 
     Calculate Multi-bit Frame Collapse.
 
     Mathematical Formula:
-    Φ(t) = Σ [μₙ(t) × ωₙ) over n ∈ {2,4,8,16}
+    \\u03a6(t) = \\u03a3 [\\u03bc\\u2099(t) \\u00d7 \\u03c9\\u2099) over n \\u2208 {2,4,8,16}
 
     Where:
-    - μₙ(t) is the entropy modulation at time t for bit frame n
-    - ωₙ is the entropy weight for bit frame n
+    - \\u03bc\\u2099(t) is the entropy modulation at time t for bit frame n
+    - \\u03c9\\u2099 is the entropy weight for bit frame n
     """
     try:
     pass
@@ -421,12 +421,12 @@ def detect_profit_drift(self, current_profit: float, previous_profit: float,
     Detect Profit Drift.
 
     Mathematical Formula:
-    δₚ = |P(t) - P(t - Δτ)| / Δτ
+    \\u03b4\\u209a = |P(t) - P(t - \\u0394\\u03c4)| / \\u0394\\u03c4
 
     Where:
     - P(t) is the current profit
-    - P(t - Δτ) is the previous profit
-    - Δτ is the time delta
+    - P(t - \\u0394\\u03c4) is the previous profit
+    - \\u0394\\u03c4 is the time delta
     """
     try:
     pass
@@ -467,12 +467,12 @@ def create_compression_hash(self, tick_data: Dict[str, Any), time_delta: float,
     Create Compression Hash Mapping.
 
     Mathematical Formula:
-    Hₙ = SHA256([tickₙ, Δtₙ, volₙ])
+    H\\u2099 = SHA256([tick\\u2099, \\u0394t\\u2099, vol\\u2099])
 
     Where:
-    - tickₙ is the tick data
-    - Δtₙ is the time delta
-    - volₙ is the volume
+    - tick\\u2099 is the tick data
+    - \\u0394t\\u2099 is the time delta
+    - vol\\u2099 is the volume
     """
     try:
     pass

@@ -10,10 +10,10 @@ providing mathematical strategy optimization, real-time execution, and performan
 analytics.
 
 Core Mathematical Functions:
-- Strategy Performance: P(s) = Σ(wᵢ × pᵢ) where wᵢ are performance weights
+- Strategy Performance: P(s) = \\u03a3(w\\u1d62 \\u00d7 p\\u1d62) where w\\u1d62 are performance weights
 - Risk-Adjusted Return: RAR = (return - risk_free_rate) / volatility
-- Sharpe Ratio: SR = (μ - r_f) / σ
-- Strategy Correlation: ρ(s₁, s₂) = cov(s₁, s₂) / (σ₁ × σ₂)
+- Sharpe Ratio: SR = (\\u03bc - r_f) / \\u03c3
+- Strategy Correlation: \\u03c1(s\\u2081, s\\u2082) = cov(s\\u2081, s\\u2082) / (\\u03c3\\u2081 \\u00d7 \\u03c3\\u2082)
 
 Core Functionality:
 - Multi-strategy portfolio management

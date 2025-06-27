@@ -10,9 +10,9 @@ providing hierarchical config loading, mathematical validation, and dynamic
 parameter adjustment capabilities.
 
 Core Mathematical Functions:
-- Config Validation Score: V = Σ(wᵢ × vᵢ) / Σ(wᵢ) where wᵢ are weights and vᵢ are validation scores
-- Parameter Optimization: P_opt = P_current + α × ∇P where α is learning rate
-- Hierarchical Weighting: W_h = W_base × (1 + depth_factor × h)
+- Config Validation Score: V = \\u03a3(w\\u1d62 \\u00d7 v\\u1d62) / \\u03a3(w\\u1d62) where w\\u1d62 are weights and v\\u1d62 are validation scores
+- Parameter Optimization: P_opt = P_current + \\u03b1 \\u00d7 \\u2207P where \\u03b1 is learning rate
+- Hierarchical Weighting: W_h = W_base \\u00d7 (1 + depth_factor \\u00d7 h)
 
 Core Functionality:
 - Hierarchical configuration loading and validation
@@ -128,7 +128,7 @@ def _create_default_configuration(self) -> None:
     default_config = {
     "system": {
     "name": "Schwabot",
-    "version": "1.0.0",
+    "version": "1.0_0",
     "environment": "development",
     "debug_mode": True
     },
@@ -200,9 +200,9 @@ def _initialize_parameter_registry(self) -> None:
     "max_length": 50
     })
 
-    self._register_parameter("system.version", "1.0.0", "string", {
+    self._register_parameter("system.version", "1.0_0", "string", {
     "required": True,
-    "pattern": r"^\d+\.\d+\.\d+$"
+    "pattern": r"^\\d+\.\\d+\.\\d+$"
     })
 
     self._register_parameter("trading.risk_tolerance", 0.5, "float", {
@@ -559,7 +559,7 @@ def validate_configuration(self, config_name: str="default") -> ConfigValidation
     Validate entire configuration.
 
     Mathematical Formula:
-    V = Σ(wᵢ × vᵢ) / Σ(wᵢ) where wᵢ are weights and vᵢ are validation scores
+    V = \\u03a3(w\\u1d62 \\u00d7 v\\u1d62) / \\u03a3(w\\u1d62) where w\\u1d62 are weights and v\\u1d62 are validation scores
     """
     try:
     pass
@@ -681,7 +681,7 @@ def optimize_parameters(self, optimization_target: str="performance") -> Dict[st
     Optimize configuration parameters.
 
     Mathematical Formula:
-    P_opt = P_current + α × ∇P where α is learning rate
+    P_opt = P_current + \\u03b1 \\u00d7 \\u2207P where \\u03b1 is learning rate
     """
     try:
     pass

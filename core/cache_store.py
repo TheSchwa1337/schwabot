@@ -11,8 +11,8 @@ memory management capabilities.
 
 Core Mathematical Functions:
 - Cache Hit Ratio: H = hits / (hits + misses)
-- LRU Eviction Score: S = access_time + (size_factor × item_size)
-- Memory Optimization: M_opt = Σ(wᵢ × vᵢ) where wᵢ are access weights
+- LRU Eviction Score: S = access_time + (size_factor \\u00d7 item_size)
+- Memory Optimization: M_opt = \\u03a3(w\\u1d62 \\u00d7 v\\u1d62) where w\\u1d62 are access weights
 
 Core Functionality:
 - Multi-level caching with mathematical optimization
@@ -520,7 +520,7 @@ def optimize_cache(self, level: CacheLevel) -> CacheOptimization:
     Optimize cache performance.
 
     Mathematical Formula:
-    M_opt = Σ(wᵢ × vᵢ) where wᵢ are access weights and vᵢ are values
+    M_opt = \\u03a3(w\\u1d62 \\u00d7 v\\u1d62) where w\\u1d62 are access weights and v\\u1d62 are values
     """
     try:
     pass

@@ -29,12 +29,12 @@ class WindowsCliCompatibilityHandler:
         """Print message safely with Windows CLI compatibility."""
         if WindowsCliCompatibilityHandler.is_windows_cli() and use_emoji:
             emoji_mapping = {
-                "🚨": "[ALERT]",
-                "⚠️": "[WARNING]",
-                "✅": "[SUCCESS]",
-                "❌": "[ERROR]",
-                "🔄": "[PROCESSING]",
-                "🎯": "[TARGET]",
+                "\\u1f6a8": "[ALERT]",
+                "\\u26a0\\ufe0f": "[WARNING]",
+                "\\u2705": "[SUCCESS]",
+                "\\u274c": "[ERROR]",
+                "\\u1f504": "[PROCESSING]",
+                "\\u1f3af": "[TARGET]",
             }
             for emoji, marker in emoji_mapping.items():
                 message = message.replace(emoji, marker)
@@ -94,3 +94,5 @@ ax.set_title("Lotus Mesh Node to Omni Shell Ring Mapping")
 plt.tight_layout()
 plt.savefig("schwabot/init/omni_shell/lotus_mesh_mapping_diagram.png")
 plt.close(fig)
+
+"""

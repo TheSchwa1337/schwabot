@@ -823,7 +823,7 @@ def main():
     safe_print(f"List validation ([1,2,3)]: {list_result.is_valid}"]
 
     # Test processing helpers
-    safe_print("\nTesting Processing Helpers:")
+    safe_print("\\nTesting Processing Helpers:")
 
     # Safe operations
     safe_div=ProcessingHelpers.safe_divide(10, 2)
@@ -835,7 +835,7 @@ def main():
     safe_print(f"Smoothed data: {smoothed[:5]}...")
 
     # Test system helpers
-    safe_print("\nTesting System Helpers:")
+    safe_print("\\nTesting System Helpers:")
 
     # Memory usage
     memory_mb=SystemHelpers.get_memory_usage_mb()
@@ -846,7 +846,7 @@ def main():
     safe_print(f"CPU usage: {cpu_percent:.1f}%")
 
     # Test error helpers
-    safe_print("\nTesting Error Helpers:")
+    safe_print("\\nTesting Error Helpers:")
 
     # Safe execution
 def test_func():
@@ -856,7 +856,7 @@ def test_func():
     safe_print(f"Safe execution result: {result}")
 
     # Test performance helpers
-    safe_print("\nTesting Performance Helpers:")
+    safe_print("\\nTesting Performance Helpers:")
 
     @ PerformanceHelpers.time_function
 def slow_function():
@@ -866,7 +866,7 @@ def slow_function():
     result=slow_function()
     safe_print(f"Timed function result: {result}")
 
-    safe_print("\nAll helper tests completed successfully!")
+    safe_print("\\nAll helper tests completed successfully!")
 
     except Exception as e:
     safe_print(f"Error in main: {e}")
@@ -875,3 +875,5 @@ traceback.print_exc()
 
 if __name__ == "__main__":
     main()
+
+"""

@@ -10,9 +10,9 @@ comprehensive strategic reallocation, rebalance vectorization, and profit
 capture routing by hash-layer feedback for the trading system.
 
 Core Mathematical Functions:
-- Delta Trade Triggering: ΔP = unified_math.max(P_exit - P_entry, 0)
-- Matrix Basket Selector: Bᵢ = W · Mᵢ
-- Smart Money Reversal Logic: σₜ = sign(EMA₁₆ - SMA₅₀) × Volₜ
+- Delta Trade Triggering: \\u0394P = unified_math.max(P_exit - P_entry, 0)
+- Matrix Basket Selector: B\\u1d62 = W \\u00b7 M\\u1d62
+- Smart Money Reversal Logic: \\u03c3\\u209c = sign(EMA\\u2081\\u2086 - SMA\\u2085\\u2080) \\u00d7 Vol\\u209c
 
 Core Functionality:
 - Strategic profit capture routing
@@ -226,12 +226,12 @@ def calculate_delta_trade(self, entry_price: float, exit_price: float,
     Calculate Delta Trade Triggering.
 
     Mathematical Formula:
-    ΔP = unified_math.max(P_exit - P_entry, 0)
+    \\u0394P = unified_math.max(P_exit - P_entry, 0)
 
     Where:
     - P_exit is the exit price
     - P_entry is the entry price
-    - ΔP is the delta profit (only positive values)
+    - \\u0394P is the delta profit (only positive values)
     """
     try:
     pass
@@ -353,12 +353,12 @@ def create_matrix_basket(self, basket_type: BasketType, assets: List[str]) -> Ma
     Create Matrix Basket Selector.
 
     Mathematical Formula:
-    Bᵢ = W · Mᵢ
+    B\\u1d62 = W \\u00b7 M\\u1d62
 
     Where:
     - W is the weight matrix
-    - Mᵢ is the long-hold matrix for asset i
-    - Bᵢ is the weighted basket for asset i
+    - M\\u1d62 is the long-hold matrix for asset i
+    - B\\u1d62 is the weighted basket for asset i
     """
     try:
     pass
@@ -377,7 +377,7 @@ def create_matrix_basket(self, basket_type: BasketType, assets: List[str]) -> Ma
     # Calculate weighted basket using the mathematical formula
     weighted_basket=np.zeros(len(assets))
     for i, asset in enumerate(assets):
-    # Bᵢ = W · Mᵢ
+    # B\\u1d62 = W \\u00b7 M\\u1d62
     basket_component=unified_math.unified_math.dot_product(weight_matrix[i], long_hold_matrices[asset][i]]
     weighted_basket[i)=basket_component
 
@@ -416,13 +416,13 @@ def detect_smart_money_reversal(self, ema_16: float, sma_50: float, volume: floa
     Detect Smart Money Reversal Logic.
 
     Mathematical Formula:
-    σₜ = sign(EMA₁₆ - SMA₅₀) × Volₜ
+    \\u03c3\\u209c = sign(EMA\\u2081\\u2086 - SMA\\u2085\\u2080) \\u00d7 Vol\\u209c
 
     Where:
-    - EMA₁₆ is the 16-period exponential moving average
-    - SMA₅₀ is the 50-period simple moving average
-    - Volₜ is the volume at time t
-    - σₜ is the reversal signal
+    - EMA\\u2081\\u2086 is the 16-period exponential moving average
+    - SMA\\u2085\\u2080 is the 50-period simple moving average
+    - Vol\\u209c is the volume at time t
+    - \\u03c3\\u209c is the reversal signal
     """
     try:
     pass
@@ -467,7 +467,7 @@ def allocate_profit(self, asset_symbol: str, total_profit: float,
 
     # Calculate allocation weight based on risk tolerance
     base_weight=0.25  # Base allocation weight
-    risk_adjustment=1.0 + (risk_tolerance - 0.5) * 0.5  # ±25% adjustment
+    risk_adjustment=1.0 + (risk_tolerance - 0.5) * 0.5  # \\u00b125% adjustment
     allocation_weight=base_weight * risk_adjustment
 
     # Calculate expected return based on historical performance
@@ -539,7 +539,7 @@ def _calculate_risk_level(self, asset_symbol: str, risk_tolerance: float) -> flo
     base_risk=base_risk_levels.get(asset_symbol, 0.4)
 
     # Adjust based on risk tolerance
-    risk_adjustment=1.0 + (risk_tolerance - 0.5) * 0.4  # ±20% adjustment
+    risk_adjustment=1.0 + (risk_tolerance - 0.5) * 0.4  # \\u00b120% adjustment
     risk_level=base_risk * risk_adjustment
 
     return unified_math.max(0.0, unified_math.min(1.0, risk_level))
@@ -713,3 +713,5 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
+
+"""

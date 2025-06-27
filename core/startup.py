@@ -206,7 +206,7 @@ try:
     pass
 
     # Test basic connectivity
-    socket.create_connection(("8.8.8.8", 53), timeout=5)
+    socket.create_connection(("8.8_8.8", 53), timeout=5)
     self.validation_results['network_connectivity'] = True
     return True
 
@@ -803,3 +803,5 @@ traceback.print_exc()
 
 if __name__ == "__main__":
     main()
+
+"""

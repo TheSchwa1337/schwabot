@@ -10,9 +10,9 @@ providing comprehensive harmonic translation, ZPE compression, and recursive
 feedback pulse detection for the trading system.
 
 Core Mathematical Functions:
-- ZPE Compression Envelope: Z_t = ∇ · ψ(ω, t) + η * unified_math.sin(2πfΔt)
-- Recursive Feedback Pulse: Rₜ = α * Rₜ₋₁ + (1 - α) * Pₜ
-- DLT Logic Cascade: Λₜ = FFT(dP/dt) ⊕ θₜ
+- ZPE Compression Envelope: Z_t = \\u2207 \\u00b7 \\u03c8(\\u03c9, t) + \\u03b7 * unified_math.sin(2\\u03c0f\\u0394t)
+- Recursive Feedback Pulse: R\\u209c = \\u03b1 * R\\u209c\\u208b\\u2081 + (1 - \\u03b1) * P\\u209c
+- DLT Logic Cascade: \\u039b\\u209c = FFT(dP/dt) \\u2295 \\u03b8\\u209c
 
 Core Functionality:
 - Harmonic waveform analysis and compression
@@ -224,13 +224,13 @@ def calculate_zpe_compression(self, pressure_gradient: float, tick_frequency: fl
     Calculate ZPE Compression Envelope.
 
     Mathematical Formula:
-    Z_t = ∇ · ψ(ω, t) + η * unified_math.sin(2πfΔt)
+    Z_t = \\u2207 \\u00b7 \\u03c8(\\u03c9, t) + \\u03b7 * unified_math.sin(2\\u03c0f\\u0394t)
 
     Where:
-    - ∇ · ψ(ω, t) is the pressure gradient
-    - η is the phase-drift regulator
+    - \\u2207 \\u00b7 \\u03c8(\\u03c9, t) is the pressure gradient
+    - \\u03b7 is the phase-drift regulator
     - f is the tick frequency
-    - Δt is the time delta
+    - \\u0394t is the time delta
     """
     try:
     pass
@@ -274,12 +274,12 @@ def calculate_recursive_feedback(self, alpha: float, previous_feedback: float,
     Calculate Recursive Feedback Pulse.
 
     Mathematical Formula:
-    Rₜ = α * Rₜ₋₁ + (1 - α) * Pₜ
+    R\\u209c = \\u03b1 * R\\u209c\\u208b\\u2081 + (1 - \\u03b1) * P\\u209c
 
     Where:
-    - α is the alpha parameter (smoothing factor)
-    - Rₜ₋₁ is the previous feedback value
-    - Pₜ is the current pulse value
+    - \\u03b1 is the alpha parameter (smoothing factor)
+    - R\\u209c\\u208b\\u2081 is the previous feedback value
+    - P\\u209c is the current pulse value
     """
     try:
     pass
@@ -321,12 +321,12 @@ def calculate_dlt_cascade(self, profit_delta: np.ndarray, theta_phase: float) ->
     Calculate DLT Logic Cascade.
 
     Mathematical Formula:
-    Λₜ = FFT(dP/dt) ⊕ θₜ
+    \\u039b\\u209c = FFT(dP/dt) \\u2295 \\u03b8\\u209c
 
     Where:
     - FFT(dP/dt) is the Fast Fourier Transform of profit delta
-    - θₜ is the theta-driven angular price phase
-    - ⊕ is the XOR operation
+    - \\u03b8\\u209c is the theta-driven angular price phase
+    - \\u2295 is the XOR operation
     """
     try:
     pass
@@ -620,3 +620,5 @@ def main() -> None:
 
     if __name__ == "__main__":
     main()
+
+"""

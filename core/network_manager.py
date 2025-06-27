@@ -10,9 +10,9 @@ providing API connectivity, rate limiting, connection pooling, and mathematical
 network optimization capabilities.
 
 Core Mathematical Functions:
-- Connection Pool Optimization: C_opt = unified_math.min(C_max, λ × T_avg) where λ is arrival rate
-- Rate Limiting Algorithm: R_t = R_max × (1 - e^(-αt)) where α is decay factor
-- Network Latency Compensation: L_comp = L_measured + β × σ_L where β is compensation factor
+- Connection Pool Optimization: C_opt = unified_math.min(C_max, \\u03bb \\u00d7 T_avg) where \\u03bb is arrival rate
+- Rate Limiting Algorithm: R_t = R_max \\u00d7 (1 - e^(-\\u03b1t)) where \\u03b1 is decay factor
+- Network Latency Compensation: L_comp = L_measured + \\u03b2 \\u00d7 \\u03c3_L where \\u03b2 is compensation factor
 
 Core Functionality:
 - API connectivity management and monitoring
@@ -295,7 +295,7 @@ def optimize_connection_pool(self, service_name: str) -> Dict[str, Any]:
     Optimize connection pool for a service.
 
     Mathematical Formula:
-    C_opt = unified_math.min(C_max, λ × T_avg) where λ is arrival rate and T_avg is average service time
+    C_opt = unified_math.min(C_max, \\u03bb \\u00d7 T_avg) where \\u03bb is arrival rate and T_avg is average service time
     """
     try:
     pass
@@ -568,7 +568,7 @@ def apply_rate_limiting(self, api_name: str) -> bool:
     Apply rate limiting for an API.
 
     Mathematical Formula:
-    R_t = R_max × (1 - e^(-αt)) where α is decay factor
+    R_t = R_max \\u00d7 (1 - e^(-\\u03b1t)) where \\u03b1 is decay factor
     """
     try:
     pass
@@ -606,7 +606,7 @@ def compensate_network_latency(self, measured_latency: float, service_name: str)
     Compensate for network latency.
 
     Mathematical Formula:
-    L_comp = L_measured + β × σ_L where β is compensation factor and σ_L is latency standard deviation
+    L_comp = L_measured + \\u03b2 \\u00d7 \\u03c3_L where \\u03b2 is compensation factor and \\u03c3_L is latency standard deviation
     """
     try:
     pass
@@ -1003,3 +1003,5 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
+
+"""

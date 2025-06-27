@@ -9,12 +9,12 @@ This module implements a comprehensive model prediction system for Schwabot,
 using machine learning and mathematical models to predict market movements.
 
 Core Mathematical Functions:
-- Linear Regression: y = β₀ + β₁x₁ + β₂x₂ + ... + βₙxₙ + ε
-- Logistic Regression: P(y=1) = 1 / (1 + e^(-z)) where z = β₀ + β₁x₁ + ...
-- Random Forest: f(x) = (1/K) * Σᵏ₌₁ fₖ(x) where fₖ are decision trees
-- Neural Network: y = σ(Wₙσ(Wₙ₋₁...σ(W₁x + b₁)... + bₙ₋₁) + bₙ)
-- Time Series: ARIMA(p,d,q): (1-Σᵏ₌₁ φₖBᵏ)(1-B)ᵈyₜ = (1+Σᵏ₌₁ θₖBᵏ)εₜ
-- Ensemble Methods: f(x) = Σᵏ₌₁ wₖfₖ(x) where wₖ are weights
+- Linear Regression: y = \\u03b2\\u2080 + \\u03b2\\u2081x\\u2081 + \\u03b2\\u2082x\\u2082 + ... + \\u03b2\\u2099x\\u2099 + \\u03b5
+- Logistic Regression: P(y=1) = 1 / (1 + e^(-z)) where z = \\u03b2\\u2080 + \\u03b2\\u2081x\\u2081 + ...
+- Random Forest: f(x) = (1/K) * \\u03a3\\u1d4f\\u208c\\u2081 f\\u2096(x) where f\\u2096 are decision trees
+- Neural Network: y = \\u03c3(W\\u2099\\u03c3(W\\u2099\\u208b\\u2081...\\u03c3(W\\u2081x + b\\u2081)... + b\\u2099\\u208b\\u2081) + b\\u2099)
+- Time Series: ARIMA(p,d,q): (1-\\u03a3\\u1d4f\\u208c\\u2081 \\u03c6\\u2096B\\u1d4f)(1-B)\\u1d48y\\u209c = (1+\\u03a3\\u1d4f\\u208c\\u2081 \\u03b8\\u2096B\\u1d4f)\\u03b5\\u209c
+- Ensemble Methods: f(x) = \\u03a3\\u1d4f\\u208c\\u2081 w\\u2096f\\u2096(x) where w\\u2096 are weights
 
 Core Functionality:
 - Feature engineering and selection
@@ -1073,20 +1073,20 @@ def main():
     # Generate predictions
     predictions=predictor.predict("BTC/USD", prices[-100:), volumes[-100:]]
 
-    safe_print(f"\nGenerated {len(predictions)} predictions:")
+    safe_print(f"\\nGenerated {len(predictions)} predictions:")
     for pred in predictions:
     safe_print(f"  {pred.model_name}: {pred.predicted_value:.4f} (confidence: {pred.confidence:.2f})")
 
     # Get prediction summary
     summary=predictor.get_prediction_summary()
-    safe_print(f"\nPrediction Summary:")
+    safe_print(f"\\nPrediction Summary:")
     print(json.dumps(summary, indent=2, default=str))
 
     # Get model performance
     for config in configs:
     performance=predictor.get_model_performance(config.model_name)
     if performance:
-    safe_print(f"\n{config.model_name} Performance:")
+    safe_print(f"\\n{config.model_name} Performance:")
     safe_print(f"  MSE: {performance.mse:.4f}")
     safe_print(f"  MAE: {performance.mae:.4f}")
     safe_print(f"  Accuracy: {performance.accuracy:.4f}")
@@ -1098,3 +1098,5 @@ traceback.print_exc()
 
 if __name__ == "__main__":
     main()
+
+"""

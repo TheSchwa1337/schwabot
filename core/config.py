@@ -11,9 +11,9 @@ validation.
 
 Core Mathematical Functions:
 - Parameter Optimization: P* = argmin(L(P)) where L is loss function
-- Configuration Validation: V(c) = Σ(wᵢ × vᵢ(c)) where wᵢ are validation weights
-- Dynamic Update: C(t+1) = C(t) + α × ∇L(C(t))
-- Parameter Sensitivity: S(p) = ∂L/∂p
+- Configuration Validation: V(c) = \\u03a3(w\\u1d62 \\u00d7 v\\u1d62(c)) where w\\u1d62 are validation weights
+- Dynamic Update: C(t+1) = C(t) + \\u03b1 \\u00d7 \\u2207L(C(t))
+- Parameter Sensitivity: S(p) = \\u2202L/\\u2202p
 
 Core Functionality:
 - Configuration management and validation
@@ -82,7 +82,7 @@ class ConfigSection:
     description: str
     parameters: Dict[str, ConfigParameter] = field(default_factory=dict)
     status: ConfigStatus = ConfigStatus.INACTIVE
-    version: str = "1.0.0"
+    version: str = "1.0_0"
     created_time: datetime = field(default_factory=datetime.now)
     updated_time: datetime = field(default_factory=datetime.now)
     metadata: Dict[str, Any] = field(default_factory=dict)
