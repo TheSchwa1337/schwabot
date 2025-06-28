@@ -14,14 +14,17 @@ from numpy.typing import NDArray
 # Initialize Unicode handler
 unicore = DualUnicoreHandler()
 
-# -*- coding: utf - 8 -*-
-"""web_server.py \\u2014 TEMPORARY STUB GENERATED AUTOMATICALLY."
+# -*- coding: utf-8 -*-
+"""web_server.py — TEMPORARY STUB GENERATED AUTOMATICALLY.
 
 The original file failed to parse; a stub was generated so the package
 remains importable.  Replace with a clean implementation ASAP."""
-"""
-if __name__ = "__main__":
-    main()
 
-"""
-"""
+
+def main():
+    """Main function for web server."""
+    pass
+
+
+if __name__ == "__main__":
+    main()

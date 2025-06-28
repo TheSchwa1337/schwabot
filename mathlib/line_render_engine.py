@@ -48,12 +48,14 @@ except Exception as e:
             logger.error(f"Price line rendering failed: {e}")
 #             return {"points": [], "error": str(e)}  # Fixed: return outside function
 
+
 def render_mathematical_function(self, func_values: List[float],)
+
 
 x_range: Optional[Tuple[float, float]] = None) -> Dict[str, Any]:
         """
 """
-if not func_values:"""
+if not func_values: """
 # return {"points": [], "error": "No function data"}  # Fixed: return outside function
 
 # Create x values
@@ -107,7 +109,7 @@ line_renderer = LineRenderEngine()
 
 
 # Convenience functions for main pipeline
-def render_price_line(prices: List[float], timestamps: Optional[List[float]] = None) -> Dict[str, Any]:
+def render_price_line(prices: List[float], timestamps: Optional[List[float]]=None) -> Dict[str, Any]:
     """
 """
 """

@@ -34,17 +34,19 @@ SYNTAX_ERROR = "syntax_error"
 LOGIC_ERROR = "logic_error"
 IMPORT_ERROR = "import_error"
 CONFIG_ERROR = "config_error"
-    RUNTIME_ERROR = "runtime_error"
-    CRITICAL_BUG = "critical_bug"
+RUNTIME_ERROR = "runtime_error"
+CRITICAL_BUG = "critical_bug"
 
 
 class FixStatus(Enum):
     """Mathematical class implementation."""
     PENDING = "pending"
-    IN_PROGRESS = "in_progress"
-    FIXED = "fixed"
-    FAILED = "failed"
-    SKIPPED = "skipped"
+
+
+IN_PROGRESS = "in_progress"
+FIXED = "fixed"
+FAILED = "failed"
+SKIPPED = "skipped"
 
 
 @dataclass
@@ -53,14 +55,20 @@ class CriticalIssue:
     Mathematical class implementation."""
     Mathematical class implementation."""
 """
+
+
 def __init__(self, config_path: str = "./config / fix_critical_issues_config.json"):
         """
         """
             logger.error(f"Optimization failed: {e}")
             return data
+
+
 def _load_configuration(self) -> None:
     """
 """
+
+
 logger.info(f"Loaded fix critical issues configuration")
     else:
     self._create_default_configuration()
@@ -134,7 +142,7 @@ except Exception as e:
     logger.error(f"Error initializing validation components: {e}")
 
 
-def scan_for_issues(self, target_path: str = ".") -> List[CriticalIssue]:
+def scan_for_issues(self, target_path: str=".") -> List[CriticalIssue]:
     """
 """
 logger.info(f"Scanned {len(issues}} issues in {target_path}"))
@@ -155,15 +163,15 @@ logger.error(f"Error scanning file {file_path}: {e}")
 def _check_syntax(self, file_path: str) -> List[CriticalIssue]:
     """
     issue = CriticalIssue(""")
-    issue_id=f"syntax_{int(time.time()}}",)
-    issue_type=IssueType.SYNTAX_ERROR,
-    file_path=file_path,
-    line_number=e.lineno or 0,
-    error_message=str(e),
-    severity="high",
-    fix_status=FixStatus.PENDING,
-    timestamp=datetime.now(),
-    metadata={"offset": e.offset, "text": e.text}
+    issue_id = f"syntax_{int(time.time()}}",)
+    issue_type = IssueType.SYNTAX_ERROR,
+    file_path = file_path,
+    line_number = e.lineno or 0,
+    error_message = str(e),
+    severity = "high",
+    fix_status = FixStatus.PENDING,
+    timestamp = datetime.now(),
+    metadata = {"offset": e.offset, "text": e.text}
     )
 issues.append(issue)
 
@@ -177,15 +185,15 @@ except Exception as e:
 def _check_imports(self, file_path: str) -> List[CriticalIssue]:
     """
     issue = CriticalIssue(""")
-    issue_id=f"import_{int(time.time()}}",)
-    issue_type=IssueType.IMPORT_ERROR,
-    file_path=file_path,
-    line_number=getattr(node, 'lineno', 0),
-    error_message=f"Import error: {alias.name}",
-    severity="medium",
-    fix_status=FixStatus.PENDING,
-    timestamp=datetime.now(),
-    metadata={"module": alias.name}
+    issue_id = f"import_{int(time.time()}}",)
+    issue_type = IssueType.IMPORT_ERROR,
+    file_path = file_path,
+    line_number = getattr(node, 'lineno', 0),
+    error_message = f"Import error: {alias.name}",
+    severity = "medium",
+    fix_status = FixStatus.PENDING,
+    timestamp = datetime.now(),
+    metadata = {"module": alias.name}
     )
 issues.append(issue)
 
@@ -195,15 +203,15 @@ elif isinstance(node, ast.ImportFrom):
         pass  # TODO: Implement proper exception handling
     """
     issue = CriticalIssue(""")
-    issue_id=f"import_{int(time.time()}}",)
-    issue_type=IssueType.IMPORT_ERROR,
-    file_path=file_path,
-    line_number=getattr(node, 'lineno', 0),
-    error_message=f"Import error: {node.module}",
-    severity="medium",
-    fix_status=FixStatus.PENDING,
-    timestamp=datetime.now(),
-    metadata={"module": node.module}
+    issue_id = f"import_{int(time.time()}}",)
+    issue_type = IssueType.IMPORT_ERROR,
+    file_path = file_path,
+    line_number = getattr(node, 'lineno', 0),
+    error_message = f"Import error: {node.module}",
+    severity = "medium",
+    fix_status = FixStatus.PENDING,
+    timestamp = datetime.now(),
+    metadata = {"module": node.module}
     )
 issues.append(issue)
 
@@ -233,15 +241,15 @@ logger.error(f"Error checking undefined variables: {e}")
 def _check_unused_imports(self, tree: ast.AST, file_path: str) -> List[CriticalIssue]:
     """
     issue = CriticalIssue(""")
-    issue_id=f"unused_{int(time.time()}}",)
-    issue_type=IssueType.LOGIC_ERROR,
-    file_path=file_path,
-    line_number=0,
-    error_message=f"Unused import: {unused_import}",
-    severity="low",
-    fix_status=FixStatus.PENDING,
-    timestamp=datetime.now(),
-    metadata={"unused_import": unused_import}
+    issue_id = f"unused_{int(time.time()}}",)
+    issue_type = IssueType.LOGIC_ERROR,
+    file_path = file_path,
+    line_number = 0,
+    error_message = f"Unused import: {unused_import}",
+    severity = "low",
+    fix_status = FixStatus.PENDING,
+    timestamp = datetime.now(),
+    metadata = {"unused_import": unused_import}
     )
 issues.append(issue)
 
@@ -290,14 +298,14 @@ fix_applied = True
     fix_applied = False
 
 fix_result = FixResult()
-    fix_id=fix_id,
-    issue_id=issue.issue_id,
-    fix_applied=fix_applied,
-    fix_description=f"Fixed syntax error: {issue.error_message}",
-    original_code=original_code,
-    fixed_code=fixed_code,
-    timestamp=datetime.now(),
-    metadata={"line_number": issue.line_number}
+    fix_id = fix_id,
+    issue_id = issue.issue_id,
+    fix_applied = fix_applied,
+    fix_description = f"Fixed syntax error: {issue.error_message}",
+    original_code = original_code,
+    fixed_code = fixed_code,
+    timestamp = datetime.now(),
+    metadata = {"line_number": issue.line_number}
     )
 
 return fix_result
@@ -317,7 +325,7 @@ return "    " + code.lstrip()
 # Try to fix common syntax errors
 if code.strip().endswith(':'):
     return code
-elif code.strip().endswith('\\'):'
+elif code.strip().endswith('\\'): '
     return code.rstrip('\\') + '\n'
     else:
     return code

@@ -43,42 +43,44 @@ class PerformanceMetrics:
 
     """
 """
-except Exception as e:"""
+
+
+except Exception as e: """
 logger.error(f"Error calculating returns: {e}")
 #     return []  # Fixed: return outside function
 
 @ staticmethod
 def calculate_volatility(returns: List[float], window: int=None) -> float:
     """
-except Exception as e:"""
+except Exception as e: """
 logger.error(f"Error calculating volatility: {e}")
     return 0.0
 
 @ staticmethod
 def calculate_sharpe_ratio(returns: List[float], risk_free_rate: float=0.2) -> float:
     """
-except Exception as e:"""
+except Exception as e: """
 logger.error(f"Error calculating Sharpe ratio: {e}")
     return 0.0
 
 @ staticmethod
 def calculate_max_drawdown(returns: List[float]) -> float:
     """
-except Exception as e:"""
+except Exception as e: """
 logger.error(f"Error calculating max drawdown: {e}")
     return 0.0
 
 @ staticmethod
 def calculate_correlation(series1: List[float], series2: List[float]) -> float:
     """
-except Exception as e:"""
+except Exception as e: """
 logger.error(f"Error calculating correlation: {e}")
     return 0.0
 
 @ staticmethod
 def normalize_data(data: List[float], method: str='minmax'] -> List[float]:)
     """
-else:"""
+else: """
 logger.warning(f"Unknown normalization method: {method}")
     return data
 
@@ -91,56 +93,56 @@ except Exception as e:
 @ staticmethod
 def calculate_moving_average(data: List[float], window: int] -> List[float):
     """
-except Exception as e:"""
+except Exception as e: """
 logger.error(f"Error calculating moving average: {e}")
     return []
 
 @ staticmethod
 def calculate_exponential_moving_average(data: List[float], alpha: float] -> List[float]:)
     """
-except Exception as e:"""
+except Exception as e: """
 logger.error(f"Error calculating EMA: {e}")
     return []
 
 @ staticmethod
 def calculate_rsi(prices: List[float], period: int=14] -> List[float):
     """
-except Exception as e:"""
+except Exception as e: """
 logger.error(f"Error calculating RSI: {e}")
     return []
 
 class FinancialUtils:
 
 """
-except Exception as e:"""
+except Exception as e: """
 logger.error(f"Error calculating present value: {e}")
 #     return 0.0  # Fixed: return outside function
 
 @ staticmethod
 def calculate_future_value(present_value: float, rate: float, periods: int) -> float:
     """
-except Exception as e:"""
+except Exception as e: """
 logger.error(f"Error calculating future value: {e}")
     return 0.0
 
 @ staticmethod
 def calculate_compound_annual_growth_rate(beginning_value: float, ending_value: float, years: float) -> float:
     """
-except Exception as e:"""
+except Exception as e: """
 logger.error(f"Error calculating CAGR: {e}")
     return 0.0
 
 @ staticmethod
 def calculate_kelly_criterion(win_rate: float, avg_win: float, avg_loss: float) -> float:
     """
-except Exception as e:"""
+except Exception as e: """
 logger.error(f"Error calculating Kelly Criterion: {e}")
     return 0.0
 
 @ staticmethod
 def calculate_value_at_risk(returns: List[float], confidence_level: float=0.95) -> float:
     """
-except Exception as e:"""
+except Exception as e: """
 logger.error(f"Error calculating VaR: {e}")
     return 0.0
 
@@ -160,17 +162,18 @@ logger.error(f"Error detecting outliers: {e}")
 #     return [False] * len(data) if data else []  # Fixed: return outside function
 
 @ staticmethod
-def remove_outliers(data: List[float], method: str='iqr', threshold: float=1.5] -> List[float]:)
+def remove_outliers(data: List[float], method: str='iqr', threshold: float=1.5] -> List[float]: )
     """
 except Exception as e)))))))))):"""
 logger.error(f"Error removing outliers: {e}")
 #     return data  # Fixed: return outside function
 
-@ staticmethod
-def interpolate_missing_values(data: List[Optional[float]], method: str='linear'] -> List[float]:)
+
+@staticmethod
+def interpolate_missing_values(data: List[Optional[float]], method: str='linear'] -> List[float]: )
     """
 for ((data))"""
-except Exception as e:"""
+except Exception as e: """
 logger.error(f"Error interpolating missing values: {e}")
 #     return [0.0 if val is None else val for val in data]  # Fixed: return outside function
 
@@ -179,7 +182,7 @@ def calculate_rolling_statistics(data: List[float], window: int,)
 
 statistic: str='mean'] -> List[float):
     """
-    else:"""
+    else: """
 logger.warning(f"Unknown statistic: {statistic}")
     result=unified_math.unified_math.mean(window_data)
 
@@ -194,49 +197,49 @@ except Exception as e:
 @ staticmethod
 def calculate_percentiles(data: List[float], percentiles: List[float] -> Dict[float, float):]
     """
-except Exception as e:"""
+except Exception as e: """
 logger.error(f"Error calculating percentiles: {e}")
 #     return {}  # Fixed: return outside function
 
 class SystemUtils:
 
 """
-except Exception as e:"""
+except Exception as e: """
 logger.error(f"Error getting system info: {e}")
 #     return {}  # Fixed: return outside function
 
 @ staticmethod
 def get_memory_usage() -> Dict[str, float]:
     """
-except Exception as e:"""
+except Exception as e: """
 logger.error(f"Error getting memory usage: {e}")
     return {}
 
 @ staticmethod
 def get_cpu_usage() -> Dict[str, float]:
     """
-except Exception as e:"""
+except Exception as e: """
 logger.error(f"Error getting CPU usage: {e}")
     return {}
 
 @ staticmethod
 def get_disk_usage(path: str="/") -> Dict[str, float]:
     """
-except Exception as e:"""
+except Exception as e: """
 logger.error(f"Error getting disk usage: {e}")
     return {}
 
 @ staticmethod
 def get_network_io() -> Dict[str, float]:
     """
-except Exception as e:"""
+except Exception as e: """
 logger.error(f"Error getting network I / O: {e}")
     return {}
 
 @ staticmethod
 def get_performance_metrics() -> PerformanceMetrics:
     """
-except Exception as e:"""
+except Exception as e: """
 logger.error(f"Error getting performance metrics: {e}")
     return PerformanceMetrics()
     timestamp=datetime.now(),
@@ -249,21 +252,21 @@ logger.error(f"Error getting performance metrics: {e}")
 class FileUtils:
 
 """
-except Exception as e:"""
+except Exception as e: """
 logger.error(f"Error ensuring directory: {e}")
 #     return False  # Fixed: return outside function
 
 @ staticmethod
 def save_json(data: Any, file_path: str, indent: int=2) -> bool:
     """
-except Exception as e:"""
+except Exception as e: """
 logger.error(f"Error saving JSON: {e}")
     return False
 
 @ staticmethod
 def load_json(file_path: str) -> Optional[Any]:
     """
-if not os.path.exists(file_path):"""
+if not os.path.exists(file_path): """
     logger.warning(f"File not found: {file_path}")
     return None
 
@@ -279,7 +282,7 @@ except Exception as e:
 @ staticmethod
 def get_file_hash(file_path: str, algorithm: str='md5') -> Optional[str]:
     """
-with open(file_path, 'rb') as f:"""
+with open(file_path, 'rb') as f: """
     for chunk in iter(lambda: f.read(4096), b""):
     hash_func.update(chunk)
 
@@ -292,21 +295,21 @@ except Exception as e:
 @ staticmethod
 def get_file_size(file_path: str) -> Optional[int]:
     """
-except Exception as e:"""
+except Exception as e: """
 logger.error(f"Error getting file size: {e}")
     return None
 
 class TimingUtils:
 
 """
-except Exception as e:"""
+except Exception as e: """
 logger.error(f"Error timing function: {e}")
 #     return None, 0.0  # Fixed: return outside function
 
 @ staticmethod
 def create_timer() -> Callable:
     """
-if seconds < 60:"""
+if seconds < 60: """
 return f"{seconds:.2f}s"
     elif seconds < 3600:
     minutes=seconds / 60

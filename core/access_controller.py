@@ -1,9 +1,23 @@
-# Import core mathematical modules
-from dual_unicore_handler import DualUnicoreHandler
+"""
+access_controller.py
+
+Mathematical/Trading Access Controller Stub
+
+This module is intended to manage access control, permissions, and authentication for mathematical trading operations.
+
+[BRAIN] Placeholder: Connects to CORSA permission and authentication logic.
+TODO: Implement mathematical access control, permission checks, and integration with unified_math and trading engine.
+"""
+
 import logging
 from typing import Dict, List, Optional, Any, Tuple
 import numpy as np
 from numpy.typing import NDArray
+
+try:
+    from dual_unicore_handler import DualUnicoreHandler
+except ImportError:
+    DualUnicoreHandler = None
 
 # from core.bit_phase_sequencer import BitPhase, BitSequence  # FIXME: Unused import
 # from core.dual_error_handler import PhaseState, SickType, SickState  # FIXME: Unused import
@@ -12,16 +26,32 @@ from numpy.typing import NDArray
 
 
 # Initialize Unicode handler
-unicore = DualUnicoreHandler()
+unicore = DualUnicoreHandler() if DualUnicoreHandler else None
 
-# -*- coding: utf - 8 -*-
-"""access_controller.py \\u2014 TEMPORARY STUB GENERATED AUTOMATICALLY."
 
-The original file failed to parse; a stub was generated so the package
-remains importable.  Replace with a clean implementation ASAP."""
-"""
-if __name__ = "__main__":
-    main()
+class AccessController:
+    """
+    [BRAIN] Mathematical Access Controller
 
+Intended to:
+    - Manage user/session access to trading and mathematical operations
+    - Integrate with CORSA authentication/permission systems
+    - Enforce mathematical constraints on access (e.g., risk, limits)
+
+    TODO: Implement permission checks, mathematical access logic, and connect to unified_math.
 """
+
+def __init__(self):
+        self.active_sessions: Dict[str, Any] = {}
+        # TODO: Integrate with CORSA session/permission registry
+
+def check_access(self, user_id: str, operation: str) -> bool:
+        """
+        Placeholder for access check logic.
+        TODO: Implement mathematical permission checks using CORSA/internal logic.
 """
+        # Example: always allow for now
+        return True
+
+
+# [BRAIN] End of stub. Replace with full implementation as needed.

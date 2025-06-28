@@ -15,13 +15,15 @@ from numpy.typing import NDArray
 unicore = DualUnicoreHandler()
 
 # -*- coding: utf - 8 -*-
-"""recursive_market_oracle.py \\u2014 TEMPORARY STUB GENERATED AUTOMATICALLY."
+"""recursive_market_oracle.py \\\\ \\\u2014 TEMPORARY STUB GENERATED AUTOMATICALLY."
 
 The original file failed to parse; a stub was generated so the package
 remains importable.  Replace with a clean implementation ASAP."""
 """
-if __name__ = "__main__":
+if __name__ = "__main__ = ":"
     main()
 
 """
+"""
+
 """

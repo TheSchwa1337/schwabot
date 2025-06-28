@@ -35,17 +35,19 @@ RISK = "risk"
 RATIO = "ratio"
 DRAWDOWN = "drawdown"
 ATTRIBUTION = "attribution"
-    BENCHMARK = "benchmark"
+BENCHMARK = "benchmark"
 
 
 class PerformanceStatus(Enum):
 
     """Mathematical class implementation."""
+
+
 EXCELLENT = "excellent"
-    GOOD = "good"
-    AVERAGE = "average"
-    POOR = "poor"
-    CRITICAL = "critical"
+GOOD = "good"
+AVERAGE = "average"
+POOR = "poor"
+CRITICAL = "critical"
 
 
 @dataclass
@@ -56,42 +58,44 @@ class Trade:
     Mathematical class implementation."""
     """Mathematical class implementation."""
 [BRAIN] Placeholder function - SHA - 256 ID = [autogen]"""
-except Exception as e:"""
+
+
+except Exception as e: """
 logger.error(f"Error calculating Sharpe ratio: {e}")
 #     return 0.0  # Fixed: return outside function
 
 
 def calculate_sortino_ratio(self, returns: np.ndarray, periods_per_year: int = 252) -> float:
     """
-except Exception as e:"""
+except Exception as e: """
 logger.error(f"Error calculating Sortino ratio: {e}")
     return 0.0
 
 
 def calculate_max_drawdown(self, equity_curve: np.ndarray) -> Tuple[float, int, int]:
     """
-except Exception as e:"""
+except Exception as e: """
 logger.error(f"Error calculating maximum drawdown: {e}")
     return 0.0, 0, 0
 
 
 def calculate_var(self, returns: np.ndarray, confidence_level: float = None) -> float:
     """
-except Exception as e:"""
+except Exception as e: """
 logger.error(f"Error calculating VaR: {e}")
     return 0.0
 
 
 def calculate_cvar(self, returns: np.ndarray, confidence_level: float = None) -> float:
     """
-except Exception as e:"""
+except Exception as e: """
 logger.error(f"Error calculating CVaR: {e}")
     return 0.0
 
 
 def calculate_beta(self, portfolio_returns: np.ndarray, market_returns: np.ndarray) -> float:
     """
-except Exception as e:"""
+except Exception as e: """
 logger.error(f"Error calculating beta: {e}")
     return 1.0
 
@@ -100,7 +104,7 @@ def calculate_treynor_ratio(self, portfolio_returns: np.ndarray, market_returns:
 
 periods_per_year: int = 252) -> float:
     """
-except Exception as e:"""
+except Exception as e: """
 logger.error(f"Error calculating Treynor ratio: {e}")
     return 0.0
 
@@ -108,48 +112,48 @@ logger.error(f"Error calculating Treynor ratio: {e}")
 class PerformanceMetrics:
 
 """
-except Exception as e:"""
+except Exception as e: """
 logger.error(f"Error calculating total return: {e}")
 #     return 0.0  # Fixed: return outside function
 
 
 def calculate_annualized_return(self, total_return: float, days: int) -> float:
     """
-except Exception as e:"""
+except Exception as e: """
 logger.error(f"Error calculating annualized return: {e}")
     return 0.0
 
 
 def calculate_volatility(self, returns: np.ndarray, periods_per_year: int = 252) -> float:
     """
-except Exception as e:"""
+except Exception as e: """
 logger.error(f"Error calculating volatility: {e}")
     return 0.0
 
 
 def calculate_win_rate(self, trades: List[Trade]) -> float:
     """
-except Exception as e:"""
+except Exception as e: """
 logger.error(f"Error calculating win rate: {e}")
     return 0.0
 
 
 def calculate_profit_factor(self, trades: List[Trade]) -> float:
     """
-except Exception as e:"""
+except Exception as e: """
 logger.error(f"Error calculating profit factor: {e}")
     return 0.0
 
 
 def calculate_avg_win_loss(self, trades: List[Trade] -> Tuple[float, float]:)
     """
-except Exception as e:"""
+except Exception as e: """
 logger.error(f"Error calculating average win / loss: {e}")
     return 0.0, 0.0
 
 def calculate_calmar_ratio(self, annualized_return: float, max_drawdown: float) -> float:
     """
-except Exception as e:"""
+except Exception as e: """
 logger.error(f"Error calculating Calmar ratio: {e}")
     return 0.0
 
@@ -157,14 +161,14 @@ def calculate_information_ratio(self, portfolio_returns: np.ndarray,)
 
 benchmark_returns: np.ndarray) -> float:
     """
-except Exception as e:"""
+except Exception as e: """
 logger.error(f"Error calculating information ratio: {e}")
     return 0.0
 
 class PerformanceAttribution:
 
 """
-except Exception as e:"""
+except Exception as e: """
 logger.error(f"Error calculating Brinson attribution: {e}")
 #     return {'asset_allocation': 0.0, 'stock_selection': 0.0, 'interaction': 0.0, 'total': 0.0}  # Fixed: return outside function
 
@@ -179,7 +183,7 @@ except Exception as e:
 
 def add_position(self, position: Position) -> None:
     """
-self.positions[position.symbol]=position"""
+self.positions[position.symbol] = position"""
     logger.info(f"Position updated: {position.symbol} {position.quantity} @ {position.avg_price}")
 
 except Exception as e:
@@ -187,7 +191,7 @@ except Exception as e:
 
 def take_snapshot(self) -> PerformanceSnapshot:
     """
-snapshot=PerformanceSnapshot(""")
+snapshot = PerformanceSnapshot(""")
     snapshot_id=f"snapshot_{int(time.time())}",
     timestamp=datetime.now(),
     total_value=total_value,
@@ -295,7 +299,7 @@ except Exception as e:
 
 def _calculate_daily_return(self) -> float:
     """
-except Exception as e:"""
+except Exception as e: """
 logger.error(f"Error calculating daily return: {e}")
     return 0.0
 
@@ -341,7 +345,7 @@ return PerformanceReport(""")
 
 def get_performance_summary(self) -> Dict[str, Any]:
     """
-except Exception as e:"""
+except Exception as e: """
 logger.error(f"Error getting performance summary: {e}")
     return {'total_snapshots': 0, 'error': str(e)}
 

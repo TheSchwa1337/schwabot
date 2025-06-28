@@ -27,21 +27,23 @@ unicore = DualUnicoreHandler()
 """
 PROFIT_PREDICTION = "profit_prediction"
 RISK_OPTIMIZATION = "risk_optimization"
-    OPPORTUNITY_DETECTION = "opportunity_detection"
-    PORTFOLIO_OPTIMIZATION = "portfolio_optimization"
-    PERFORMANCE_FORECAST = "performance_forecast"
+OPPORTUNITY_DETECTION = "opportunity_detection"
+PORTFOLIO_OPTIMIZATION = "portfolio_optimization"
+PERFORMANCE_FORECAST = "performance_forecast"
 
 
 class PredictionConfidence(Enum):
 
+
 LOW = "low"
-    MEDIUM = "medium"
-    HIGH = "high"
-    VERY_HIGH = "very_high"
+MEDIUM = "medium"
+HIGH = "high"
+VERY_HIGH = "very_high"
 
 
 @dataclass
 class ProfitPrediction:
+
 
 prediction_id: str
 asset_symbol: str
@@ -58,6 +60,7 @@ metadata: Dict[str, Any] = field(default_factory=dict)
 @dataclass
 class OptimizationRecommendation:
 
+
 recommendation_id: str
 strategy_type: str
 target_assets: List[str]
@@ -72,6 +75,7 @@ metadata: Dict[str, Any] = field(default_factory=dict)
 
 @dataclass
 class MarketOpportunity:
+
 
 opportunity_id: str
 asset_symbol: str
@@ -93,6 +97,8 @@ def __init__(self, config_path: str = "./config / profit_oracle_config.json"):
         """
             logger.error(f"Profit calculation failed: {e}")
             return 0.0
+
+
 pass
 
 self.config_path = config_path
@@ -184,7 +190,7 @@ def _initialize_market_cache(self) -> None:
     """
 """Initialize market data cache."""
 """
-try:"""
+try: """
 """
 """
 # Initialize cache for different asset types"""
@@ -208,7 +214,7 @@ def _start_prediction_engine(self) -> None:
 # This would start background prediction tasks"""
 logger.info("Prediction engine started")
 
-async def predict_profit(self, asset_symbol: str, time_horizon: int = 7,)
+async def predict_profit(self, asset_symbol: str, time_horizon: int=7,)
                             market_data: Optional[Dict[str, Any]] = None) -> Optional[ProfitPrediction]:
         """
 """
