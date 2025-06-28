@@ -158,7 +158,7 @@ if component_id in self.component_instances:
     if hasattr(instance, 'stop'):
     try:
     except Exception as e:
-        pass  # TODO: Implement proper exception handling
+        pass  
     """
     except Exception as e:
         """

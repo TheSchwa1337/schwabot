@@ -19,9 +19,7 @@ try:
 except ImportError:
     DualUnicoreHandler = None
 
-# from core.bit_phase_sequencer import BitPhase, BitSequence  # FIXME: Unused import
 # from core.dual_error_handler import PhaseState, SickType, SickState  # FIXME: Unused import
-# from core.symbolic_profit_router import ProfitTier, FlipBias, SymbolicState  # FIXME: Unused import
 # from core.unified_math_system import unified_math  # FIXME: Unused import
 
 # Initialize Unicode handler
@@ -43,14 +41,12 @@ Intended to:
 def __init__(self):
         """Initialize the audit logger."""
 self.audit_events: List[Dict[str, Any]] = []
-        # TODO: Initialize audit logging components
 
 def log_audit_event(self, event_type: str, data: Dict[str, Any]) -> bool:
         """
         Log an audit event.
         TODO: Implement mathematical audit logging logic.
 """
-        # TODO: Implement audit event logging
         return True
 
 def get_audit_trail(self, filters: Dict[str, Any]) -> List[Dict[str, Any]]:

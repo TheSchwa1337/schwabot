@@ -288,7 +288,6 @@ class SchwabotPackage:
         TODO: Implement module-specific initialization logic
         """
         try:
-            # TODO: Implement actual module initialization
             logging.info(f"Initializing module: {module_name}")
 
             return {

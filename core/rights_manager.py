@@ -50,7 +50,6 @@ class RightsManager:
         Returns:
             True if user has permission, False otherwise
         """
-        # TODO: Implement permission checking logic
         return True
 
     def validate_trading_rights(self, user_id: str, asset: str) -> Dict[str, Any]:

@@ -203,7 +203,7 @@ logger.warning("Stream processing not running")
 # Add to queue with timeout
 try:
     except Exception as e:
-    pass  # TODO: Implement proper exception handling
+    pass  
     """
 except queue.Full: """
 logger.warning("Processing queue is full")

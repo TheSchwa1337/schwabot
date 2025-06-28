@@ -19,9 +19,7 @@ try:
 except ImportError:
     DualUnicoreHandler = None
 
-# from core.bit_phase_sequencer import BitPhase, BitSequence  # FIXME: Unused import
 # from core.dual_error_handler import PhaseState, SickType, SickState  # FIXME: Unused import
-# from core.symbolic_profit_router import ProfitTier, FlipBias, SymbolicState  # FIXME: Unused import
 # from core.unified_math_system import unified_math  # FIXME: Unused import
 
 # Initialize Unicode handler
@@ -43,14 +41,12 @@ Intended to:
 def __init__(self):
         """Initialize the audit manager."""
 self.audit_sessions: Dict[str, Any] = {}
-        # TODO: Initialize audit management components
 
 def create_audit_session(self, session_id: str) -> bool:
         """
         Create a new audit session.
         TODO: Implement mathematical audit session creation.
 """
-        # TODO: Implement audit session creation
         return True
 
 def manage_compliance(self, compliance_data: Dict[str, Any]) -> Dict[str, Any]:

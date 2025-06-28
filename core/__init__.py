@@ -38,7 +38,6 @@ def initialize_core() -> bool:
     try:
         logger.info("Initializing schwabot core systems...")
 
-        # TODO: Implement actual core initialization
         # - Mathematical system setup
         # - Trading engine initialization
         # - Risk management setup

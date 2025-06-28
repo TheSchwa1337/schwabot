@@ -29,7 +29,6 @@ class AlertManager:
 
     def __init__(self):
         self.alerts: List[Dict[str, Any]] = []
-        # TODO: Integrate with CORSA alert/notification registry
 
     def add_alert(self, alert_type: str, message: str, priority: int = 1) -> None:
         """

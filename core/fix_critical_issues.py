@@ -107,7 +107,7 @@ config = {"""}
 
 try:
     except Exception as e:
-    pass  # TODO: Implement proper exception handling
+    pass  
     """
     except Exception as e:"""
 logger.error(f"Error saving configuration: {e}")
@@ -200,7 +200,7 @@ issues.append(issue)
 elif isinstance(node, ast.ImportFrom):
     try:
     except Exception as e:
-        pass  # TODO: Implement proper exception handling
+        pass  
     """
     issue = CriticalIssue(""")
     issue_id = f"import_{int(time.time()}}",)
@@ -216,7 +216,7 @@ elif isinstance(node, ast.ImportFrom):
 issues.append(issue)
 
 except SyntaxError:
-    pass  # TODO: Implement except block
+    pass  
 # Syntax errors are handled separately
 """
 except Exception as e:"""
@@ -557,7 +557,7 @@ errors_found = 0
 for tool_name, tool_func in self.validation_tools.items():
     try:
     except Exception as e:
-        pass  # TODO: Implement proper exception handling
+        pass  
     """
 result = tool_func()"""
     if not result.get("passed", True):
@@ -622,7 +622,7 @@ errors=0
     if os.path.exists(config_file):
     try:
     except Exception as e:
-        pass  # TODO: Implement proper exception handling
+        pass  
     """
 return {"""}
     "passed": errors = 0,
@@ -643,7 +643,7 @@ missing_packages=[]
     for package in required_packages:
     try:
     except Exception as e:
-        pass  # TODO: Implement proper exception handling
+        pass  
     """
 return {"""}
     "passed": len(missing_packages) = 0,

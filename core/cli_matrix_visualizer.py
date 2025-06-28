@@ -77,7 +77,6 @@ class CLIMatrixVisualizer:
 
     def start_visualization(self) -> None:
         """Start the visualization loop."""
-        # TODO: Implement visualization start
         pass
 
     def stop_visualization(self) -> None:

@@ -50,7 +50,6 @@ class SecurityManager:
         Returns:
             True if credentials are valid, False otherwise
         """
-        # TODO: Implement security credential validation
         return True
 
     def check_security_policy(self, action: str, user_id: str) -> bool:

@@ -27,7 +27,6 @@ except ImportError:
     DualUnicoreHandler = None
 
 # from core.unified_math_system import unified_math  # FIXME: Unused import
-# from utils.safe_print import safe_print, info, warn, error, success, debug  # FIXME: Unused import
 
 # Initialize Unicode handler
 unicore = DualUnicoreHandler() if DualUnicoreHandler else None
@@ -132,7 +131,6 @@ class AdaptiveTrainer:
     def _load_configuration(self) -> None:
         """Load configuration from file."""
         try:
-            # TODO: Implement configuration loading
             logging.info("Loaded adaptive trainer configuration")
         except Exception as e:
             logging.error(f"Error loading configuration: {e}")

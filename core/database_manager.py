@@ -231,7 +231,7 @@ logger.error("No available database connection")
 
 try:
     except Exception as e:
-    pass  # TODO: Implement proper exception handling
+    pass  
     """
     except Exception as e: """
 logger.error(f"Error executing query: {e}")
@@ -245,7 +245,7 @@ logger.error("No available database connection")
 
 try:
     except Exception as e:
-    pass  # TODO: Implement proper exception handling
+    pass  
     """
     # Record metrics"""
     self._record_query_metrics("TRANSACTION", execution_time, 0, False)

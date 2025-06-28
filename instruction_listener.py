@@ -5,9 +5,7 @@ from typing import Dict, List, Optional, Any, Tuple
 import numpy as np
 from numpy.typing import NDArray
 
-# from core.bit_phase_sequencer import BitPhase, BitSequence  # FIXME: Unused import
 # from core.dual_error_handler import PhaseState, SickType, SickState  # FIXME: Unused import
-# from core.symbolic_profit_router import ProfitTier, FlipBias, SymbolicState  # FIXME: Unused import
 # from core.unified_math_system import unified_math  # FIXME: Unused import
 
 

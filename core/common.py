@@ -109,7 +109,6 @@ class BaseComponent:
         Returns:
             True if initialization successful, False otherwise
         """
-        # TODO: Implement component initialization
         return True
 
     def shutdown(self) -> None:

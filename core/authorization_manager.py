@@ -19,9 +19,7 @@ try:
 except ImportError:
     DualUnicoreHandler = None
 
-# from core.bit_phase_sequencer import BitPhase, BitSequence  # FIXME: Unused import
 # from core.dual_error_handler import PhaseState, SickType, SickState  # FIXME: Unused import
-# from core.symbolic_profit_router import ProfitTier, FlipBias, SymbolicState  # FIXME: Unused import
 # from core.unified_math_system import unified_math  # FIXME: Unused import
 
 # Initialize Unicode handler
@@ -44,14 +42,12 @@ def __init__(self):
         """Initialize the authorization manager."""
 self.permissions: Dict[str, List[str]] = {}
 self.access_control: Dict[str, Dict[str, bool]] = {}
-        # TODO: Initialize authorization components
 
 def check_authorization(self, user_id: str, resource: str, action: str) -> bool:
         """
         Check user authorization for resource and action.
         TODO: Implement mathematical authorization checking.
 """
-        # TODO: Implement authorization checking
         return False
 
 def grant_permission(self, user_id: str, resource: str, action: str) -> bool:

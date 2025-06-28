@@ -49,7 +49,6 @@ class ResponseEvaluator:
         Returns:
             Evaluation results with confidence metrics
         """
-        # TODO: Implement response evaluation logic
         return {"confidence": 0.0, "validity": False}
 
     def validate_signal_quality(self, signal: NDArray) -> float:

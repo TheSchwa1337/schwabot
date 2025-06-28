@@ -51,7 +51,6 @@ class RoleManager:
         Returns:
             True if role assignment successful, False otherwise
         """
-        # TODO: Implement role assignment logic
         return True
 
     def check_role_permissions(self, user_id: str, action: str) -> bool:

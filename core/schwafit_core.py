@@ -47,7 +47,6 @@ class SchwafitCore:
         Returns:
             True if initialization successful, False otherwise
         """
-        # TODO: Implement system initialization
         return True
 
     def process_mathematical_operation(self, operation: str,

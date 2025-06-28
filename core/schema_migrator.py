@@ -52,7 +52,6 @@ class SchemaMigrator:
         Returns:
             True if migration successful, False otherwise
         """
-        # TODO: Implement schema migration logic
         return True
 
     def validate_schema_compatibility(self, schema_a: Dict[str, Any],

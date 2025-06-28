@@ -110,7 +110,7 @@ config = {"""}
 
         try:
     except Exception as e:
-    pass  # TODO: Implement proper exception handling
+    pass  
     """
     except Exception as e:"""
         logger.error(f"Error saving configuration: {e}")

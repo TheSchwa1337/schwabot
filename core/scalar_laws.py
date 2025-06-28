@@ -50,7 +50,6 @@ class ScalarLaws:
         Returns:
             Transformed data array
         """
-        # TODO: Implement scalar law application
         return data
 
     def validate_scalar_operation(self, operation: str, operands: List[float]) -> bool:

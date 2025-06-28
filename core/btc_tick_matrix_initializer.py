@@ -21,9 +21,7 @@ try:
 except ImportError:
     DualUnicoreHandler = None
 
-# from core.bit_phase_sequencer import BitPhase, BitSequence  # FIXME: Unused import
 # from core.dual_error_handler import PhaseState, SickType, SickState  # FIXME: Unused import
-# from core.symbolic_profit_router import ProfitTier, FlipBias, SymbolicState  # FIXME: Unused import
 # from core.unified_math_system import unified_math  # FIXME: Unused import
 
 unicore = DualUnicoreHandler() if DualUnicoreHandler else None
@@ -128,7 +126,6 @@ class HashInterlockGrid:
         Find interlock patterns.
         TODO: Implement mathematical logic for interlock pattern detection.
         """
-        # TODO: Implement interlock pattern detection
         return []
 
     def get_hash_statistics(self) -> Dict[str, Any]:
@@ -156,7 +153,6 @@ class CausalEntryField:
         self.weight_matrix: Optional[NDArray] = None
         self.signal_strength_cache: Dict[str, float] = {}
         # TODO: Initialize causal entry field components
-
     def initialize_weight_matrix(self) -> NDArray:
         """
         Initialize weight matrix.

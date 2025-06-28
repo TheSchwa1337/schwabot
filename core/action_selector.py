@@ -19,9 +19,7 @@ try:
 except ImportError:
     DualUnicoreHandler = None
 
-# from core.bit_phase_sequencer import BitPhase, BitSequence  # FIXME: Unused import
 # from core.dual_error_handler import PhaseState, SickType, SickState  # FIXME: Unused import
-# from core.symbolic_profit_router import ProfitTier, FlipBias, SymbolicState  # FIXME: Unused import
 # from core.unified_math_system import unified_math  # FIXME: Unused import
 
 # Initialize Unicode handler
@@ -42,7 +40,6 @@ class ActionSelector:
 
     def __init__(self):
         self.action_log: List[str] = []
-        # TODO: Integrate with CORSA action/decision registry
 
     def select_action(self, state: Dict[str, Any]) -> str:
         """

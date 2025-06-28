@@ -78,7 +78,6 @@ class RiskManager:
             size: Position size
             entry_price: Entry price
         """
-        # TODO: Implement position addition logic
         pass
 
     def remove_position(self, symbol: str) -> None:

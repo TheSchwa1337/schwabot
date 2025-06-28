@@ -98,7 +98,6 @@ class ConfigManager:
         Returns:
             True if addition successful, False otherwise
         """
-        # TODO: Implement section addition
         return True
 
     def get_parameter(self, section_id: str, parameter_name: str) -> Optional[Any]:
