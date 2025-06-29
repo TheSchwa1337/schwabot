@@ -49,16 +49,14 @@ MOCK_PRICE_DATA = {
         "price": 100.0,
         "volume": 200000.0,
         "timestamp": time.time()
-    }
 }
-
+}
 MOCK_PORTFOLIO_STATE = {
     "USDC": Decimal('10000'),
     "BTC": Decimal('0.1'),
     "ETH": Decimal('1.0'),
     "USDT": Decimal('0')
 }
-
 class MockIntegratedTradingSignal:
     """Mock trading signal for testing."""
     
@@ -128,8 +126,7 @@ class MockTradeExecutor:
                     "success": False,
                     "error": error_msg,
                     "trade_id": trade_id
-                }
-            
+}
             # Execute trade
             if side.upper() == "BUY":
                 # Buy crypto with USDC
@@ -148,8 +145,7 @@ class MockTradeExecutor:
                         "amount": crypto_amount,
                         "entry_price": price,
                         "entry_time": time.time()
-                    }
-                    
+}
                     # Add to trade history
                     trade_record = {
                         "trade_id": trade_id,
@@ -158,7 +154,7 @@ class MockTradeExecutor:
                         "amount": amount,
                         "price": price,
                         "timestamp": time.time()
-                    }
+}
                     self.trade_history.append(trade_record)
                     
                     self.execution_count += 1
@@ -171,28 +167,26 @@ class MockTradeExecutor:
                         "amount": amount,
                         "price": price,
                         "timestamp": time.time()
-                    }
+}
                 else:
                     return {
                         "success": False,
                         "error": "Insufficient USDC balance",
                         "trade_id": trade_id
-                    }
+}
             else:
                 return {
                     "success": False,
                     "error": "Unsupported side",
                     "trade_id": trade_id
-                }
-                
+}
         except Exception as e:
             logger.error(f"Entry execution failed: {e}")
             return {
                 "success": False,
                 "error": str(e),
                 "trade_id": f"ERROR_{int(time.time())}"
-            }
-    
+}
     async def execute_exit(self, symbol: str, side: str, amount: float, price: float) -> Dict[str, Any]:
         """Execute exit trade."""
         try:
@@ -204,8 +198,7 @@ class MockTradeExecutor:
                     "success": False,
                     "error": "No position to exit",
                     "trade_id": trade_id
-                }
-            
+}
             position = self.positions[symbol]
             
             # Calculate P&L
@@ -236,7 +229,7 @@ class MockTradeExecutor:
                     "price": price,
                     "pnl": pnl,
                     "timestamp": time.time()
-                }
+}
                 self.trade_history.append(trade_record)
                 
                 self.execution_count += 1
@@ -250,22 +243,20 @@ class MockTradeExecutor:
                     "price": price,
                     "pnl": pnl,
                     "timestamp": time.time()
-                }
+}
             else:
                 return {
                     "success": False,
                     "error": "Unsupported exit side",
                     "trade_id": trade_id
-                }
-                
+}
         except Exception as e:
             logger.error(f"Exit execution failed: {e}")
             return {
                 "success": False,
                 "error": str(e),
                 "trade_id": f"ERROR_{int(time.time())}"
-            }
-    
+}
     def _validate_trade(self, symbol: str, side: str, amount: float, price: float) -> bool:
         """Validate trade parameters."""
         if amount <= 0 or price <= 0:
@@ -456,8 +447,8 @@ class TestDataBacklogging(unittest.TestCase):
                     "price": 50000.0 + (i * 10),  # Simulate price movement
                     "volume": 1000000.0,
                     "timestamp": time.time() + i
-                }
-            }
+}
+}
             self.price_history.append(price_data)
         
         # Verify backlogging
@@ -478,7 +469,7 @@ class TestDataBacklogging(unittest.TestCase):
                 "amount": 0.1,
                 "price": 50000.0 + (i * 100),
                 "timestamp": time.time() + i
-            }
+}
             self.trade_history.append(trade)
         
         # Verify backlogging

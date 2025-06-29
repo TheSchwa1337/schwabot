@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""
+""""""
 DLT Waveform Visualization Module.
 
 Provides comprehensive visualization capabilities for the Delta Lock Transform (DLT)
@@ -18,7 +18,7 @@ Features:
 - Greyscale confidence mapping
 - State transition color coding
 - Optional comparative metric overlays
-"""
+""""""
 
 from typing import Any, Callable, List, Optional, Tuple
 
@@ -29,17 +29,17 @@ import numpy as np
 from schwabot.core.dlt_waveform_engine import DLTState, DLTWaveformEngine
 
 
-def visualize_dlt_waveform(
+def visualize_dlt_waveform()
     time_series: List[float],
-    observer_confirmations: Optional[List[bool]] = None,
-    comparative_overlay_fn: Optional[Callable[[List[float]], Any]] = None,
-    overlay_label: str = "Comparative Metric",
-    title: str = "DLT Waveform Engine Visualization",
-    figsize: Tuple[int, int] = (12, 8),
-    show: bool = True,
-) -> Tuple[plt.Figure, np.ndarray]:
-    """
-    Visualize the DLT waveform engine's operation on a time series.
+        observer_confirmations: Optional[List[bool]] = None,
+            comparative_overlay_fn: Optional[Callable[[List[float]], Any]] = None,
+            overlay_label: str = "Comparative Metric",
+            title: str = "DLT Waveform Engine Visualization",
+            figsize: Tuple[int, int] = (12, 8),
+            show: bool = True,
+            ) -> Tuple[plt.Figure, np.ndarray]:
+    """"""
+    Visualize the DLT waveform engine's operation on a time series.'
 
     Args:
         time_series: List of float values (e.g., price or signal)
@@ -52,7 +52,7 @@ def visualize_dlt_waveform(
 
     Returns:
         Tuple of (figure, axes) for further customization
-    """
+    """"""
     engine = DLTWaveformEngine()
     deltas = []
     phase_projections = []
@@ -64,15 +64,14 @@ def visualize_dlt_waveform(
     state_colors = []
     hash_states = []
 
-    state_color_map = {
+    state_color_map = {}
         DLTState.LOCKED: "#4caf50",
-        DLTState.FADED: "#bdbdbd",
-        DLTState.WAITING: "#1976d2",
-        DLTState.UNLOCKED: "#f44336",
-    }
-
+            DLTState.FADED: "#bdbdbd",
+                DLTState.WAITING: "#1976d2",
+                DLTState.UNLOCKED: "#f44336",
+}
     for i in range(1, len(time_series)):
-        obs = (
+        obs = ()
             observer_confirmations[i]
             if observer_confirmations and i < len(observer_confirmations)
             else None
@@ -89,21 +88,21 @@ def visualize_dlt_waveform(
         hash_states.append(result.hash_state)
 
     x = np.arange(1, len(time_series))
-    fig, axes = plt.subplots(
+    fig, axes = plt.subplots()
         5, 1, figsize=figsize, sharex=True,
-        gridspec_kw={"height_ratios": [1, 1, 1, 1, 0.3]}
+            gridspec_kw={"height_ratios": [1, 1, 1, 1, 0.3]}
     )
 
     # 1. Deltas
     axes[0].plot(x, deltas, label="Delta", color="#1976d2")
-    axes[0].scatter(
+    axes[0].scatter()
         x,
-        [d if t else np.nan for d, t in zip(deltas, triplet_locks)],
-        color="#ff9800",
-        label="Triplet Lock",
-        marker="o",
-        zorder=5,
-    )
+            [d if t else np.nan for d, t in zip(deltas, triplet_locks)],
+                color="#ff9800",
+                label="Triplet Lock",
+                marker="o",
+                zorder=5,
+                )
     axes[0].set_ylabel("Delta")
     axes[0].legend(loc="upper right")
 
@@ -133,9 +132,9 @@ def visualize_dlt_waveform(
     if comparative_overlay_fn is not None:
         overlay = comparative_overlay_fn(time_series)
         ax_overlay = axes[0].twinx()
-        ax_overlay.plot(
+        ax_overlay.plot()
             x, overlay[1:], label=overlay_label,
-            color="#9c27b0", alpha=0.5, linestyle="--"
+                color="#9c27b0", alpha=0.5, linestyle="--"
         )
         ax_overlay.set_ylabel(overlay_label, color="#9c27b0")
         ax_overlay.legend(loc="lower right")
@@ -144,4 +143,4 @@ def visualize_dlt_waveform(
     plt.tight_layout(rect=[0, 0, 1, 0.97])
     if show:
         plt.show()
-    return fig, axes 
+    return fig, axes

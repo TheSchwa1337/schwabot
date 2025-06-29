@@ -78,7 +78,6 @@ PACKAGE_METADATA = {
         ],
     },
 }
-
 # Package configuration
 PACKAGE_CONFIG = {
     "core_modules": ["core", "mathlib", "utils", "api", "database", "trading", "ai", "monitoring", "security"],
@@ -101,10 +100,9 @@ PACKAGE_CONFIG = {
             "schwabot = schwabot.main:main",
             "schwabot-cli = schwabot.cli:main",
             "schwabot-gui = schwabot.gui:main",
-        ]
+]
     },
 }
-
 # System compatibility
 SYSTEM_REQUIREMENTS = {
     "python_version": "3.8+",
@@ -114,8 +112,6 @@ SYSTEM_REQUIREMENTS = {
     "storage_requirements": "10GB+",
     "network_requirements": "Broadband internet connection",
 }
-
-
 class SchwabotPackage:
     """
     Main package class for Schwabot trading system.
@@ -156,8 +152,7 @@ class SchwabotPackage:
                 "modules": [],
                 "components": [],
                 "compatibility": {},
-            }
-
+}
             # Check system compatibility
             compatibility_result = self._check_system_compatibility()
             initialization_result["compatibility"] = compatibility_result
@@ -209,8 +204,7 @@ class SchwabotPackage:
                 "status": "failed",
                 "error": str(e),
                 "timestamp": datetime.now().isoformat(),
-            }
-
+}
     def _check_system_compatibility(self) -> Dict[str, Any]:
         """Check system compatibility requirements."""
         try:
@@ -224,8 +218,7 @@ class SchwabotPackage:
                 "required": min_version,
                 "actual": python_version,
                 "compatible": python_compatible,
-            }
-
+}
             if not python_compatible:
                 compatibility_result["compatible"] = False
                 compatibility_result["warnings"].append(
@@ -239,8 +232,7 @@ class SchwabotPackage:
                 "required": self.system_requirements["operating_systems"],
                 "actual": os_name,
                 "compatible": os_compatible,
-            }
-
+}
             if not os_compatible:
                 compatibility_result["compatible"] = False
                 compatibility_result["warnings"].append(f"Operating system {os_name} is not supported")
@@ -254,8 +246,7 @@ class SchwabotPackage:
                 "error": str(e),
                 "checks": {},
                 "warnings": [f"Compatibility check failed: {e}"],
-            }
-
+}
     def _initialize_module(self, module_name: str) -> Dict[str, Any]:
         """
         Initialize a specific module.
@@ -288,8 +279,7 @@ class SchwabotPackage:
                 "status": "failed",
                 "error": str(e),
                 "timestamp": datetime.now().isoformat(),
-            }
-
+}
     def get_package_info(self) -> Dict[str, Any]:
         """Get package information."""
         return {
@@ -299,8 +289,7 @@ class SchwabotPackage:
             "initialized_modules": self.initialized_modules,
             "loaded_components": list(self.loaded_components.keys()),
             "startup_time": self.startup_time.isoformat() if self.startup_time else None,
-        }
-
+}
     def shutdown_package(self) -> Dict[str, Any]:
         """
         Shutdown the Schwabot package.
@@ -317,8 +306,7 @@ class SchwabotPackage:
                 "timestamp": datetime.now().isoformat(),
                 "modules_shutdown": len(self.initialized_modules),
                 "components_shutdown": len(self.loaded_components),
-            }
-
+}
             self.initialized_modules.clear()
             self.loaded_components.clear()
 

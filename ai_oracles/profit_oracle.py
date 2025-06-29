@@ -152,8 +152,7 @@ if __name__ == "__main__":
             "volume": 12000.0,
             "indicator_score": 0.75,
             "risk_level": 0.05,
-        }
-
+}
         forecast = oracle.forecast_profit(sample_market_data)
 
         if forecast:

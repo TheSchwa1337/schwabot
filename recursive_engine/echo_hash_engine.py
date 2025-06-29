@@ -17,8 +17,7 @@ class MockPatternMatcher:
             "cosine": similarity / min_len if min_len > 0 else 0.0,
             "euclidean": 1.0 - (similarity / min_len) if min_len > 0 else 1.0,
             "hamming": 1.0 - (similarity / min_len) if min_len > 0 else 1.0
-        }
-
+}
 def composite_similarity(hash1_int_list: List[int], hash2_int_list: List[int]) -> float:
     """
     Calculates a composite similarity score between two hash representations (as lists of integers).
@@ -71,8 +70,7 @@ class SHAGravitationField:
                 'velocity': np.zeros(2), # Placeholder for future dynamic modeling
                 'loop_level': 1,
                 'last_profit': 0.0
-            }
-        
+}
         # Increase mass with profit and update last profit
         self.attractors[sha_key]['mass'] += profit
         self.attractors[sha_key]['loop_level'] += 1
@@ -134,8 +132,7 @@ class EchoHashEngine:
             "idx81": idx81,
             "phase": phase,
             "raw_hash": sha_hash.hex()
-        }
-
+}
     def detect_echo_and_gravitate(self, new_fingerprint: Dict[str, Any],
                                  current_entropy: float,
                                  current_coherence: float,
@@ -199,4 +196,4 @@ class EchoHashEngine:
             "echo_match_confidence": echo_match_confidence,
             "recall_bias": recall_bias,
             "reentry_signal": reentry_signal
-        } 
+}

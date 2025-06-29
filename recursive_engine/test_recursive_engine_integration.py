@@ -29,7 +29,7 @@ class TestRecursiveEngineIntegration(unittest.TestCase):
             {'profit': 100.0, 'phase': np.pi / 4},
             {'profit': 120.0, 'phase': np.pi / 2},
             {'profit': 90.0, 'phase': 3 * np.pi / 4},
-        ]
+]
         orbit.update_orbital_parameters(profit_events)
         self.assertGreater(orbit.a, 0)
         self.assertGreaterEqual(orbit.e, 0)

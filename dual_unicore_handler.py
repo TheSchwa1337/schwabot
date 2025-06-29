@@ -91,8 +91,7 @@ class DualUnicoreHandler:
             "🟢": ASICLogicCode.GO_SIGNAL,
             "🔴": ASICLogicCode.STOP_SIGNAL,
             "🟡": ASICLogicCode.WAIT_SIGNAL,
-        }
-
+}
         # Mathematical placeholders for profit calculations
         self.math_placeholders = {
             ASICLogicCode.PROFIT_TRIGGER: "P = grad·Phi(hash) / Deltat",
@@ -101,8 +100,7 @@ class DualUnicoreHandler:
             ASICLogicCode.AI_LOGIC_TRIGGER: "AI = Sigma w_i * phi(hash_i)",
             ASICLogicCode.TARGET_HIT: "T = argmax(P(hash, t))",
             ASICLogicCode.RECURSIVE_ENTRY: "R = P(hash) * recursive_factor(t)",
-        }
-
+}
     def dual_unicore_handler(self, symbol: str) -> str:
         """
         Converts Unicode emoji <-> SHA block reference for ASIC verification logic

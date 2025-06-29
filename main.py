@@ -53,7 +53,7 @@ def setup_logging(level: str = "INFO") -> None:
         handlers=[
             logging.StreamHandler(sys.stdout),
             logging.FileHandler('schwabot.log', encoding='utf-8')
-        ]
+]
     )
 
 
@@ -199,9 +199,7 @@ def generate_market_data(symbol: str) -> Dict[str, Any]:
         "volumes": volumes,
         "current_price": current_price,
         "timestamp": datetime.now().isoformat()
-    }
-
-
+}
 async def run_demo_mode(symbols: List[str], cycles: int) -> None:
     """
     Run Schwabot in demo mode with simulated trading.
@@ -256,9 +254,8 @@ async def run_live_mode(symbols: List[str], cycles: int, dry_run: bool = False) 
             "max_position_size": 0.1,
             "stop_loss_pct": 0.02,
             "take_profit_pct": 0.05
-        }
-    }
-    
+}
+}
     schwafit_integration = SchwafitTradingIntegration(config)
     
     if dry_run:

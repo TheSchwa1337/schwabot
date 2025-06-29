@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""
+""""""
 Adaptive Trainer for Schwabot AI Models
 =======================================
 
@@ -12,7 +12,7 @@ Key Features:
 - Continuous training and retraining loops.
 - Performance monitoring and adaptive adjustment of training parameters.
 - Integration with core mathematical and trading components.
-"""
+""""""
 
 import asyncio
 import logging
@@ -30,8 +30,8 @@ from numpy.typing import NDArray
 try:
     from dual_unicore_handler import DualUnicoreHandler
     # Assuming these exist based on other imports and system structure
-    # from core.unified_math_system import UnifiedMathSystem 
-    # from core.phase_bit_integration import BitPhase, BitSequence 
+    # from core.unified_math_system import UnifiedMathSystem
+    # from core.phase_bit_integration import BitPhase, BitSequence
     CORE_SYSTEMS_AVAILABLE = True
 except ImportError as e:
     logging.warning(f"Adaptive Trainer: Core systems not fully available: {e}")
@@ -83,14 +83,14 @@ class TrainingConfig:
 
 
 class AdaptiveTrainer:
-    """
+    """"""
     Manages adaptive training processes for AI trading models.
-    """
+    """"""
 
     def __init__(self, config: Optional[Dict[str, Any]] = None):
-        """
+        """"""
         Initializes the AdaptiveTrainer with configuration.
-        """
+        """"""
         self.config = config or {}
         self.training_configs: Dict[str, TrainingConfig] = {}
         self.model_registry: Dict[str, Any] = {}
@@ -102,10 +102,10 @@ class AdaptiveTrainer:
 
         logger.info("🧠 Adaptive Trainer initialized.")
 
-    async def start_training_session(self, model_type: str, training_mode: str, 
+    async def start_training_session(self, model_type: str, training_mode: str, )
                                      hyperparameters: Optional[Dict[str, Any]] = None,
-                                     data_config: Optional[Dict[str, Any]] = None) -> Optional[str]:
-        """
+                                         data_config: Optional[Dict[str, Any]] = None) -> Optional[str]:
+        """"""
         Starts a new adaptive training session for a specified model type.
 
         Args:
@@ -116,27 +116,27 @@ class AdaptiveTrainer:
 
         Returns:
             The version_id of the created training configuration, or None if failed.
-        """
+        """"""
         async with self.training_lock:
             if self.is_running:
                 logger.warning("Training session already in progress. Please wait or stop current session.")
                 return None
             self.is_running = True
-            
+
             try:
                 # Generate a unique version ID for this training run
                 version_id = f"model_{model_type}_{training_mode}_{int(time.time())}"
 
                 # Create a new training configuration
-                training_config = TrainingConfig(
+                training_config = TrainingConfig()
                     version_id=version_id,
-                    model_type=model_type,
-                    training_mode=training_mode,
-                    hyperparameters=hyperparameters or {},
-                    data_config=data_config or {},
-                    validation_config={},
-                    optimization_config={},
-                    deployment_status=ModelStatus.TRAINING
+                        model_type=model_type,
+                            training_mode=training_mode,
+                            hyperparameters=hyperparameters or {},
+                            data_config=data_config or {},
+                            validation_config={},
+                            optimization_config={},
+                            deployment_status=ModelStatus.TRAINING
                 )
                 self.training_configs[version_id] = training_config
 
@@ -146,12 +146,12 @@ class AdaptiveTrainer:
                 await asyncio.sleep(5) # Simulate long running training
 
                 # After simulated training, update status
-                training_result = TrainingResult(
+                training_result = TrainingResult()
                     start_time=training_config.created_at,
-                    end_time=datetime.now(),
-                    duration_seconds=5.0,
-                    metrics={"accuracy": 0.95, "loss": 0.05},
-                    success=True
+                        end_time=datetime.now(),
+                            duration_seconds=5.0,
+                            metrics={"accuracy": 0.95, "loss": 0.5},
+                            success=True
                 )
 
                 training_config.deployment_status = ModelStatus.READY
@@ -166,7 +166,7 @@ class AdaptiveTrainer:
                 self.is_running = False
 
     async def evaluate_model(self, version_id: str, evaluation_data: Any) -> Dict[str, Any]:
-        """
+        """"""
         Evaluates a trained model.
 
         Args:
@@ -175,14 +175,14 @@ class AdaptiveTrainer:
 
         Returns:
             A dictionary of evaluation metrics.
-        """
+        """"""
         logger.info(f"Evaluating model {version_id}...")
         # Simulate evaluation
         await asyncio.sleep(2)
         return {"accuracy": 0.92, "precision": 0.88, "recall": 0.90}
 
     async def deploy_model(self, version_id: str) -> bool:
-        """
+        """"""
         Deploys a trained model for live inference.
 
         Args:
@@ -190,7 +190,7 @@ class AdaptiveTrainer:
 
         Returns:
             True if deployment is successful, False otherwise.
-        """
+        """"""
         logger.info(f"Deploying model {version_id}...")
         # Simulate deployment
         await asyncio.sleep(1)
@@ -203,7 +203,7 @@ class AdaptiveTrainer:
         return False
 
     def get_training_status(self, version_id: str) -> Optional[TrainingConfig]:
-        """
+        """"""
         Retrieves the current status of a training configuration.
 
         Args:
@@ -211,7 +211,7 @@ class AdaptiveTrainer:
 
         Returns:
             The TrainingConfig object, or None if not found.
-        """
+        """"""
         return self.training_configs.get(version_id)
 
 
@@ -223,11 +223,11 @@ if __name__ == "__main__":
         trainer = AdaptiveTrainer()
 
         # Start a training session
-        config_id = await trainer.start_training_session(
+        config_id = await trainer.start_training_session()
             model_type="price_prediction",
-            training_mode="supervised",
-            hyperparameters={'epochs': 10, 'learning_rate': 0.01},
-            data_config={'source': 'historical_prices.csv'}
+                training_mode="supervised",
+                    hyperparameters={'epochs': 10, 'learning_rate': 0.1},
+                    data_config={'source': 'historical_prices.csv'}
         )
 
         if config_id:

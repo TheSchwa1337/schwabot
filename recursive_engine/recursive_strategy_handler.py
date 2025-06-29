@@ -129,4 +129,4 @@ class RecursiveStrategyHandler:
             "predicted_profit_potential": predicted_profit_potential,
             "soft_loop_break_signal": soft_loop_break_signal,
             "echo_metrics": echo_metrics # Include full echo metrics for detailed analysis
-        } 
+}

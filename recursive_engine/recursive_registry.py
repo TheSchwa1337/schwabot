@@ -26,7 +26,7 @@ class LoopMemoryRing:
             idx81,
             profit,
             entropy
-        ]
+]
         self.pointer = (self.pointer + 1) % self.size
         self.tick_counter += 1
         
@@ -35,8 +35,7 @@ class LoopMemoryRing:
         matches = self.buffer[
             (self.buffer[:, 1] == idx42) & 
             (self.buffer[:, 2] == idx81)
-        ]
-        
+]
         if matches.shape[0] == 0:
             return None
             
@@ -61,8 +60,7 @@ class LoopMemoryRing:
             'entropy': weighted_entropy,
             'occurrences': valid_matches.shape[0],
             'total_weight': sum_weights
-        }
-
+}
 class OrbitRing:
     """
     Models profit trajectories as orbital paths for SHA families.

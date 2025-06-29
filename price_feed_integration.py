@@ -212,7 +212,7 @@ class CCXTPriceFeed:
                             'ask': ticker.get('ask'),
                             'high': ticker.get('high'),
                             'low': ticker.get('low')
-                        }
+}
                     )
                     
                     self.rate_limiter.record_request()
@@ -260,12 +260,11 @@ class CoinMarketCapPriceFeed:
             params = {
                 'symbol': base_symbol,
                 'convert': 'USD'
-            }
+}
             headers = {
                 'X-CMC_PRO_API_KEY': self.api_key,
                 'Accept': 'application/json'
-            }
-            
+}
             async with aiohttp.ClientSession() as session:
                 async with session.get(url, params=params, headers=headers) as response:
                     if response.status == 200:
@@ -285,7 +284,7 @@ class CoinMarketCapPriceFeed:
                                     'market_cap': quote.get('market_cap'),
                                     'percent_change_24h': quote.get('percent_change_24h'),
                                     'cmc_rank': quote_data.get('cmc_rank')
-                                }
+}
                             )
                             
                             self.rate_limiter.record_request()
@@ -324,8 +323,7 @@ class CoinGeckoPriceFeed:
                 'ETH': 'ethereum',
                 'SOL': 'solana',
                 'MATIC': 'matic-network'
-            }
-            
+}
             base_symbol = symbol.split('/')[0]
             coin_id = symbol_mapping.get(base_symbol, base_symbol.lower())
             
@@ -336,8 +334,7 @@ class CoinGeckoPriceFeed:
                 'include_market_cap': 'true',
                 'include_24hr_vol': 'true',
                 'include_24hr_change': 'true'
-            }
-            
+}
             async with aiohttp.ClientSession() as session:
                 async with session.get(url, params=params) as response:
                     if response.status == 200:
@@ -355,7 +352,7 @@ class CoinGeckoPriceFeed:
                                 metadata={
                                     'market_cap': coin_data.get('usd_market_cap'),
                                     'price_change_24h': coin_data.get('usd_24h_change')
-                                }
+}
                             )
                             
                             self.rate_limiter.record_request()
@@ -378,7 +375,7 @@ class MockPriceFeed:
             'ETH/USDC': 3000.0,
             'SOL/USDC': 100.0,
             'MATIC/USDC': 1.0
-        }
+}
         self.price_history = {}
         logger.info("✅ Mock price feed initialized")
     
@@ -405,7 +402,7 @@ class MockPriceFeed:
                 metadata={
                     'price_change': price_change,
                     'is_mock': True
-                }
+}
             )
             
             return price_data
