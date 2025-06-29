@@ -1,419 +1,221 @@
-# -*- coding: utf - 8 -*-
-# -*- coding: utf - 8 -*-
-import os
-from collections import defaultdict, deque
-from enum import Enum
-from datetime import datetime, timedelta
-from dataclasses import dataclass, field
-from typing import Dict, List, Any, Optional, Tuple, Union
-import asyncio
-import time
-import json
-import logging
-from dual_unicore_handler import DualUnicoreHandler
+"""
+DLT Waveform Engine
+===================
 
-from core.unified_math_system import unified_math
-from utils.safe_print import safe_print, info, warn, error, success, debug
-from typing import Dict, List, Optional, Any, Tuple
+Implements the Delta Lock Transform (DLT) waveform for recursive, memory-locked,
+observer-aware, phase-corrected signal confirmation in Schwabot.
+
+Mathematical Core:
+    - Delta:           Δx_t = x_t - x_{t-1}
+    - Memory:          M_n = {Δx_{t-k} | k in [1, H]}
+    - Triplet Lock:    ∃k1,k2,k3: Δx_{t-k1} ≈ Δx_{t-k2} ≈ Δx_{t-k3}
+    - Phase Projection: Π_t (phase overlay operator)
+    - Drift Correction: θ(t) = ∫₀ᵗ ∇DLT_n(τ) dτ
+    - Greyscale:       sigmoid-weighted confidence for soft fade-out
+    - Observer Lock:   Only collapse waveform if observer confirms
+    - Hash State:      Output for system-wide routing
+"""
+
 import numpy as np
-from numpy.typing import NDArray
+import hashlib
+import logging
+from typing import List, Optional, Dict, Any, Tuple
+from dataclasses import dataclass, field
+from enum import Enum
+from datetime import datetime
 
+logger = logging.getLogger(__name__)
 
-# Initialize Unicode handler
-unicore = DualUnicoreHandler()
-
-"""
-"""
-SINE = "sine"
-SQUARE = "square"
-SAW = "saw"
-TRIANGLE = "triangle"
-COMPLEX = "complex"
-
-
-class CompressionMode(Enum):
-
-    """Mathematical class implementation."""
-
-
-ZPE = "zpe"
-RECURSIVE = "recursive"
-DLT = "dlt"
-HYBRID = "hybrid"
-
+class DLTState(Enum):
+    UNLOCKED = 0
+    LOCKED = 1
+    FADED = 2
+    WAITING = 3
 
 @dataclass
-class WaveformData:
-    waveform_id: str
-
-
-timestamp: datetime
-frequency: float
-amplitude: float
-phase: float
-waveform_type: WaveformType
-compression_data: Dict[str, Any]
-   metadata: Dict[str, Any] = field(default_factory=dict)
-
+class DLTMemory:
+    """Stores delta memory for recursive lock confirmation."""
+    horizon: int = 30
+    deltas: List[float] = field(default_factory=list)
+    
+    def update(self, value: float):
+        self.deltas.append(value)
+        if len(self.deltas) > self.horizon:
+            self.deltas.pop(0)
+    
+    def get_triplets(self) -> List[Tuple[float, float, float]]:
+        """Return all possible triplets in memory."""
+        if len(self.deltas) < 3:
+            return []
+        return [
+            (self.deltas[i], self.deltas[i+1], self.deltas[i+2])
+            for i in range(len(self.deltas) - 2)
+        ]
 
 @dataclass
-class ZPECompression:
+class DLTWaveformResult:
+    state: DLTState
+    lock_triplet: Optional[Tuple[float, float, float]] = None
+    phase_projection: float = 0.0
+    drift_correction: float = 0.0
+    confidence: float = 0.0
+    hash_state: str = ""
+    timestamp: datetime = field(default_factory=datetime.utcnow)
+    observer_confirmed: bool = False
+    greyscale: float = 0.0
+    meta: Dict[str, Any] = field(default_factory=dict)
 
+class DLTWaveformEngine:
     """
-    Mathematical class implementation."""
-    Mathematical class implementation."""
-"""
-
-
-def __init__(self, config_path: str = "./config / dlt_waveform_config.json"):
+    Delta Lock Transform (DLT) Waveform Engine for recursive, memory-locked,
+    observer-aware, phase-corrected signal confirmation.
     """
-    self._start_waveform_processing()"""
-    logger.info("DLT Waveform Engine initialized")
-
-
-def _load_configuration(self) -> None:
-    """
-"""
-
-
-logger.info(f"Loaded DLT waveform configuration")
-   else:
-    self._create_default_configuration()
-
-except Exception as e:
-    logger.error(f"Error loading configuration: {e}")
-    self._create_default_configuration()
-
-
-def _create_default_configuration(self) -> None:
-    """
-config = {"""}
-        "zpe_compression": {}
-        "default_frequency": 1.0,
-        "phase_drift_threshold": 0.1,
-        "compression_factor": 0.8
-        },
-        "recursive_feedback": {}
-        "alpha_parameter": 0.7,
-        "feedback_threshold": 0.5,
-        "memory_depth": 100
-        },
-        "dlt_cascade": {}
-        "fft_window_size": 256,
-        "theta_resolution": 0.1,
-        "cascade_threshold": 0.1
-        },
-        "waveform_processing": {}
-        "sample_rate": 1000,
-        "buffer_size": 1024,
-        "processing_interval": 0.1
-
-        try:
-    except Exception as e:
-    pass  
-    """
-    except Exception as e:"""
-        logger.error(f"Error saving configuration: {e}")
-
-
-        def _initialize_engine(self) -> None:
-    """
-"""
-        logger.info("DLT waveform engine initialized successfully")
-
-
-        def _initialize_waveform_processors(self) -> None:
-    """
-"""
-        logger.info(f"Initialized {len(self.waveform_processors)} waveform processors")
-
-        except Exception as e:
-    logger.error(f"Error initializing waveform processors: {e}")
-
-
-        def _initialize_mathematical_components(self) -> None:
-    """
-"""
-        logger.info("Mathematical components initialized")
-
-        except Exception as e:
-    logger.error(f"Error initializing mathematical components: {e}")
-
-
-        def _start_waveform_processing(self) -> None:
-    """
-# This would start background processing tasks"""
-        logger.info("Waveform processing started")
-
-
-        def calculate_zpe_compression(self, pressure_gradient: float, tick_frequency: float,)
-
-        phase_drift: float, time_delta: float) -> ZPECompression:
-    """
-pass"""
-        compression_id = f"zpe_{int(time.time())}"
-
-        # Calculate compression envelope using the mathematical formula
-        pressure_component = pressure_gradient
-    sinusoidal_component = phase_drift * np.unified_math.sin(2 * np.pi * tick_frequency * time_delta)
-    compression_envelope = pressure_component + sinusoidal_component
-
-        # Create ZPE compression object
-        zpe_compression = ZPECompression()
-    compression_id = compression_id,
-    pressure_gradient = pressure_gradient,
-    tick_frequency = tick_frequency,
-    phase_drift_regulator = phase_drift,
-    compression_envelope = compression_envelope,
-    timestamp = datetime.now(),
-    metadata = {}
-    "time_delta": time_delta,
-    "pressure_component": pressure_component,
-    "sinusoidal_component": sinusoidal_component
-        )
-
-        # Store compression
-        self.zpe_compressions[compression_id] = zpe_compression
-
-        logger.info(f"ZPE compression calculated: {compression_envelope:.6f}")
-    return zpe_compression
-
-        except Exception as e:
-    logger.error(f"Error calculating ZPE compression: {e}")
-    return None
-
-
-        def calculate_recursive_feedback(self, alpha: float, previous_feedback: float,)
-
-        current_pulse: float) -> RecursiveFeedback:
-    """
-pass"""
-        feedback_id = f"rec_{int(time.time())}"
-
-        # Calculate recursive envelope using the mathematical formula
-        alpha_component = alpha * previous_feedback
-    pulse_component = (1 - alpha) * current_pulse
-    recursive_envelope = alpha_component + pulse_component
-
-        # Create recursive feedback object
-        recursive_feedback = RecursiveFeedback()
-    feedback_id = feedback_id,
-    alpha_parameter = alpha,
-    previous_feedback = previous_feedback,
-    current_pulse = current_pulse,
-    recursive_envelope = recursive_envelope,
-    timestamp = datetime.now(),
-    metadata = {}
-    "alpha_component": alpha_component,
-    "pulse_component": pulse_component
-        )
-
-        # Store feedback
-        self.recursive_feedbacks[feedback_id] = recursive_feedback
-
-        logger.info(f"Recursive feedback calculated: {recursive_envelope:.6f}")
-    return recursive_feedback
-
-        except Exception as e:
-    logger.error(f"Error calculating recursive feedback: {e}")
-    return None
-
-
-        def calculate_dlt_cascade(self, profit_delta: np.ndarray, theta_phase: float) -> DLTCascade:
-    """
-pass"""
-        cascade_id = f"dlt_{int(time.time())}"
-
-        # Calculate FFT of profit delta
-        if len(profit_delta) < self.fft_window_size:
-        # Pad with zeros if necessary
-        padded_delta = np.pad(profit_delta, (0, self.fft_window_size - len(profit_delta)))
-    else:
-    padded_delta = profit_delta[:self.fft_window_size]
-
-        fft_result = np.fft.fft(padded_delta)
-
-        # Apply XOR operation with theta phase
-        # Convert theta to complex number for XOR operation
-        theta_complex = unified_math.unified_math.exp(1j * theta_phase)
-    dlt_logic = unified_math.unified_math.mean(unified_math.unified_math.abs(fft_result * theta_complex))
-
-        # Create DLT cascade object
-        dlt_cascade = DLTCascade()
-    cascade_id = cascade_id,
-    fft_result = fft_result,
-    theta_phase = theta_phase,
-    dlt_logic = dlt_logic,
-    timestamp = datetime.now(),
-    metadata = {}
-    "fft_magnitude": unified_math.unified_math.mean(unified_math.unified_math.abs(fft_result)),
-    "theta_complex": theta_complex
-        )
-
-        # Store cascade
-        self.dlt_cascades[cascade_id] = dlt_cascade
-
-        logger.info(f"DLT cascade calculated: {dlt_logic:.6f}")
-    return dlt_cascade
-
-        except Exception as e:
-    logger.error(f"Error calculating DLT cascade: {e}")
-    return None
-
-
-        def process_waveform(self, waveform_type: WaveformType, frequency: float,)
-
-        amplitude: float, phase: float, duration: float) -> WaveformData:
-    """
-pass"""
-        waveform_id = f"wave_{waveform_type.value}_{int(time.time())}"
-
-        # Generate waveform data
-        sample_rate = 1000  # samples per second
-    num_samples = int(duration * sample_rate)
-    time_array = np.linspace(0, duration, num_samples)
-
-        # Generate waveform based on type
-        if waveform_type in self.waveform_processors:
-    waveform_values = self.waveform_processors[waveform_type]()
-    time_array, frequency, amplitude, phase
-)
-        else:
-    waveform_values = self._process_sine_waveform(time_array, frequency, amplitude, phase)
-
-        # Calculate compression data
-        compression_data = self._calculate_waveform_compression(waveform_values, frequency)
-
-        # Create waveform data object
-        waveform_data = WaveformData()
-    waveform_id = waveform_id,
-    timestamp = datetime.now(),
-    frequency = frequency,
-    amplitude = amplitude,
-    phase = phase,
-    waveform_type = waveform_type,
-    compression_data = compression_data,
-    metadata = {}
-    "duration": duration,
-    "num_samples": num_samples,
-    "sample_rate": sample_rate
-        )
-
-        # Store waveform
-        self.waveforms[waveform_id] = waveform_data
-
-        logger.info(f"Processed {waveform_type.value} waveform: {waveform_id}")
-    return waveform_data
-
-        except Exception as e:
-    logger.error(f"Error processing waveform: {e}")
-    return None
-
-
-        def _process_sine_waveform(self, time_array: np.ndarray, frequency: float,)
-
-        amplitude: float, phase: float) -> np.ndarray:
-    """
-    Process complex waveform (combination of multiple harmonics)."""
-        [BRAIN] Placeholder function - SHA - 256 ID = [autogen]"""
-return {"""}
-    "rms_value": rms_value,
-    "peak_value": peak_value,
-    "crest_factor": crest_factor,
-    "compression_ratio": compression_ratio,
-    "spectral_density": spectral_density.tolist(),
-    "frequency": frequency
-
-        except Exception as e:
-    logger.error(f"Error calculating waveform compression: {e}")
-    return {}
-
-
-def analyze_tick_frequency(self, tick_data: List[float] -> Dict[str, Any): ]
-    """
-if len(tick_data) < 2:"""
-    return {"error": "Insufficient tick data"}
-
-        # Calculate tick intervals
-        tick_intervals = np.diff(tick_data)
-
-        # Calculate frequency statistics
-        mean_interval = unified_math.unified_math.mean(tick_intervals)
-    std_interval = unified_math.unified_math.std(tick_intervals)
-    frequency = 1.0 / mean_interval if mean_interval > 0 else 0
-
-        # Detect frequency patterns
-        frequency_patterns = self._detect_frequency_patterns(tick_intervals)
-
-        return {}
-    "mean_interval": mean_interval,
-    "std_interval": std_interval,
-    "frequency": frequency,
-    "frequency_patterns": frequency_patterns,
-    "num_ticks": len(tick_data)
-
-        except Exception as e:
-    logger.error(f"Error analyzing tick frequency: {e}")
-    return {"error": str(e)}
-
-def _detect_frequency_patterns(self, tick_intervals: np.ndarray] -> Dict[str, Any]: )
-    """
-return {"""}
-    "autocorrelation": autocorr.tolist(),
-    "peaks": peaks,
-    "pattern_strength": pattern_strength
-
-        except Exception as e:
-    logger.error(f"Error detecting frequency patterns: {e}")
-    return {}
-
-        def get_engine_statistics(self) -> Dict[str, Any]:
-    """
-return {"""}
-    "total_waveforms": total_waveforms,
-    "total_zpe_compressions": total_zpe_compressions,
-    "total_recursive_feedbacks": total_recursive_feedbacks,
-    "total_dlt_cascades": total_dlt_cascades,
-    "average_compression_envelope": avg_compression,
-    "average_recursive_envelope": avg_feedback,
-    "average_dlt_logic": avg_dlt_logic,
-    "phase_drift_history_size": len(self.phase_drift_history)
-
-        def main() -> None:
-    """
-"""
-        engine = DLTWaveformEngine("./test_dlt_waveform_config.json")
-
-        # Test ZPE compression
-        zpe_result = engine.calculate_zpe_compression()
-    pressure_gradient = 0.5,
-    tick_frequency = 1.0,
-    phase_drift = 0.1,
-    time_delta = 0.1
-)
-
-        # Test recursive feedback
-        feedback_result = engine.calculate_recursive_feedback()
-    alpha = 0.7,
-    previous_feedback = 0.5,
-    current_pulse = 0.8
-)
-
-        # Test DLT cascade
-        profit_delta = np.random.random(256)
-    cascade_result = engine.calculate_dlt_cascade()
-    profit_delta = profit_delta,
-    theta_phase = np.pi / 4
-)
-
-        safe_print("DLT Waveform Engine initialized successfully")
-
-        # Get statistics
-        stats = engine.get_engine_statistics()
-    safe_print(f"Engine Statistics: {stats}")
-
-        if __name__ = "__main__":
-    main()
-
+    def __init__(self, memory_horizon: int = 30, triplet_tol: float = 1e-6, greyscale_threshold: float = 0.5):
+        self.memory = DLTMemory(horizon=memory_horizon)
+        self.triplet_tol = triplet_tol
+        self.greyscale_threshold = greyscale_threshold
+        self.last_phase_projection = 0.0
+        self.last_drift_correction = 0.0
+        self.last_hash_state = ""
+        self.last_confidence = 0.0
+        self.last_greyscale = 0.0
+        self.last_state = DLTState.WAITING
+        self.last_triplet = None
+        self.last_observer_confirmed = False
+        self.history: List[DLTWaveformResult] = []
+
+    def update(self, x_t: float, x_prev: float, observer: Optional[bool] = None) -> DLTWaveformResult:
         """
-"""
+        Update the DLT engine with a new value and compute lock state.
+        Args:
+            x_t: Current observed value
+            x_prev: Previous observed value
+            observer: Optional observer confirmation (True/False)
+        Returns:
+            DLTWaveformResult with all computed fields
+        """
+        delta = x_t - x_prev
+        self.memory.update(delta)
+        triplet, locked = self._check_triplet_lock()
+        phase_proj = self._phase_projection()
+        drift_corr = self._drift_correction()
+        confidence = self._confidence(triplet, locked)
+        greyscale = self._greyscale(confidence)
+        hash_state = self._hash_state(triplet, phase_proj, drift_corr, confidence)
+        observer_confirmed = observer if observer is not None else False
+
+        # Determine state
+        if locked and observer_confirmed and greyscale > self.greyscale_threshold:
+            state = DLTState.LOCKED
+        elif greyscale < self.greyscale_threshold:
+            state = DLTState.FADED
+        else:
+            state = DLTState.WAITING
+
+        result = DLTWaveformResult(
+            state=state,
+            lock_triplet=triplet,
+            phase_projection=phase_proj,
+            drift_correction=drift_corr,
+            confidence=confidence,
+            hash_state=hash_state,
+            timestamp=datetime.utcnow(),
+            observer_confirmed=observer_confirmed,
+            greyscale=greyscale,
+            meta={
+                "delta": delta,
+                "locked": locked,
+                "observer": observer,
+            }
+        )
+        self._update_last(result)
+        self.history.append(result)
+        return result
+
+    def _check_triplet_lock(self) -> Tuple[Optional[Tuple[float, float, float]], bool]:
+        """
+        Check for triplet lock in memory.
+        Returns:
+            (triplet, locked)
+        """
+        triplets = self.memory.get_triplets()
+        for triplet in triplets[::-1]:  # Check most recent first
+            a, b, c = triplet
+            if abs(a - b) < self.triplet_tol and abs(b - c) < self.triplet_tol:
+                return triplet, True
+        return None, False
+
+    def _phase_projection(self) -> float:
+        """
+        Project phase overlay (simple running mean as placeholder).
+        Returns:
+            Projected phase value
+        """
+        if not self.memory.deltas:
+            return 0.0
+        return float(np.mean(self.memory.deltas))
+
+    def _drift_correction(self) -> float:
+        """
+        Integrate drift correction (cumulative sum of delta changes).
+        Returns:
+            Drift correction value
+        """
+        if not self.memory.deltas:
+            return 0.0
+        grad = np.gradient(self.memory.deltas)
+        return float(np.sum(grad))
+
+    def _confidence(self, triplet: Optional[Tuple[float, float, float]], locked: bool) -> float:
+        """
+        Compute confidence score based on triplet and lock state.
+        Returns:
+            Confidence value in [0, 1]
+        """
+        if not self.memory.deltas:
+            return 0.0
+        if locked and triplet:
+            # Lower variance = higher confidence
+            var = np.var(triplet)
+            conf = max(0.0, 1.0 - var / (abs(np.mean(triplet)) + 1e-8))
+            return min(1.0, conf)
+        # Otherwise, use normalized std of recent deltas
+        std = np.std(self.memory.deltas[-5:]) if len(self.memory.deltas) >= 5 else np.std(self.memory.deltas)
+        conf = max(0.0, 1.0 - std / (abs(np.mean(self.memory.deltas)) + 1e-8))
+        return min(1.0, conf)
+
+    def _greyscale(self, confidence: float) -> float:
+        """
+        Sigmoid-weighted greyscale confidence for soft fade-out.
+        Returns:
+            Greyscale value in [0, 1]
+        """
+        return 1.0 / (1.0 + np.exp(-8 * (confidence - 0.5)))
+
+    def _hash_state(self, triplet, phase_proj, drift_corr, confidence) -> str:
+        """
+        Hash the current state for system-wide routing.
+        Returns:
+            Hex digest string
+        """
+        state_str = f"{triplet}_{phase_proj:.6f}_{drift_corr:.6f}_{confidence:.6f}"
+        return hashlib.sha256(state_str.encode()).hexdigest()[:16]
+
+    def _update_last(self, result: DLTWaveformResult):
+        self.last_state = result.state
+        self.last_triplet = result.lock_triplet
+        self.last_phase_projection = result.phase_projection
+        self.last_drift_correction = result.drift_correction
+        self.last_confidence = result.confidence
+        self.last_greyscale = result.greyscale
+        self.last_hash_state = result.hash_state
+        self.last_observer_confirmed = result.observer_confirmed
+
+    def get_last_result(self) -> DLTWaveformResult:
+        return self.history[-1] if self.history else None
+
+    def get_history(self) -> List[DLTWaveformResult]:
+        return self.history.copy()
+
+# Export main class
+__all__ = ["DLTWaveformEngine", "DLTWaveformResult", "DLTState"] 

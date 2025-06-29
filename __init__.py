@@ -1,11 +1,13 @@
+import logging
+import platform
+import sys
+from datetime import datetime
+from typing import Any, Dict, List, Optional
+
 """
 Schwabot - Advanced Trading System with AI Integration
 """
 
-import logging
-import sys
-from datetime import datetime
-from typing import Any, Dict, List, Optional
 
 # Version information
 __version__ = "1.0.0"
@@ -51,7 +53,7 @@ PACKAGE_METADATA = {
         "black>=21.0.0",
         "flake8>=3.9.0",
         "mypy>=0.910",
-        "pre-commit>=2.15.0"
+        "pre-commit>=2.15.0",
     ],
     "extras_require": {
         "dev": [
@@ -63,39 +65,23 @@ PACKAGE_METADATA = {
             "mypy>=0.910",
             "pre-commit>=2.15.0",
             "jupyter>=1.0.0",
-            "ipython>=7.0.0"
+            "ipython>=7.0.0",
         ],
-        "production": [
-            "gunicorn>=20.1.0",
-            "supervisor>=4.2.0",
-            "nginx>=1.20.0",
-            "docker>=5.0.0",
-            "kubernetes>=18.0.0"
-        ],
+        "production": ["gunicorn>=20.1.0", "supervisor>=4.2.0", "nginx>=1.20.0", "docker>=5.0.0", "kubernetes>=18.0.0"],
         "ai": [
             "torch>=1.9.0",
             "tensorflow>=2.6.0",
             "transformers>=4.11.0",
             "openai>=0.27.0",
             "langchain>=0.0.200",
-            "sentence-transformers>=2.2.0"
-        ]
-    }
+            "sentence-transformers>=2.2.0",
+        ],
+    },
 }
 
 # Package configuration
 PACKAGE_CONFIG = {
-    "core_modules": [
-        "core",
-        "mathlib",
-        "utils",
-        "api",
-        "database",
-        "trading",
-        "ai",
-        "monitoring",
-        "security"
-    ],
+    "core_modules": ["core", "mathlib", "utils", "api", "database", "trading", "ai", "monitoring", "security"],
     "subpackages": [
         "ai_oracles",
         "core",
@@ -108,15 +94,15 @@ PACKAGE_CONFIG = {
         "startup",
         "tests",
         "utils",
-        "visual"
+        "visual",
     ],
     "entry_points": {
         "console_scripts": [
             "schwabot = schwabot.main:main",
             "schwabot-cli = schwabot.cli:main",
-            "schwabot-gui = schwabot.gui:main"
+            "schwabot-gui = schwabot.gui:main",
         ]
-    }
+    },
 }
 
 # System compatibility
@@ -126,7 +112,7 @@ SYSTEM_REQUIREMENTS = {
     "architecture": ["x86_64", "arm64"],
     "memory_requirements": "4GB+",
     "storage_requirements": "10GB+",
-    "network_requirements": "Broadband internet connection"
+    "network_requirements": "Broadband internet connection",
 }
 
 
@@ -169,7 +155,7 @@ class SchwabotPackage:
                 "status": "initializing",
                 "modules": [],
                 "components": [],
-                "compatibility": {}
+                "compatibility": {},
             }
 
             # Check system compatibility
@@ -192,13 +178,7 @@ class SchwabotPackage:
                     logging.warning(f"Module {module_name} initialization failed: {module_result['error']}")
 
             # Load core components
-            core_components = [
-                "trading_engine",
-                "ai_oracle",
-                "risk_manager",
-                "data_manager",
-                "api_gateway"
-            ]
+            core_components = ["trading_engine", "ai_oracle", "risk_manager", "data_manager", "api_gateway"]
 
             for component_name in core_components:
                 component_result = self._load_component(component_name)
@@ -228,17 +208,13 @@ class SchwabotPackage:
                 "package_version": self.package_version,
                 "status": "failed",
                 "error": str(e),
-                "timestamp": datetime.now().isoformat()
+                "timestamp": datetime.now().isoformat(),
             }
 
     def _check_system_compatibility(self) -> Dict[str, Any]:
         """Check system compatibility requirements."""
         try:
-            compatibility_result = {
-                "compatible": True,
-                "checks": {},
-                "warnings": []
-            }
+            compatibility_result = {"compatible": True, "checks": {}, "warnings": []}
 
             # Check Python version
             python_version = f"{sys.version_info.major}.{sys.version_info.minor}"
@@ -247,22 +223,22 @@ class SchwabotPackage:
             compatibility_result["checks"]["python_version"] = {
                 "required": min_version,
                 "actual": python_version,
-                "compatible": python_compatible
+                "compatible": python_compatible,
             }
 
             if not python_compatible:
                 compatibility_result["compatible"] = False
                 compatibility_result["warnings"].append(
-                    f"Python version {python_version} is below required {min_version}")
+                    f"Python version {python_version} is below required {min_version}"
+                )
 
             # Check operating system
-            import platform
             os_name = platform.system()
             os_compatible = os_name in self.system_requirements["operating_systems"]
             compatibility_result["checks"]["operating_system"] = {
                 "required": self.system_requirements["operating_systems"],
                 "actual": os_name,
-                "compatible": os_compatible
+                "compatible": os_compatible,
             }
 
             if not os_compatible:
@@ -277,7 +253,7 @@ class SchwabotPackage:
                 "compatible": False,
                 "error": str(e),
                 "checks": {},
-                "warnings": [f"Compatibility check failed: {e}"]
+                "warnings": [f"Compatibility check failed: {e}"],
             }
 
     def _initialize_module(self, module_name: str) -> Dict[str, Any]:
@@ -290,18 +266,9 @@ class SchwabotPackage:
         try:
             logging.info(f"Initializing module: {module_name}")
 
-            return {
-                "module": module_name,
-                "status": "success",
-                "timestamp": datetime.now().isoformat()
-            }
+            return {"module": module_name, "status": "success", "timestamp": datetime.now().isoformat()}
         except Exception as e:
-            return {
-                "module": module_name,
-                "status": "failed",
-                "error": str(e),
-                "timestamp": datetime.now().isoformat()
-            }
+            return {"module": module_name, "status": "failed", "error": str(e), "timestamp": datetime.now().isoformat()}
 
     def _load_component(self, component_name: str) -> Dict[str, Any]:
         """
@@ -314,17 +281,13 @@ class SchwabotPackage:
             # TODO: Implement actual component loading
             logging.info(f"Loading component: {component_name}")
 
-            return {
-                "component": component_name,
-                "status": "success",
-                "timestamp": datetime.now().isoformat()
-            }
+            return {"component": component_name, "status": "success", "timestamp": datetime.now().isoformat()}
         except Exception as e:
             return {
                 "component": component_name,
                 "status": "failed",
                 "error": str(e),
-                "timestamp": datetime.now().isoformat()
+                "timestamp": datetime.now().isoformat(),
             }
 
     def get_package_info(self) -> Dict[str, Any]:
@@ -335,7 +298,7 @@ class SchwabotPackage:
             "config": self.package_config,
             "initialized_modules": self.initialized_modules,
             "loaded_components": list(self.loaded_components.keys()),
-            "startup_time": self.startup_time.isoformat() if self.startup_time else None
+            "startup_time": self.startup_time.isoformat() if self.startup_time else None,
         }
 
     def shutdown_package(self) -> Dict[str, Any]:
@@ -353,7 +316,7 @@ class SchwabotPackage:
                 "status": "shutdown",
                 "timestamp": datetime.now().isoformat(),
                 "modules_shutdown": len(self.initialized_modules),
-                "components_shutdown": len(self.loaded_components)
+                "components_shutdown": len(self.loaded_components),
             }
 
             self.initialized_modules.clear()
@@ -363,11 +326,7 @@ class SchwabotPackage:
 
         except Exception as e:
             logging.error(f"Package shutdown failed: {e}")
-            return {
-                "status": "shutdown_failed",
-                "error": str(e),
-                "timestamp": datetime.now().isoformat()
-            }
+            return {"status": "shutdown_failed", "error": str(e), "timestamp": datetime.now().isoformat()}
 
 
 def initialize() -> Dict[str, Any]:
@@ -382,18 +341,11 @@ def initialize() -> Dict[str, Any]:
         return package.initialize_package()
     except Exception as e:
         logging.error(f"System initialization failed: {e}")
-        return {
-            "status": "failed",
-            "error": str(e),
-            "timestamp": datetime.now().isoformat()
-        }
+        return {"status": "failed", "error": str(e), "timestamp": datetime.now().isoformat()}
 
 
 # Initialize logging
-logging.basicConfig(
-    level=logging.INFO,
-    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
-)
+logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s")
 
 # Create package instance
 _package_instance = None
@@ -415,5 +367,5 @@ __all__ = [
     "__version__",
     "__author__",
     "__description__",
-    "__license__"
+    "__license__",
 ]
